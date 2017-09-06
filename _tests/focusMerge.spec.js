@@ -20,9 +20,13 @@ describe('focus Merge order', () => {
 
   it('should jump back', () => {
     // jump back
-    expect(newFocus([2,3,4],[1,2,3,4,5],1,4)).to.be.equal(2);
+    expect(newFocus([2, 3, 4], [1, 2, 3, 4, 5], 1, 4)).to.be.equal(2);
     // jump back
-    expect(newFocus([2,3,4],[1,2,3,4,5],1,3)).to.be.equal(1);
+    expect(newFocus([2, 3, 4], [1, 2, 3, 4, 5], 1, 3)).to.be.equal(1);
+  });
+
+  it('should select auto focused', () => {
+    expect(newFocus([2, 3, 4], [1, 2, 3, 4, 5], 1, 0, 3)).to.be.equal(1);
   });
 
 

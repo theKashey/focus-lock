@@ -8,6 +8,10 @@ export default [
   'area[href]',
 
   'iframe',
+  'object',
+  'embed',
 
   '[tabindex]',
+  '[contenteditable]',
+  '[autofocus]',
 ];
