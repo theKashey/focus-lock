@@ -2,12 +2,17 @@ import { orderByTabIndex } from './utils/tabOrder';
 import { getCommonParent, getTabbableNodes } from './utils/DOMutils';
 import { getFocusables } from './utils/tabUtils';
 
-const findAutoFocused = node => !!node.autofocus;
+const findAutoFocused = node => !!node.autofocus || !!node.dataset.autofocus;
 
 export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFocused) => {
   const cnt = innerNodes.length;
   const firstFocus = innerNodes[0];
   const lastFocus = innerNodes[cnt - 1];
+
+  // focus is inside
+  if (innerNodes.indexOf(activeElement) >= 0) {
+    return undefined;
+  }
 
   const activeIndex = outerNodes.indexOf(activeElement);
   const lastIndex = outerNodes.indexOf(lastNode || activeIndex);
