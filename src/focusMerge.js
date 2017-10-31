@@ -2,7 +2,7 @@ import { orderByTabIndex } from './utils/tabOrder';
 import { getCommonParent, getTabbableNodes } from './utils/DOMutils';
 import { getFocusables } from './utils/tabUtils';
 
-const findAutoFocused = node => !!node.autofocus || !!node.dataset.autofocus;
+const findAutoFocused = node => !!node.autofocus || (node.dataset && !!node.dataset.autofocus);
 
 export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFocused) => {
   const cnt = innerNodes.length;
