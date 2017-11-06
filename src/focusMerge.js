@@ -1,8 +1,10 @@
-import { orderByTabIndex } from './utils/tabOrder';
-import { getCommonParent, getTabbableNodes } from './utils/DOMutils';
-import { getFocusables } from './utils/tabUtils';
+import {orderByTabIndex} from './utils/tabOrder';
+import {getCommonParent, getTabbableNodes, parentAutofocusables} from './utils/DOMutils';
+import {getFocusables} from './utils/tabUtils';
+import pickFirstFocus from './utils/firstFocus';
 
-const findAutoFocused = node => !!node.autofocus || (node.dataset && !!node.dataset.autofocus);
+const findAutoFocused = autoFocusables => node =>
+  !!node.autofocus || (node.dataset && !!node.dataset.autofocus) || autoFocusables.indexOf(node) >= 0;
 
 export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFocused) => {
   const cnt = innerNodes.length;
@@ -23,10 +25,11 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
 
   // new focus
   if (activeIndex === -1 || lastNodeInside === -1) {
-    if (autoFocused) {
-      return innerNodes.indexOf(autoFocused);
-    }
-    return 0;
+    return innerNodes.indexOf(
+      autoFocused.length
+        ? pickFirstFocus(autoFocused)
+        : pickFirstFocus(innerNodes)
+    );
   }
   // old focus
   if (!indexDiff && lastNodeInside >= 0) {
@@ -65,13 +68,13 @@ const getFocusMerge = (topNode, lastNode) => {
     return undefined;
   }
 
-  const innerNodes = innerElements.map(({ node }) => node);
+  const innerNodes = innerElements.map(({node}) => node);
 
-  const outerNodes = orderByTabIndex(getFocusables(commonParent)).map(({ node }) => node);
+  const outerNodes = orderByTabIndex(getFocusables(commonParent)).map(({node}) => node);
 
   const newId = newFocus(
     innerNodes, outerNodes,
-    activeElement, lastNode, innerNodes.find(findAutoFocused),
+    activeElement, lastNode, innerNodes.filter(findAutoFocused(parentAutofocusables(topNode))),
   );
 
   if (newId === undefined) {

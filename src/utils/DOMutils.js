@@ -1,5 +1,5 @@
 import { orderByTabIndex } from './tabOrder';
-import { getFocusables } from './tabUtils';
+import { getFocusables, getParentAutofocusables } from './tabUtils';
 
 const isElementHidden = computedStyle => (
   computedStyle.getPropertyValue('display') === 'none' ||
@@ -42,8 +42,10 @@ const findFocusable = nodes =>
     .filter(node => isVisible(node))
     .filter(node => notHiddenInput(node));
 
-
 export const getTabbableNodes = topNode =>
   orderByTabIndex(
     findFocusable(getFocusables(topNode)),
   );
+
+export const parentAutofocusables = topNode =>
+  findFocusable(getParentAutofocusables(topNode))
