@@ -27,6 +27,7 @@ I'v got a good [article about focus management, dialogs and  WAI-ARIA](https://m
 This is vanilla js base package for:
   - [react-focus-lock](https://github.com/theKashey/react-focus-lock)
   - [vue-focus-lock](https://github.com/theKashey/vue-focus-lock)
+  - [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)
 
 
 This is a small, but very useful for:
