@@ -1,14 +1,4 @@
-const findFormParent = (startNode) => {
-  let node = startNode;
-  while (node = node.parentNode) {
-    if (node.tagName === 'FORM') {
-      return node;
-    }
-  }
-  return null;
-};
-
-const isRadio = (node) => node.tagName === 'INPUT' && node.type === 'radio';
+const isRadio = node => node.tagName === 'INPUT' && node.type === 'radio';
 
 const findSelectedRadio = (node, nodes) => (
   nodes

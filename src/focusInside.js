@@ -1,5 +1,19 @@
-const focusInsideIframe = topNode =>
-  !![...topNode.querySelectorAll('iframe')].find(frame => frame.contentWindow.document.hasFocus());
+import getAllAffectedNodes from './utils/all-affected';
 
-export default topNode =>
-  topNode.querySelector('*:focus') || focusInsideIframe(topNode);
+const focusInFrame = frame => frame.contentWindow.document.hasFocus();
+
+const focusInsideIframe = topNode => (
+  getAllAffectedNodes(topNode).reduce(
+    (result, node) => result || !![...node.querySelectorAll('iframe')].find(focusInFrame),
+    false,
+  )
+);
+
+const focusInside = topNode => (
+  getAllAffectedNodes(topNode).reduce(
+    (result, node) => result || node.querySelector('*:focus') || focusInsideIframe(topNode),
+    false,
+  )
+);
+
+export default focusInside;

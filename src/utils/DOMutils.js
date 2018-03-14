@@ -42,10 +42,10 @@ const findFocusable = nodes =>
     .filter(node => isVisible(node))
     .filter(node => notHiddenInput(node));
 
-export const getTabbableNodes = topNode =>
+export const getTabbableNodes = topNodes =>
   orderByTabIndex(
-    findFocusable(getFocusables(topNode)),
+    findFocusable(getFocusables(topNodes)),
   );
 
 export const parentAutofocusables = topNode =>
-  findFocusable(getParentAutofocusables(topNode))
+  findFocusable(getParentAutofocusables(topNode));
