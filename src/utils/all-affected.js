@@ -1,4 +1,4 @@
-import {FOCUS_DISABLED, FOCUS_GROUP} from '../constants';
+import { FOCUS_DISABLED, FOCUS_GROUP } from '../constants';
 
 const filterNested = (nodes) => {
   const l = nodes.length;
@@ -14,7 +14,7 @@ const filterNested = (nodes) => {
   return nodes;
 };
 
-const getTopParent = node => node.parentNode ? getTopParent(node.parentNode) : node;
+const getTopParent = node => (node.parentNode ? getTopParent(node.parentNode) : node);
 
 const getAllAffectedNodes = (node) => {
   const group = node.getAttribute(FOCUS_GROUP);
