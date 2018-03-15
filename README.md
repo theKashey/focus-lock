@@ -13,7 +13,7 @@ if (observed && !focusInside(observed)) {
 }
 ```
 
-#WHY?
+# WHY?
 From [MDN Article about accessible dialogs](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_dialog_role):
  - The dialog must be properly labeled
  - Keyboard __focus must be managed__ correctly
@@ -22,18 +22,19 @@ This one is about managing the focus.
 
 I'v got a good [article about focus management, dialogs and  WAI-ARIA](https://medium.com/@antonkorzunov/its-a-focus-trap-699a04d66fb5).    
 
-#Implementations
+# Implementations
 
 This is vanilla js base package for:
   - [react-focus-lock](https://github.com/theKashey/react-focus-lock)
   - [vue-focus-lock](https://github.com/theKashey/vue-focus-lock)
+  - [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)
 
 
 This is a small, but very useful for:
  - Modal dialogs. You can not leave it with "Tab", ie tab-out.
  - Focused tasks. It will aways brings you back.
 
-#API
+# API
 
 `default(topNode, lastNode)` (aka setFocus), moves focus inside topNode, keeping in mind that last focus inside was - lastNode
  
