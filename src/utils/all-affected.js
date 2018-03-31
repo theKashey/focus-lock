@@ -19,7 +19,7 @@ const getTopParent = node => (node.parentNode ? getTopParent(node.parentNode) : 
 const getAllAffectedNodes = (node) => {
   const group = node.getAttribute(FOCUS_GROUP);
   if (group) {
-    return filterNested([].call(getTopParent(node).querySelectorAll(`[${FOCUS_GROUP}="${group}"]:not([${FOCUS_DISABLED}="disabled"])`)));
+    return filterNested([...(getTopParent(node).querySelectorAll(`[${FOCUS_GROUP}="${group}"]:not([${FOCUS_DISABLED}="disabled"])`))]);
   }
   return [node];
 };
