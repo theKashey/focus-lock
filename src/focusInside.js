@@ -1,6 +1,6 @@
 import getAllAffectedNodes from './utils/all-affected';
 
-const focusInFrame = frame => frame.contentWindow.document.hasFocus();
+const focusInFrame = frame => frame === document.activeElement;
 
 const focusInsideIframe = topNode => (
   getAllAffectedNodes(topNode).reduce(
