@@ -7,6 +7,6 @@ export const getFocusables = parents => (
 export const getParentAutofocusables = (parent) => {
   const parentFocus = parent.querySelectorAll('[data-autofocus-inside]');
   return [...parentFocus]
-    .map(node => getFocusables(node))
+    .map(node => getFocusables([node]))
     .reduce((acc, nodes) => [...acc, ...nodes], []);
 };
