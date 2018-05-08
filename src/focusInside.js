@@ -1,10 +1,11 @@
 import getAllAffectedNodes from './utils/all-affected';
+import { toArray } from './utils/DOMutils';
 
 const focusInFrame = frame => frame === document.activeElement;
 
 const focusInsideIframe = topNode => (
   getAllAffectedNodes(topNode).reduce(
-    (result, node) => result || !![...node.querySelectorAll('iframe')].find(focusInFrame),
+    (result, node) => result || !!toArray(node.querySelectorAll('iframe')).some(focusInFrame),
     false,
   )
 );

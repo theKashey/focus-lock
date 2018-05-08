@@ -1,14 +1,16 @@
 import { orderByTabIndex } from './tabOrder';
 import { getFocusables, getParentAutofocusables } from './tabUtils';
 
-const isElementHidden = computedStyle => {
-  if(!computedStyle || !computedStyle.getPropertyValue){
+export const toArray = nodeList => Array.prototype.slice.call(nodeList);
+
+const isElementHidden = (computedStyle) => {
+  if (!computedStyle || !computedStyle.getPropertyValue) {
     return false;
   }
   return (
     computedStyle.getPropertyValue('display') === 'none' ||
     computedStyle.getPropertyValue('visibility') === 'hidden'
-  )
+  );
 };
 
 export const isVisible = node => (
@@ -43,7 +45,7 @@ export const getCommonParent = (nodea, nodeb) => {
 };
 
 const findFocusable = nodes =>
-  [...nodes]
+  toArray(nodes)
     .filter(node => isVisible(node))
     .filter(node => notHiddenInput(node));
 

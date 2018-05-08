@@ -78,7 +78,7 @@ const getTopCommonParent = (activeElement, entry, entries) => {
 };
 
 const allParentAutofocusables = entries => (
-  entries.reduce((acc, node) => [...acc, ...parentAutofocusables(node)], [])
+  entries.reduce((acc, node) => acc.concat(parentAutofocusables(node)), [])
 );
 
 const getFocusMerge = (topNode, lastNode) => {
