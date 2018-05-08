@@ -1,5 +1,6 @@
 import { orderByTabIndex } from './tabOrder';
 import { getFocusables, getParentAutofocusables } from './tabUtils';
+import { toArray } from "./array";
 
 const isElementHidden = computedStyle => {
   if(!computedStyle || !computedStyle.getPropertyValue){
@@ -43,7 +44,7 @@ export const getCommonParent = (nodea, nodeb) => {
 };
 
 const findFocusable = nodes =>
-  [...nodes]
+  toArray(nodes)
     .filter(node => isVisible(node))
     .filter(node => notHiddenInput(node));
 

@@ -4,7 +4,8 @@ const findSelectedRadio = (node, nodes) => (
   nodes
     .filter(isRadio)
     .filter(el => el.name === node.name)
-    .find(el => el.checked)
+    .filter(el => el.checked)
+    [0]
   || node
 );
 

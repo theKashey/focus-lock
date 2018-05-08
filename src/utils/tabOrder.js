@@ -1,3 +1,5 @@
+import { toArray } from "./array";
+
 export const tabSort = (a, b) => {
   const tabDiff = a.tabIndex - b.tabIndex;
   const indexDiff = a.index - b.index;
@@ -11,7 +13,7 @@ export const tabSort = (a, b) => {
 };
 
 export const orderByTabIndex = nodes =>
-  [...nodes]
+  toArray(nodes)
     .map((node, index) => ({
       node,
       index,
