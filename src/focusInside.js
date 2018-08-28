@@ -13,7 +13,7 @@ const focusInsideIframe = topNode => (
 const focusInside = (topNode) => {
   const activeElement = document && document.activeElement;
 
-  if (!activeElement || activeElement.dataset.focusGuard) {
+  if (!activeElement || (activeElement.dataset && activeElement.dataset.focusGuard)) {
     return false;
   }
   return getAllAffectedNodes(topNode).reduce(

@@ -81,7 +81,7 @@ const allParentAutofocusables = entries => (
   entries.reduce((acc, node) => acc.concat(parentAutofocusables(node)), [])
 );
 
-const notAGuard = node => !node.dataset.focusGuard;
+const notAGuard = node => !(node.dataset && node.dataset.focusGuard);
 
 const getFocusMerge = (topNode, lastNode) => {
   const activeElement = document.activeElement;
