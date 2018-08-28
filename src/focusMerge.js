@@ -81,20 +81,25 @@ const allParentAutofocusables = entries => (
   entries.reduce((acc, node) => acc.concat(parentAutofocusables(node)), [])
 );
 
+const notAGuard = node => !node.dataset.focusGuard;
+
 const getFocusMerge = (topNode, lastNode) => {
   const activeElement = document.activeElement;
-  const entries = getAllAffectedNodes(topNode);
+  const entries = getAllAffectedNodes(topNode).filter(notAGuard);
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
 
-  const innerElements = getTabbableNodes(entries);
+  const innerElements = getTabbableNodes(entries).filter(({ node }) => notAGuard(node));
   if (!innerElements[0]) {
     return undefined;
   }
 
-  const innerNodes = innerElements.map(({ node }) => node);
+  const innerNodes = innerElements
+    .map(({ node }) => node);
 
-  const outerNodes = orderByTabIndex(getFocusables([commonParent])).map(({ node }) => node);
+  const outerNodes = orderByTabIndex(
+    getFocusables([commonParent]))
+    .map(({ node }) => node);
 
   const newId = newFocus(
     innerNodes, outerNodes,

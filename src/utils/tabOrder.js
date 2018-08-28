@@ -1,4 +1,4 @@
-import { toArray } from "./array";
+import { toArray } from './array';
 
 export const tabSort = (a, b) => {
   const tabDiff = a.tabIndex - b.tabIndex;
