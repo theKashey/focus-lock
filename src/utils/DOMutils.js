@@ -1,15 +1,15 @@
 import { orderByTabIndex } from './tabOrder';
 import { getFocusables, getParentAutofocusables } from './tabUtils';
-import { toArray } from "./array";
+import { toArray } from './array';
 
-const isElementHidden = computedStyle => {
-  if(!computedStyle || !computedStyle.getPropertyValue){
+const isElementHidden = (computedStyle) => {
+  if (!computedStyle || !computedStyle.getPropertyValue) {
     return false;
   }
   return (
     computedStyle.getPropertyValue('display') === 'none' ||
     computedStyle.getPropertyValue('visibility') === 'hidden'
-  )
+  );
 };
 
 export const isVisible = node => (

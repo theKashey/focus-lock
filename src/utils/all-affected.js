@@ -1,5 +1,5 @@
 import { FOCUS_DISABLED, FOCUS_GROUP } from '../constants';
-import { toArray } from "./array";
+import { toArray } from './array';
 
 const filterNested = (nodes) => {
   const l = nodes.length;

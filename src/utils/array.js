@@ -1,7 +1,7 @@
-export const toArray = a => {
+export const toArray = (a) => {
   const ret = Array(a.length);
-  for (let i = 0; i < a.length; i++) {
-    ret[i] = a[i]
+  for (let i = 0; i < a.length; ++i) {
+    ret[i] = a[i];
   }
   return ret;
 };
