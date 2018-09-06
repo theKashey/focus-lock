@@ -43,15 +43,15 @@ export const getCommonParent = (nodea, nodeb) => {
   return false;
 };
 
-const findFocusable = nodes =>
+export const filterFocusable = nodes =>
   toArray(nodes)
     .filter(node => isVisible(node))
     .filter(node => notHiddenInput(node));
 
 export const getTabbableNodes = topNodes =>
   orderByTabIndex(
-    findFocusable(getFocusables(topNodes)),
+    filterFocusable(getFocusables(topNodes)),
   );
 
 export const parentAutofocusables = topNode =>
-  findFocusable(getParentAutofocusables(topNode));
+  filterFocusable(getParentAutofocusables(topNode));

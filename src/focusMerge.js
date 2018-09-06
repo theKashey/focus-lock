@@ -1,6 +1,4 @@
-import { orderByTabIndex } from './utils/tabOrder';
 import { getCommonParent, getTabbableNodes, parentAutofocusables } from './utils/DOMutils';
-import { getFocusables } from './utils/tabUtils';
 import pickFirstFocus from './utils/firstFocus';
 import getAllAffectedNodes from './utils/all-affected';
 
@@ -94,12 +92,9 @@ const getFocusMerge = (topNode, lastNode) => {
     return undefined;
   }
 
-  const innerNodes = innerElements
-    .map(({ node }) => node);
+  const innerNodes = innerElements.map(({ node }) => node);
 
-  const outerNodes = orderByTabIndex(
-    getFocusables([commonParent]))
-    .map(({ node }) => node);
+  const outerNodes = getTabbableNodes([commonParent]).map(({ node }) => node);
 
   const newId = newFocus(
     innerNodes, outerNodes,
