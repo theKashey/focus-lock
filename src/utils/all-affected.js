@@ -3,8 +3,10 @@ import { toArray } from './array';
 
 const filterNested = (nodes) => {
   const l = nodes.length;
-  for (let i = 0; i < l; i += 1) {
-    for (let j = 0; j < l; j += 1) {
+  let i;
+  let j;
+  for (i = 0; i < l; i += 1) {
+    for (j = 0; j < l; j += 1) {
       if (i !== j) {
         if (nodes[i].contains(nodes[j])) {
           return filterNested(nodes.filter(x => x !== nodes[j]));
