@@ -82,7 +82,7 @@ const allParentAutofocusables = entries => (
 const notAGuard = node => !(node.dataset && node.dataset.focusGuard);
 
 const getFocusMerge = (topNode, lastNode) => {
-  const activeElement = document.activeElement;
+  const activeElement = document && document.activeElement;
   const entries = getAllAffectedNodes(topNode).filter(notAGuard);
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
