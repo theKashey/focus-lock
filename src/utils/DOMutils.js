@@ -20,7 +20,10 @@ export const isVisible = node => (
   )
 );
 
-export const notHiddenInput = node => node.tagName !== 'INPUT' || node.type !== 'hidden';
+export const notHiddenInput = node => !(
+  (node.tagName === 'INPUT' || node.tagName === 'BUTTON') &&
+  (node.type === 'hidden' || node.disabled)
+);
 
 const getParents = (node, parents = []) => {
   parents.push(node);
