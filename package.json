@@ -13,7 +13,8 @@
     "test:pick": "NODE_ENV=cjs mocha --compilers js:babel-core/register -r jsdom-global/register",
     "prepublish": "npm run build",
     "lint": "eslint src tests",
-    "lint:fix": "eslint src tests --fix"
+    "lint:fix": "eslint src tests --fix",
+    "size": "yarn size-limit"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "jsdom": "11.1.0",
     "jsdom-global": "3.0.2",
     "mocha": "^3.4.2",
-    "sinon": "3.2.1"
+    "sinon": "3.2.1",
+    "size-limit": "^0.21.1"
   }
 }
