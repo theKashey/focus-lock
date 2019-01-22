@@ -12,12 +12,12 @@ export const tabSort = (a, b) => {
   return tabDiff || indexDiff;
 };
 
-export const orderByTabIndex = nodes =>
+export const orderByTabIndex = (nodes, filterNegative) =>
   toArray(nodes)
     .map((node, index) => ({
       node,
       index,
       tabIndex: node.tabIndex,
     }))
-    .filter(data => data.tabIndex >= 0)
+    .filter(data => !filterNegative || data.tabIndex >= 0)
     .sort(tabSort);

@@ -1,4 +1,4 @@
-import { getCommonParent, getTabbableNodes, parentAutofocusables } from './utils/DOMutils';
+import { getCommonParent, getTabbableNodes, getAllTabbableNodes, parentAutofocusables } from './utils/DOMutils';
 import pickFirstFocus from './utils/firstFocus';
 import getAllAffectedNodes from './utils/all-affected';
 
@@ -87,9 +87,13 @@ const getFocusMerge = (topNode, lastNode) => {
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
 
-  const innerElements = getTabbableNodes(entries).filter(({ node }) => notAGuard(node));
+  let innerElements = getTabbableNodes(entries).filter(({ node }) => notAGuard(node));
+
   if (!innerElements[0]) {
-    return undefined;
+    innerElements = getAllTabbableNodes(entries).filter(({ node }) => notAGuard(node));
+    if (!innerElements[0]) {
+      return undefined;
+    }
   }
 
   const innerNodes = innerElements.map(({ node }) => node);
