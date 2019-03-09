@@ -3,12 +3,7 @@ import { arrayFind, toArray } from './utils/array';
 
 const focusInFrame = frame => frame === document.activeElement;
 
-const focusInsideIframe = topNode => (
-  getAllAffectedNodes(topNode).reduce(
-    (result, node) => result || !!arrayFind(toArray(node.querySelectorAll('iframe')), focusInFrame),
-    false,
-  )
-);
+const focusInsideIframe = topNode => !!arrayFind(toArray(topNode.querySelectorAll('iframe')), focusInFrame);
 
 const focusInside = (topNode) => {
   const activeElement = document && document.activeElement;
@@ -16,10 +11,11 @@ const focusInside = (topNode) => {
   if (!activeElement || (activeElement.dataset && activeElement.dataset.focusGuard)) {
     return false;
   }
-  return getAllAffectedNodes(topNode).reduce(
-    (result, node) => result || node.contains(activeElement) || focusInsideIframe(topNode),
-    false,
-  );
+  return getAllAffectedNodes(topNode)
+    .reduce(
+      (result, node) => result || node.contains(activeElement) || focusInsideIframe(node),
+      false,
+    );
 };
 
 export default focusInside;

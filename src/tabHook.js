@@ -1,5 +1,5 @@
 export default {
-  attach(node, enabled) {
+  attach() {
   },
 
   detach() {

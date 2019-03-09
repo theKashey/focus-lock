@@ -8,3 +8,4 @@ export const toArray = (a) => {
 
 export const arrayFind = (array, search) => array.filter(a => a === search)[0];
 
+export const asArray = a => (Array.isArray(a) ? a : [a]);

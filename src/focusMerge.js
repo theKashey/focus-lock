@@ -1,6 +1,7 @@
 import { getCommonParent, getTabbableNodes, getAllTabbableNodes, parentAutofocusables } from './utils/DOMutils';
 import pickFirstFocus from './utils/firstFocus';
 import getAllAffectedNodes from './utils/all-affected';
+import { asArray } from './utils/array';
 
 const findAutoFocused = autoFocusables => node => (
   !!node.autofocus ||
@@ -60,17 +61,23 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
   return undefined;
 };
 
-const getTopCommonParent = (activeElement, entry, entries) => {
-  let topCommon = entry;
-  entries.forEach((subEntry) => {
-    const common = getCommonParent(activeElement, subEntry);
-    if (common) {
-      if (common.contains(topCommon)) {
-        topCommon = common;
-      } else {
-        topCommon = getCommonParent(common, topCommon);
+const getTopCommonParent = (baseActiveElement, leftEntry, rightEntries) => {
+  const activeElements = asArray(baseActiveElement);
+  const leftEntries = asArray(leftEntry);
+  const activeElement = activeElements[0];
+  let topCommon = null;
+  leftEntries.forEach((entry) => {
+    topCommon = getCommonParent(topCommon || entry, entry);
+    rightEntries.forEach((subEntry) => {
+      const common = getCommonParent(activeElement, subEntry);
+      if (common) {
+        if (common.contains(topCommon)) {
+          topCommon = common;
+        } else {
+          topCommon = getCommonParent(common, topCommon);
+        }
       }
-    }
+    });
   });
   return topCommon;
 };

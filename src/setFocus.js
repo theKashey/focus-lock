@@ -19,17 +19,15 @@ export default (topNode, lastNode) => {
 
   if (focusable) {
     if (guardCount > 2) {
-      if (process.env.NODE_ENV !== 'production') {
-        // eslint-disable-next-line no-console
-        console.error(
-          'FocusLock: focus-fighting detected. Only one focus management system could be active. ' +
-          'See https://github.com/theKashey/focus-lock/#focus-fighting',
-        );
-        lockDisabled = true;
-        setTimeout(() => {
-          lockDisabled = false;
-        }, 1);
-      }
+      // eslint-disable-next-line no-console
+      console.error(
+        'FocusLock: focus-fighting detected. Only one focus management system could be active. ' +
+        'See https://github.com/theKashey/focus-lock/#focus-fighting',
+      );
+      lockDisabled = true;
+      setTimeout(() => {
+        lockDisabled = false;
+      }, 1);
       return;
     }
     guardCount++;
