@@ -51,8 +51,8 @@ export const filterFocusable = nodes =>
     .filter(node => isVisible(node))
     .filter(node => notHiddenInput(node));
 
-export const getTabbableNodes = topNodes => (
-  orderByTabIndex(filterFocusable(getFocusables(topNodes)), true)
+export const getTabbableNodes = (topNodes, withGuards) => (
+  orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards)), true)
 );
 
 export const getAllTabbableNodes = topNodes => (

@@ -19,7 +19,7 @@ const getTopParent = node => (node.parentNode ? getTopParent(node.parentNode) : 
 
 const getAllAffectedNodes = (node) => {
   const nodes = asArray(node);
-  return nodes.reduce((acc, currentNode) => {
+  return nodes.filter(Boolean).reduce((acc, currentNode) => {
     const group = currentNode.getAttribute(FOCUS_GROUP);
     acc.push(
       ...group

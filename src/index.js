@@ -1,5 +1,5 @@
 import tabHook from './tabHook';
-import focusMerge from './focusMerge';
+import focusMerge, { getFocusabledIn } from './focusMerge';
 import focusInside from './focusInside';
 import focusIsHidden from './focusIsHidden';
 import setFocus from './setFocus';
@@ -11,6 +11,7 @@ export {
   focusInside,
   focusIsHidden,
   focusMerge,
+  getFocusabledIn,
   constants,
   getAllAffectedNodes,
 };

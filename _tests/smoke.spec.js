@@ -17,7 +17,7 @@ describe('smoke', () => {
     <button>3</button>
     <button>4</button>
     </div>
-    <div id="d4" tabindex="1">    
+    <div id="d4" tabindex="0">    
     </div>
     `;
   };
@@ -75,6 +75,7 @@ describe('smoke', () => {
       expect(focusInside(document.querySelector('#d2'))).to.be.equal(true);
 
       focusMerge([document.querySelector('#d3'), document.querySelector('#d4')], null).node.focus();
+      console.log(document.activeElement.id);
       expect(focusInside(document.querySelector('#d3'))).to.be.equal(true);
     });
   });

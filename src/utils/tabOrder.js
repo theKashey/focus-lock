@@ -17,7 +17,9 @@ export const orderByTabIndex = (nodes, filterNegative) =>
     .map((node, index) => ({
       node,
       index,
-      tabIndex: node.tabIndex,
+      tabIndex: node.tabIndex === -1
+        ? ((node.dataset || {}).focusGuard ? 0 : -1)
+        : node.tabIndex,
     }))
     .filter(data => !filterNegative || data.tabIndex >= 0)
     .sort(tabSort);

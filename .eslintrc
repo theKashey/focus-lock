@@ -9,6 +9,7 @@
     "es6": true
   },
   "rules": {
+    "no-nested-ternary": "off",
     "no-plusplus": "off",
     "jsx-a11y/href-no-hash": "off",
     // Override airbnb to disable devDependencies check until we figure out how to exclude tests files

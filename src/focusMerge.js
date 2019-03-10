@@ -66,19 +66,23 @@ const getTopCommonParent = (baseActiveElement, leftEntry, rightEntries) => {
   const leftEntries = asArray(leftEntry);
   const activeElement = activeElements[0];
   let topCommon = null;
-  leftEntries.forEach((entry) => {
-    topCommon = getCommonParent(topCommon || entry, entry);
-    rightEntries.forEach((subEntry) => {
-      const common = getCommonParent(activeElement, subEntry);
-      if (common) {
-        if (common.contains(topCommon)) {
-          topCommon = common;
-        } else {
-          topCommon = getCommonParent(common, topCommon);
-        }
-      }
+  leftEntries
+    .filter(Boolean)
+    .forEach((entry) => {
+      topCommon = getCommonParent(topCommon || entry, entry) || topCommon;
+      rightEntries
+        .filter(Boolean)
+        .forEach((subEntry) => {
+          const common = getCommonParent(activeElement, subEntry);
+          if (common) {
+            if (!topCommon || common.contains(topCommon)) {
+              topCommon = common;
+            } else {
+              topCommon = getCommonParent(common, topCommon);
+            }
+          }
+        });
     });
-  });
   return topCommon;
 };
 
@@ -87,6 +91,28 @@ const allParentAutofocusables = entries => (
 );
 
 const notAGuard = node => !(node.dataset && node.dataset.focusGuard);
+
+const reorderNodes = (srcNodes, dstNodes) => (
+  srcNodes
+    .map(dnode => dstNodes.find(({ node }) => dnode === node))
+    .filter(Boolean)
+);
+
+export const getFocusabledIn = (topNode) => {
+  const entries = getAllAffectedNodes(topNode).filter(notAGuard);
+  const commonParent = getTopCommonParent(topNode, topNode, entries);
+  const outerNodes = getTabbableNodes([commonParent], true);
+  const innerElements = getTabbableNodes(entries)
+    .filter(({ node }) => notAGuard(node))
+    .map(({ node }) => node);
+
+  return outerNodes.map(({ node, index }) => ({
+    node,
+    index,
+    lockItem: innerElements.indexOf(node) >= 0,
+    guard: !notAGuard(node),
+  }));
+};
 
 const getFocusMerge = (topNode, lastNode) => {
   const activeElement = document && document.activeElement;
@@ -103,9 +129,9 @@ const getFocusMerge = (topNode, lastNode) => {
     }
   }
 
-  const innerNodes = innerElements.map(({ node }) => node);
-
   const outerNodes = getTabbableNodes([commonParent]).map(({ node }) => node);
+  const orderedInnerElements = reorderNodes(outerNodes, innerElements);
+  const innerNodes = orderedInnerElements.map(({ node }) => node);
 
   const newId = newFocus(
     innerNodes, outerNodes,
@@ -115,7 +141,7 @@ const getFocusMerge = (topNode, lastNode) => {
   if (newId === undefined) {
     return newId;
   }
-  return innerElements[newId];
+  return orderedInnerElements[newId];
 };
 
 export default getFocusMerge;
