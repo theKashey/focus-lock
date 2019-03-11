@@ -14,7 +14,8 @@
     "prepublish": "npm run build",
     "lint": "eslint src tests",
     "lint:fix": "eslint src tests --fix",
-    "size": "yarn size-limit"
+    "size": "yarn size-limit",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,7 @@
     "vanilla"
   ],
   "author": "theKashey <thekashey@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/theKashey/focus-lock/issues"
   },
@@ -38,6 +39,7 @@
     "babel-preset-env": "1.6.0",
     "chai": "^4.1.0",
     "chai-enzyme": "^0.8.0",
+    "conventional-changelog-cli": "^2.0.12",
     "enzyme": "^2.9.1",
     "eslint": "^4.2.0",
     "eslint-config-airbnb": "15.1.0",
