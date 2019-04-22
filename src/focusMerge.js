@@ -9,6 +9,9 @@ const findAutoFocused = autoFocusables => node => (
   autoFocusables.indexOf(node) >= 0
 );
 
+const isGuard = node => (node.dataset && node.dataset.focusGuard);
+const notAGuard = node => !isGuard(node);
+
 export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFocused) => {
   const cnt = innerNodes.length;
   const firstFocus = innerNodes[0];
@@ -37,6 +40,10 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
   // old focus
   if (!indexDiff && lastNodeInside >= 0) {
     return lastNodeInside;
+  }
+  // first element
+  if (activeIndex <= firstNodeIndex && isGuard(activeElement) && Math.abs(indexDiff) > 1) {
+    return 0;
   }
   // jump out
   if (indexDiff && Math.abs(indexDiff) > 1) {
@@ -90,8 +97,6 @@ const allParentAutofocusables = entries => (
   entries.reduce((acc, node) => acc.concat(parentAutofocusables(node)), [])
 );
 
-const notAGuard = node => !(node.dataset && node.dataset.focusGuard);
-
 const reorderNodes = (srcNodes, dstNodes) => (
   srcNodes
     .map(dnode => dstNodes.find(({ node }) => dnode === node))
@@ -110,7 +115,7 @@ export const getFocusabledIn = (topNode) => {
     node,
     index,
     lockItem: innerElements.indexOf(node) >= 0,
-    guard: !notAGuard(node),
+    guard: isGuard(node),
   }));
 };
 
