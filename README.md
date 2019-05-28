@@ -3,13 +3,20 @@ It is a trap! We got your focus and will not let him out!
 
 [![NPM](https://nodei.co/npm/focus-lock.png?downloads=true&stars=true)](https://nodei.co/npm/react-focus-lock/)
 
+# Consumers
+
+This is a base package for:
+  - [react-focus-lock](https://github.com/theKashey/react-focus-lock)
+  - [vue-focus-lock](https://github.com/theKashey/vue-focus-lock)
+  - [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)
+
 This is quite low level API, to be used by final realization. Usually everything
 can be solved in 3 lines
 ```js
 import moveFocusInside, { focusInside } from 'focus-lock';
 
-if (observed && !focusInside(observed)) {
-  result = moveFocusInside(observed, lastActiveFocus);
+if (topNode && !focusInside(topNode)) {
+  moveFocusInside(topNode, lastActiveFocus);
 }
 ```
 
@@ -21,18 +28,6 @@ From [MDN Article about accessible dialogs](https://developer.mozilla.org/en-US/
 This one is about managing the focus.
 
 I'v got a good [article about focus management, dialogs and  WAI-ARIA](https://medium.com/@antonkorzunov/its-a-focus-trap-699a04d66fb5).    
-
-# Implementations
-
-This is vanilla js base package for:
-  - [react-focus-lock](https://github.com/theKashey/react-focus-lock)
-  - [vue-focus-lock](https://github.com/theKashey/vue-focus-lock)
-  - [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)
-
-
-This is a small, but very useful for:
- - Modal dialogs. You can not leave it with "Tab", ie tab-out.
- - Focused tasks. It will aways brings you back.
 
 # Focus fighting
 It is possible, that more that one "focus management system" is present on the site.

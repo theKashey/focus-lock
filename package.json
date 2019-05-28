@@ -5,6 +5,7 @@
   "main": "dist/cjs/index.js",
   "jsnext:main": "dist/es2015/index.js",
   "module": "dist/es2015/index.js",
+  "sideEffects": false,
   "scripts": {
     "build:cjs": "NODE_ENV=cjs babel src -d dist/cjs",
     "build:es5": "NODE_ENV=es2015 babel src -d dist/es2015",
@@ -25,6 +26,10 @@
     "focus",
     "trap",
     "vanilla"
+  ],
+  "files": [
+    "dist",
+    "constants"
   ],
   "author": "theKashey <thekashey@gmail.com>",
   "license": "MIT",
