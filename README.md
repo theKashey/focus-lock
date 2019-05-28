@@ -7,10 +7,13 @@ It is a trap! We got your focus and will not let him out!
 
 This is a base package for:
   - [react-focus-lock](https://github.com/theKashey/react-focus-lock)
+  [![downloads](https://badgen.net/npm/dm/react-focus-lock)](https://www.npmtrends.com/react-focus-lock)
   - [vue-focus-lock](https://github.com/theKashey/vue-focus-lock)
+  [![downloads](https://badgen.net/npm/dm/vue-focus-lock)](https://www.npmtrends.com/vue-focus-lock)
   - [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)
+  [![downloads](https://badgen.net/npm/dm/dom-focus-lock)](https://www.npmtrends.com/dom-focus-lock)
 
-This is quite low level API, to be used by final realization. Usually everything
+Provides a low level API, to be used by final realization. Usually everything
 can be solved in 3 lines
 ```js
 import moveFocusInside, { focusInside } from 'focus-lock';
