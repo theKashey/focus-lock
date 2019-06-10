@@ -97,11 +97,13 @@ const allParentAutofocusables = entries => (
   entries.reduce((acc, node) => acc.concat(parentAutofocusables(node)), [])
 );
 
-const reorderNodes = (srcNodes, dstNodes) => (
-  srcNodes
-    .map(dnode => dstNodes.find(({ node }) => dnode === node))
-    .filter(Boolean)
-);
+const reorderNodes = (srcNodes, dstNodes) => {
+  const remap = new Map();
+  // no Set(dstNodes) for IE11 :(
+  dstNodes.forEach(entity => remap.set(entity.node, entity));
+  // remap to dstNodes
+  return srcNodes.map(node => remap.get(node)).filter(Boolean);
+};
 
 export const getFocusabledIn = (topNode) => {
   const entries = getAllAffectedNodes(topNode).filter(notAGuard);
