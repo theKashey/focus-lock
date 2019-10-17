@@ -13,7 +13,11 @@ const isElementHidden = (computedStyle) => {
 };
 
 export const isVisible = node => (
-  (!node || node === document) ||
+  (
+    !node ||
+    node === document ||
+    node.nodeType === Node.DOCUMENT_NODE
+  ) ||
   (
     !isElementHidden(window.getComputedStyle(node, null)) &&
     isVisible(node.parentNode)
