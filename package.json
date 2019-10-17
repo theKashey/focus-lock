@@ -1,6 +1,6 @@
 {
   "name": "focus-lock",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "DOM trap for a focus",
   "main": "dist/cjs/index.js",
   "jsnext:main": "dist/es2015/index.js",
