@@ -53,7 +53,8 @@ export const getCommonParent = (nodea, nodeb) => {
 export const filterFocusable = nodes =>
   toArray(nodes)
     .filter(node => isVisible(node))
-    .filter(node => notHiddenInput(node));
+    .filter(node => notHiddenInput(node))
+;
 
 export const getTabbableNodes = (topNodes, withGuards) => (
   orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards)), true, withGuards)

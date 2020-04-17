@@ -17,4 +17,14 @@ const pickFirstFocus = (nodes) => {
   return nodes[0];
 };
 
+export const pickFocusable = (nodes, index) => {
+  if (nodes.length > 1) {
+    if (isRadio(nodes[index]) && nodes[index].name) {
+      return nodes.indexOf(findSelectedRadio(nodes[index], nodes));
+    }
+  }
+  return index;
+}
+
+
 export default pickFirstFocus;

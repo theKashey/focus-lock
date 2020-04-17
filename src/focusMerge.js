@@ -1,5 +1,5 @@
 import { getCommonParent, getTabbableNodes, getAllTabbableNodes, parentAutofocusables } from './utils/DOMutils';
-import pickFirstFocus from './utils/firstFocus';
+import pickFirstFocus, {pickFocusable} from './utils/firstFocus';
 import getAllAffectedNodes from './utils/all-affected';
 import { asArray } from './utils/array';
 
@@ -16,6 +16,7 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
   const cnt = innerNodes.length;
   const firstFocus = innerNodes[0];
   const lastFocus = innerNodes[cnt - 1];
+  const isOnGuard = isGuard(activeElement);
 
   // focus is inside
   if (innerNodes.indexOf(activeElement) >= 0) {
@@ -28,6 +29,9 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
   const indexDiff = activeIndex - lastIndex;
   const firstNodeIndex = outerNodes.indexOf(firstFocus);
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
+
+  const returnFirstNode = pickFocusable(innerNodes, 0);
+  const returnLastNode = pickFocusable(innerNodes, cnt-1);
 
   // new focus
   if (activeIndex === -1 || lastNodeInside === -1) {
@@ -42,20 +46,24 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
     return lastNodeInside;
   }
   // first element
-  if (activeIndex <= firstNodeIndex && isGuard(activeElement) && Math.abs(indexDiff) > 1) {
-    return 0;
+  if (activeIndex <= firstNodeIndex && isOnGuard && Math.abs(indexDiff) > 1) {
+    return returnLastNode;
   }
-  // jump out
+  // last element
+  if (activeIndex >= firstNodeIndex && isOnGuard && Math.abs(indexDiff) > 1) {
+    return returnFirstNode;
+  }
+  // jump out, but not on the guard
   if (indexDiff && Math.abs(indexDiff) > 1) {
     return lastNodeInside;
   }
   // focus above lock
   if (activeIndex <= firstNodeIndex) {
-    return cnt - 1;
+    return returnLastNode;
   }
   // focus below lock
   if (activeIndex > lastNodeIndex) {
-    return 0;
+    return returnFirstNode;
   }
   // index is inside tab order, but outside Lock
   if (indexDiff) {
