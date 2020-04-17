@@ -12,11 +12,11 @@
     "build": "rm -Rf ./dist && yarn build:es5 && yarn build:cjs",
     "test": "NODE_ENV=cjs npm run test:pick -- '_tests/**/*spec.js'",
     "test:pick": "NODE_ENV=cjs mocha --compilers js:babel-core/register -r jsdom-global/register",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build && npm run changelog",
     "lint": "eslint src tests",
     "lint:fix": "eslint src tests --fix",
     "size": "yarn size-limit",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "repository": {
     "type": "git",

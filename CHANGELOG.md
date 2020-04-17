@@ -1,3 +1,48 @@
+## [0.6.7](https://github.com/theKashey/focus-lock/compare/v0.6.6...v0.6.7) (2020-04-17)
+
+
+### Bug Fixes
+
+* better handle jump out conditions. Focus on the active radio and look for tailing guards as well ([421e869](https://github.com/theKashey/focus-lock/commit/421e869))
+
+
+
+## [0.6.6](https://github.com/theKashey/focus-lock/compare/v0.6.5...v0.6.6) (2019-10-17)
+
+
+### Bug Fixes
+
+* detect document using nodeType, fixes [#11](https://github.com/theKashey/focus-lock/issues/11) ([c03e6bc](https://github.com/theKashey/focus-lock/commit/c03e6bc))
+
+
+
+## [0.6.5](https://github.com/theKashey/focus-lock/compare/v0.6.4...v0.6.5) (2019-06-10)
+
+
+### Bug Fixes
+
+* dont use array.find, fixes [#9](https://github.com/theKashey/focus-lock/issues/9) ([cbeec63](https://github.com/theKashey/focus-lock/commit/cbeec63))
+
+
+
+## [0.6.4](https://github.com/theKashey/focus-lock/compare/v0.6.3...v0.6.4) (2019-05-28)
+
+
+### Features
+
+* sidecar for constants ([8a42017](https://github.com/theKashey/focus-lock/commit/8a42017))
+
+
+
+## [0.6.3](https://github.com/theKashey/focus-lock/compare/v0.6.2...v0.6.3) (2019-04-22)
+
+
+### Bug Fixes
+
+* allow top guard jump ([58237a3](https://github.com/theKashey/focus-lock/commit/58237a3))
+
+
+
 ## [0.6.2](https://github.com/theKashey/focus-lock/compare/v0.6.1...v0.6.2) (2019-03-11)
 
 
