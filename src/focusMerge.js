@@ -36,7 +36,7 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
   // new focus
   if (activeIndex === -1 || lastNodeInside === -1) {
     return innerNodes.indexOf(
-      autoFocused.length
+      autoFocused && autoFocused.length
         ? pickFirstFocus(autoFocused)
         : pickFirstFocus(innerNodes),
     );

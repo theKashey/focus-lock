@@ -9,6 +9,11 @@ describe('focus Merge order', () => {
     }
   };
 
+  it('handle zero values', () => {
+    // cycle via left
+    expect(newFocus([], [], undefined, 0)).to.be.equal(-1);
+  });
+
   it('should move from start to end', () => {
     // cycle via left
     expect(newFocus([2, 3, 4], [1, 2, 3, 4, 5], 1, 2)).to.be.equal(2);
