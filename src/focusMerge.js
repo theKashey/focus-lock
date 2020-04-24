@@ -9,7 +9,7 @@ const findAutoFocused = autoFocusables => node => (
   autoFocusables.indexOf(node) >= 0
 );
 
-const isGuard = node => (node.dataset && node.dataset.focusGuard);
+const isGuard = node => (node && node.dataset && node.dataset.focusGuard);
 const notAGuard = node => !isGuard(node);
 
 export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFocused) => {
