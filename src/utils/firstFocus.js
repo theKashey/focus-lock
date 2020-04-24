@@ -24,7 +24,7 @@ export const pickFocusable = (nodes, index) => {
     }
   }
   return index;
-}
+};
 
 
 export default pickFirstFocus;

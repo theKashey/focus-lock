@@ -1,5 +1,5 @@
 import { getCommonParent, getTabbableNodes, getAllTabbableNodes, parentAutofocusables } from './utils/DOMutils';
-import pickFirstFocus, {pickFocusable} from './utils/firstFocus';
+import pickFirstFocus, { pickFocusable } from './utils/firstFocus';
 import getAllAffectedNodes from './utils/all-affected';
 import { asArray } from './utils/array';
 
@@ -31,7 +31,7 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
 
   const returnFirstNode = pickFocusable(innerNodes, 0);
-  const returnLastNode = pickFocusable(innerNodes, cnt-1);
+  const returnLastNode = pickFocusable(innerNodes, cnt - 1);
 
   // new focus
   if (activeIndex === -1 || lastNodeInside === -1) {
