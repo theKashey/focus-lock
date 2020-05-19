@@ -20,7 +20,11 @@ export const isVisible = node => (
   ) ||
   (
     !isElementHidden(window.getComputedStyle(node, null)) &&
-    isVisible(node.parentNode)
+    isVisible(
+      node.parentNode.nodeType === node.DOCUMENT_FRAGMENT_NODE ?
+        node.parentNode.host :
+        node.parentNode,
+    )
   )
 );
 
