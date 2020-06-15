@@ -64,6 +64,9 @@ export const getTabbableNodes = (topNodes, withGuards) => (
   orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards)), true, withGuards)
 );
 
+/**
+ * actually anything focusable
+ */
 export const getAllTabbableNodes = topNodes => (
   orderByTabIndex(filterFocusable(getFocusables(topNodes)), false)
 );

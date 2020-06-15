@@ -72,10 +72,21 @@ describe('focus Merge order', () => {
       const innerNodes = [radio1, radioChecked, 4];
       expect(newFocus(innerNodes, [1, ...innerNodes, 5], 5, 4)).to.be.equal(1);
     });
+
     it('picks active radio to right', () => {
       const innerNodes = [1, radio1, radioChecked, radio2];
       expect(newFocus(innerNodes, [0, ...innerNodes, 5], 0, 1)).to.be.equal(2);
-    })
+    });
+
+    it('jump out via last node', () => {
+      const innerNodes = [1, radioChecked];
+      expect(newFocus(innerNodes, [0, ...innerNodes, 5], 5, radioChecked)).to.be.equal(0);
+    });
+    it('jump out via unchecked node', () => {
+      // radio1 and radio2 should be invisible to algo
+      const innerNodes = [1, radioChecked, radio1, radio2];
+      expect(newFocus(innerNodes, [0, ...innerNodes, 5], 5, radioChecked)).to.be.equal(0);
+    });
   });
 
   it('should select auto focused', () => {
