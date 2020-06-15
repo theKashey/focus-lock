@@ -142,10 +142,11 @@ const getFocusMerge = (topNode, lastNode) => {
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
 
+  const anyFocusable = getAllTabbableNodes(entries);
   let innerElements = getTabbableNodes(entries).filter(({ node }) => notAGuard(node));
 
   if (!innerElements[0]) {
-    innerElements = getAllTabbableNodes(entries).filter(({ node }) => notAGuard(node));
+    innerElements = anyFocusable;
     if (!innerElements[0]) {
       return undefined;
     }
@@ -157,7 +158,7 @@ const getFocusMerge = (topNode, lastNode) => {
 
   const newId = newFocus(
     innerNodes, outerNodes,
-    activeElement, lastNode, innerNodes.filter(findAutoFocused(allParentAutofocusables(entries))),
+    activeElement, lastNode, anyFocusable.filter(findAutoFocused(allParentAutofocusables(entries))),
   );
 
   if (newId === undefined) {
