@@ -1,10 +1,10 @@
-import { getCommonParent, getTabbableNodes, getAllTabbableNodes, parentAutofocusables } from './utils/DOMutils';
-import pickFirstFocus, { pickFocusable } from './utils/firstFocus';
+import {getCommonParent, getTabbableNodes, getAllTabbableNodes, parentAutofocusables} from './utils/DOMutils';
+import pickFirstFocus, {pickFocusable} from './utils/firstFocus';
 import getAllAffectedNodes from './utils/all-affected';
-import { asArray } from './utils/array';
-import { correctNodes } from './utils/correctFocus';
+import {asArray} from './utils/array';
+import {correctNodes} from './utils/correctFocus';
 
-const findAutoFocused = autoFocusables => node => (
+const findAutoFocused = autoFocusables => (node) => (
   !!node.autofocus ||
   (node.dataset && !!node.dataset.autofocus) ||
   autoFocusables.indexOf(node) >= 0
@@ -13,7 +13,9 @@ const findAutoFocused = autoFocusables => node => (
 const isGuard = node => (node && node.dataset && node.dataset.focusGuard);
 const notAGuard = node => !isGuard(node);
 
-export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFocused) => {
+export const NEW_FOCUS = 'NEW_FOCUS';
+
+export const newFocus = (innerNodes, outerNodes, activeElement, lastNode) => {
   const cnt = innerNodes.length;
   const firstFocus = innerNodes[0];
   const lastFocus = innerNodes[cnt - 1];
@@ -42,11 +44,7 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode, autoFo
 
   // new focus
   if (activeIndex === -1 || lastNodeInside === -1) {
-    return innerNodes.indexOf(
-      autoFocused && autoFocused.length
-        ? pickFirstFocus(autoFocused)
-        : pickFirstFocus(innerNodes),
-    );
+    return NEW_FOCUS;
   }
   // old focus
   if (!indexDiff && lastNodeInside >= 0) {
@@ -125,10 +123,10 @@ export const getFocusabledIn = (topNode) => {
   const commonParent = getTopCommonParent(topNode, topNode, entries);
   const outerNodes = getTabbableNodes([commonParent], true);
   const innerElements = getTabbableNodes(entries)
-    .filter(({ node }) => notAGuard(node))
-    .map(({ node }) => node);
+    .filter(({node}) => notAGuard(node))
+    .map(({node}) => node);
 
-  return outerNodes.map(({ node, index }) => ({
+  return outerNodes.map(({node, index}) => ({
     node,
     index,
     lockItem: innerElements.indexOf(node) >= 0,
@@ -143,7 +141,7 @@ const getFocusMerge = (topNode, lastNode) => {
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
 
   const anyFocusable = getAllTabbableNodes(entries);
-  let innerElements = getTabbableNodes(entries).filter(({ node }) => notAGuard(node));
+  let innerElements = getTabbableNodes(entries).filter(({node}) => notAGuard(node));
 
   if (!innerElements[0]) {
     innerElements = anyFocusable;
@@ -152,14 +150,24 @@ const getFocusMerge = (topNode, lastNode) => {
     }
   }
 
-  const outerNodes = getTabbableNodes([commonParent]).map(({ node }) => node);
+  const outerNodes = getAllTabbableNodes([commonParent]).map(({node}) => node);
   const orderedInnerElements = reorderNodes(outerNodes, innerElements);
-  const innerNodes = orderedInnerElements.map(({ node }) => node);
+  const innerNodes = orderedInnerElements.map(({node}) => node);
 
   const newId = newFocus(
     innerNodes, outerNodes,
-    activeElement, lastNode, anyFocusable.filter(findAutoFocused(allParentAutofocusables(entries))),
+    activeElement, lastNode
   );
+
+  if (newId === "NEW_FOCUS") {
+    const autoFocusable = anyFocusable.map(({node}) => node).filter(findAutoFocused(allParentAutofocusables(entries)));
+
+    return {
+      node: autoFocusable && autoFocusable.length
+        ? pickFirstFocus(autoFocusable)
+        : pickFirstFocus(innerNodes)
+    };
+  }
 
   if (newId === undefined) {
     return newId;

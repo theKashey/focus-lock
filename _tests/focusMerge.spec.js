@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 
-import {newFocus} from '../src/focusMerge';
+import {NEW_FOCUS, newFocus} from '../src/focusMerge';
 
 describe('focus Merge order', () => {
   const guard = {
@@ -11,7 +11,7 @@ describe('focus Merge order', () => {
 
   it('handle zero values', () => {
     // cycle via left
-    expect(newFocus([], [], undefined, 0)).to.be.equal(-1);
+    expect(newFocus([], [], undefined, 0)).to.be.equal(NEW_FOCUS);
   });
 
   it('should move from start to end', () => {
@@ -90,7 +90,7 @@ describe('focus Merge order', () => {
   });
 
   it('should select auto focused', () => {
-    expect(newFocus([2, 3, 4], [1, 2, 3, 4, 5], 1, 0, [3])).to.be.equal(1);
+    expect(newFocus([2, 3, 4], [1, 2, 3, 4, 5], 1, 0)).to.be.equal(NEW_FOCUS);
   });
 
 
