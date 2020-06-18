@@ -1,3 +1,12 @@
+## [0.6.8](https://github.com/theKashey/focus-lock/compare/v0.6.7...v0.6.8) (2020-04-24)
+
+
+### Bug Fixes
+
+* dataset of null error ([7cb428b](https://github.com/theKashey/focus-lock/commit/7cb428b))
+
+
+
 ## [0.6.7](https://github.com/theKashey/focus-lock/compare/v0.6.6...v0.6.7) (2020-04-17)
 
 

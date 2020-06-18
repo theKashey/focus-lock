@@ -21,7 +21,7 @@ export const isVisible = node => (
   (
     !isElementHidden(window.getComputedStyle(node, null)) &&
     isVisible(
-      node.parentNode.nodeType === node.DOCUMENT_FRAGMENT_NODE ?
+      (node.parentNode && node.parentNode.nodeType === node.DOCUMENT_FRAGMENT_NODE) ?
         node.parentNode.host :
         node.parentNode,
     )
@@ -64,6 +64,9 @@ export const getTabbableNodes = (topNodes, withGuards) => (
   orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards)), true, withGuards)
 );
 
+/**
+ * actually anything focusable
+ */
 export const getAllTabbableNodes = topNodes => (
   orderByTabIndex(filterFocusable(getFocusables(topNodes)), false)
 );

@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 
 import {focusInside, focusMerge} from '../src/';
+import {FOCUS_AUTO} from "../src/constants";
 
 describe('smoke', () => {
   const createTest = () => {
@@ -78,6 +79,34 @@ describe('smoke', () => {
       console.log(document.activeElement.id);
       expect(focusInside(document.querySelector('#d3'))).to.be.equal(true);
     });
+
+    it('autofocus - should pick first available tabbable', () => {
+      document.body.innerHTML = `    
+        <div id="d1"> 
+        <span>
+            <button tabindex="-1">1</button>
+        </span>
+        <button>2</button>
+        </div>    
+    `;
+      expect(
+        focusMerge(document.querySelector('#d1'), null).node.innerHTML
+      ).to.be.equal("2");
+    })
+
+    it('autofocus - should pick first available focusable if pointed', () => {
+      document.body.innerHTML = `    
+        <div id="d1"> 
+        <span ${FOCUS_AUTO}>
+            <button tabindex="-1">1</button>
+        </span>
+        <button>2</button>
+        </div>    
+    `;
+      expect(
+        focusMerge(document.querySelector('#d1'), null).node.innerHTML
+      ).to.be.equal("1");
+    })
   });
 
 });
