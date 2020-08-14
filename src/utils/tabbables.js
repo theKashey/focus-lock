@@ -1,15 +1,19 @@
 export default [
-  'button:enabled:not([readonly])',
-  'select:enabled:not([readonly])',
-  'textarea:enabled:not([readonly])',
-  'input:enabled:not([readonly])',
+  'button:enabled',
+  'select:enabled',
+  'textarea:enabled',
+  'input:enabled',
 
   'a[href]',
   'area[href]',
 
+  'summary',
   'iframe',
   'object',
   'embed',
+
+  'audio[controls]',
+  'video[controls]',
 
   '[tabindex]',
   '[contenteditable]',
