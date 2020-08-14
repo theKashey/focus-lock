@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 
-import {NEW_FOCUS, newFocus} from '../src/focusMerge';
+import {NEW_FOCUS, newFocus} from "../src/solver";
 
 describe('focus Merge order', () => {
   const guard = {

@@ -1,6 +1,12 @@
 import { FOCUS_DISABLED, FOCUS_GROUP } from '../constants';
 import { asArray, toArray } from './array';
 
+/**
+ * in case of multiple nodes nested inside each other
+ * keeps only top ones
+ * @param nodes
+ * @returns {*}
+ */
 const filterNested = (nodes) => {
   const l = nodes.length;
   for (let i = 0; i < l; i += 1) {
@@ -15,8 +21,18 @@ const filterNested = (nodes) => {
   return nodes;
 };
 
+/**
+ * finds top most parent for a node
+ * @param node
+ * @returns {*}
+ */
 const getTopParent = node => (node.parentNode ? getTopParent(node.parentNode) : node);
 
+/**
+ * returns all "focus containers" inside a given node
+ * @param node
+ * @returns {T}
+ */
 const getAllAffectedNodes = (node) => {
   const nodes = asArray(node);
   return nodes.filter(Boolean).reduce((acc, currentNode) => {

@@ -16,7 +16,7 @@ export const correctNode = (node, nodes) => {
 };
 
 export const correctNodes = (nodes) => {
-  // IE11 has no Set constructor
+  // IE11 has no Set(array) constructor
   const resultSet = new Set();
   nodes.forEach(node => resultSet.add(correctNode(node, nodes)));
   // using filter to support IE11

@@ -1,7 +1,6 @@
 import { correctNode } from './correctFocus';
 
-
-const pickFirstFocus = (nodes) => {
+export const pickFirstFocus = (nodes) => {
   if (nodes[0] && nodes.length > 1) {
     return correctNode(nodes[0], nodes);
   }
@@ -14,6 +13,3 @@ export const pickFocusable = (nodes, index) => {
   }
   return index;
 };
-
-
-export default pickFirstFocus;

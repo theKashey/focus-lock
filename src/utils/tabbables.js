@@ -1,3 +1,6 @@
+/**
+ * list of the object to be considered as focusable
+ */
 export default [
   'button:enabled',
   'select:enabled',

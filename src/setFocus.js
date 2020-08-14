@@ -10,7 +10,7 @@ export const focusOn = (target) => {
 let guardCount = 0;
 let lockDisabled = false;
 
-export default (topNode, lastNode) => {
+export const setFocus = (topNode, lastNode) => {
   const focusable = getFocusMerge(topNode, lastNode);
 
   if (lockDisabled) {
