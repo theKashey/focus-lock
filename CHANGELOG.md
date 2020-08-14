@@ -1,9 +1,11 @@
-## [0.6.8](https://github.com/theKashey/focus-lock/compare/v0.6.7...v0.6.8) (2020-04-24)
+# [0.7.0](https://github.com/theKashey/focus-lock/compare/v0.6.7...v0.7.0) (2020-06-18)
 
 
 ### Bug Fixes
 
+* accept all focusable elements for autofocus, fixes [#16](https://github.com/theKashey/focus-lock/issues/16) ([88efbe8](https://github.com/theKashey/focus-lock/commit/88efbe8))
 * dataset of null error ([7cb428b](https://github.com/theKashey/focus-lock/commit/7cb428b))
+* update logic for index diff calculations, fixes [#14](https://github.com/theKashey/focus-lock/issues/14) ([4c7e637](https://github.com/theKashey/focus-lock/commit/4c7e637))
 
 
 
