@@ -4,21 +4,27 @@ import { asArray, toArray } from './array';
 /**
  * in case of multiple nodes nested inside each other
  * keeps only top ones
+ * this is O(nlogn)
  * @param nodes
  * @returns {*}
  */
 const filterNested = (nodes) => {
+  const contained = new Set();
   const l = nodes.length;
   for (let i = 0; i < l; i += 1) {
-    for (let j = 0; j < l; j += 1) {
-      if (i !== j) {
-        if (nodes[i].contains(nodes[j])) {
-          return filterNested(nodes.filter(x => x !== nodes[j]));
-        }
+    for (let j = i + 1; j < l; j += 1) {
+      const position = nodes[i].compareDocumentPosition(nodes[j]);
+      /* eslint-disable no-bitwise */
+      if ((position & Node.DOCUMENT_POSITION_CONTAINED_BY) > 0) {
+        contained.add(i);
       }
+      if ((position & Node.DOCUMENT_POSITION_CONTAINS) > 0) {
+        contained.add(j);
+      }
+      /* eslint-enable */
     }
   }
-  return nodes;
+  return nodes.filter((_, index) => !contained.has(index));
 };
 
 /**
