@@ -28,17 +28,15 @@ export const newFocus = (
   }
 
   const activeIndex = outerNodes.indexOf(activeElement);
-  const lastIndex = outerNodes.indexOf((lastNode || activeIndex) as any);
-  const lastNodeInside = innerNodes.indexOf(lastNode as any);
+  const lastIndex = lastNode ? outerNodes.indexOf(lastNode) : activeIndex;
+  const lastNodeInside = lastNode ? innerNodes.indexOf(lastNode) : -1;
   const indexDiff = activeIndex - lastIndex;
   const firstNodeIndex = outerNodes.indexOf(firstFocus);
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
 
   const correctedNodes = correctNodes(outerNodes);
   const correctedIndexDiff =
-    correctedNodes.indexOf(activeElement) -
-    // (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex)
-    correctedNodes.indexOf((lastNode || activeIndex) as any);
+    correctedNodes.indexOf(activeElement) - (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex);
 
   const returnFirstNode = pickFocusable(innerNodes, 0);
   const returnLastNode = pickFocusable(innerNodes, cnt - 1);

@@ -16,10 +16,10 @@ const filterNested = <T extends HTMLElement>(nodes: T[]): T[] => {
       const position = nodes[i].compareDocumentPosition(nodes[j]);
       /* eslint-disable no-bitwise */
       if ((position & Node.DOCUMENT_POSITION_CONTAINED_BY) > 0) {
-        contained.add(i);
+        contained.add(j);
       }
       if ((position & Node.DOCUMENT_POSITION_CONTAINS) > 0) {
-        contained.add(j);
+        contained.add(i);
       }
       /* eslint-enable */
     }
