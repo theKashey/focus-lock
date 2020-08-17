@@ -1,6 +1,6 @@
-import { isGuard } from './utils/is';
 import { correctNodes } from './utils/correctFocus';
 import { pickFocusable } from './utils/firstFocus';
+import { isGuard } from './utils/is';
 
 export const NEW_FOCUS = 'NEW_FOCUS';
 /**
@@ -11,7 +11,12 @@ export const NEW_FOCUS = 'NEW_FOCUS';
  * @param lastNode
  * @returns {number|string|undefined|*}
  */
-export const newFocus = (innerNodes, outerNodes, activeElement, lastNode) => {
+export const newFocus = (
+  innerNodes: HTMLInputElement[],
+  outerNodes: HTMLInputElement[],
+  activeElement: HTMLInputElement,
+  lastNode: HTMLInputElement | null
+): number | undefined | typeof NEW_FOCUS => {
   const cnt = innerNodes.length;
   const firstFocus = innerNodes[0];
   const lastFocus = innerNodes[cnt - 1];
@@ -23,17 +28,17 @@ export const newFocus = (innerNodes, outerNodes, activeElement, lastNode) => {
   }
 
   const activeIndex = outerNodes.indexOf(activeElement);
-  const lastIndex = outerNodes.indexOf(lastNode || activeIndex);
-  const lastNodeInside = innerNodes.indexOf(lastNode);
+  const lastIndex = outerNodes.indexOf((lastNode || activeIndex) as any);
+  const lastNodeInside = innerNodes.indexOf(lastNode as any);
   const indexDiff = activeIndex - lastIndex;
   const firstNodeIndex = outerNodes.indexOf(firstFocus);
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
 
   const correctedNodes = correctNodes(outerNodes);
-  const correctedIndexDiff = (
+  const correctedIndexDiff =
     correctedNodes.indexOf(activeElement) -
-    correctedNodes.indexOf(lastNode || activeIndex)
-  );
+    // (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex)
+    correctedNodes.indexOf((lastNode || activeIndex) as any);
 
   const returnFirstNode = pickFocusable(innerNodes, 0);
   const returnLastNode = pickFocusable(innerNodes, cnt - 1);
