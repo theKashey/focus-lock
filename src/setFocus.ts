@@ -1,8 +1,8 @@
-import getFocusMerge from './focusMerge';
+import { getFocusMerge } from './focusMerge';
 
-export const focusOn = (target) => {
+export const focusOn = (target: HTMLInputElement | HTMLFrameElement) => {
   target.focus();
-  if (target.contentWindow) {
+  if ('contentWindow' in target && target.contentWindow) {
     target.contentWindow.focus();
   }
 };
@@ -10,7 +10,7 @@ export const focusOn = (target) => {
 let guardCount = 0;
 let lockDisabled = false;
 
-export default (topNode, lastNode) => {
+export const setFocus = (topNode: HTMLElement, lastNode: HTMLInputElement) => {
   const focusable = getFocusMerge(topNode, lastNode);
 
   if (lockDisabled) {
@@ -19,10 +19,10 @@ export default (topNode, lastNode) => {
 
   if (focusable) {
     if (guardCount > 2) {
-      // eslint-disable-next-line no-console
+      // tslint:disable-next-line:no-console
       console.error(
         'FocusLock: focus-fighting detected. Only one focus management system could be active. ' +
-        'See https://github.com/theKashey/focus-lock/#focus-fighting',
+          'See https://github.com/theKashey/focus-lock/#focus-fighting'
       );
       lockDisabled = true;
       setTimeout(() => {
