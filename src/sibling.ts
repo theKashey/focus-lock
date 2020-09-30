@@ -19,7 +19,15 @@ const getRelativeFocusable = (element: HTMLInputElement, scope: HTMLElement | HT
 };
 
 interface FocusNextOptions {
+  /**
+   * the component to "scope" focus in
+   * @default document.body
+   */
   scope?: HTMLElement | HTMLDocument;
+  /**
+   * enables cycling inside the scope
+   * @default true
+   */
   cycle?: boolean;
 }
 
