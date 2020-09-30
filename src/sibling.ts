@@ -23,17 +23,23 @@ interface FocusNextOptions {
   cycle?: boolean;
 }
 
+const defaultOptions = (options: FocusNextOptions) =>
+  Object.assign(
+    {
+      scope: document.body,
+      cycle: true,
+    },
+    options
+  );
+
 /**
  * focuses next element in the tab-order
  * @param baseElement
- * @param scope
- * @param cycle
+ * @param options
  */
-export const focusNextElement = (
-  baseElement: HTMLInputElement,
-  { scope = document.body, cycle = true }: FocusNextOptions
-) => {
-  const { next, first } = getRelativeFocusable(baseElement, scope);
+export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}) => {
+  const { scope, cycle } = defaultOptions(options);
+  const { next, first } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
   const newTarget = next || (cycle && first);
   if (newTarget) {
     newTarget.node.focus();
@@ -43,14 +49,11 @@ export const focusNextElement = (
 /**
  * focuses prev element in the tab order
  * @param baseElement
- * @param parent
- * @param cycle
+ * @param options
  */
-export const focusPrevElement = (
-  baseElement: HTMLInputElement,
-  { scope = document.body, cycle = true }: FocusNextOptions
-) => {
-  const { prev, last } = getRelativeFocusable(baseElement, scope);
+export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}) => {
+  const { scope, cycle } = defaultOptions(options);
+  const { prev, last } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
   const newTarget = prev || (cycle && last);
   if (newTarget) {
     newTarget.node.focus();
