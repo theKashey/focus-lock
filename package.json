@@ -33,7 +33,8 @@
     "vanilla"
   ],
   "files": [
-    "dist"
+    "dist",
+    "constants"
   ],
   "author": "theKashey <thekashey@gmail.com>",
   "license": "MIT",
