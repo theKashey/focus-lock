@@ -29,6 +29,10 @@ interface FocusNextOptions {
    * @default true
    */
   cycle?: boolean;
+  /**
+   * options for focus call
+   */
+  focusOptions?: FocusOptions;
 }
 
 const defaultOptions = (options: FocusNextOptions) =>
@@ -50,7 +54,7 @@ export const focusNextElement = (baseElement: Element, options: FocusNextOptions
   const { next, first } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
   const newTarget = next || (cycle && first);
   if (newTarget) {
-    newTarget.node.focus();
+    newTarget.node.focus(options.focusOptions);
   }
 };
 
@@ -64,6 +68,6 @@ export const focusPrevElement = (baseElement: Element, options: FocusNextOptions
   const { prev, last } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
   const newTarget = prev || (cycle && last);
   if (newTarget) {
-    newTarget.node.focus();
+    newTarget.node.focus(options.focusOptions);
   }
 };
