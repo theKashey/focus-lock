@@ -1,3 +1,5 @@
+## [0.8.2](https://github.com/theKashey/focus-lock/compare/v0.8.1...v0.8.2) (2021-03-17)
+
 # [0.8.0](https://github.com/theKashey/focus-lock/compare/v0.7.0...v0.8.0) (2020-09-30)
 
 ### Bug Fixes
