@@ -29,6 +29,10 @@ interface FocusNextOptions {
    * @default true
    */
   cycle?: boolean;
+  /**
+   * options for focus action to control it more precisely (ie. `{ preventScroll: true }`)
+   */
+  focusOptions?: FocusOptions;
 }
 
 const defaultOptions = (options: FocusNextOptions) =>
@@ -42,28 +46,28 @@ const defaultOptions = (options: FocusNextOptions) =>
 
 /**
  * focuses next element in the tab-order
- * @param baseElement
- * @param options
+ * @param baseElement - common parent to scope active element search or tab cycle order
+ * @param {FocusNextOptions} [options] - focus options
  */
 export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}) => {
   const { scope, cycle } = defaultOptions(options);
   const { next, first } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
   const newTarget = next || (cycle && first);
   if (newTarget) {
-    newTarget.node.focus();
+    newTarget.node.focus(options.focusOptions);
   }
 };
 
 /**
  * focuses prev element in the tab order
- * @param baseElement
- * @param options
+ * @param baseElement - common parent to scope active element search or tab cycle order
+ * @param {FocusNextOptions} [options] - focus options
  */
 export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}) => {
   const { scope, cycle } = defaultOptions(options);
   const { prev, last } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
   const newTarget = prev || (cycle && last);
   if (newTarget) {
-    newTarget.node.focus();
+    newTarget.node.focus(options.focusOptions);
   }
 };
