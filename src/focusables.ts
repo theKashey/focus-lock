@@ -13,8 +13,9 @@ interface FocusableIn {
 export const getFocusabledIn = (topNode: HTMLElement) => {
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
   const commonParent = getTopCommonParent(topNode, topNode, entries);
-  const outerNodes = getTabbableNodes([commonParent], true);
-  const innerElements = getTabbableNodes(entries)
+  const visibilityCache = new Map();
+  const outerNodes = getTabbableNodes([commonParent], visibilityCache, true);
+  const innerElements = getTabbableNodes(entries, visibilityCache)
     .filter(({ node }) => isNotAGuard(node))
     .map(({ node }) => node);
 

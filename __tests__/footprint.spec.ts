@@ -28,13 +28,13 @@ describe('Complexity footprint', () => {
   it('known operation complexity - no focus', () => {
     createTest();
     focusMerge(querySelector('#d1'), null);
-    expect(window.getComputedStyle).toBeCalledTimes(32);
+    expect(window.getComputedStyle).toBeCalledTimes(16);
   });
 
   it('known operation complexity - has focus inside', () => {
     createTest();
     querySelector('#b1').focus();
     focusMerge(querySelector('#d1'), null);
-    expect(window.getComputedStyle).toBeCalledTimes(24);
+    expect(window.getComputedStyle).toBeCalledTimes(8);
   });
 });

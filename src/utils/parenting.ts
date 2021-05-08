@@ -1,5 +1,6 @@
 import { asArray } from './array';
 import { parentAutofocusables } from './DOMutils';
+import { VisibilityCache } from "./is";
 
 const getParents = (node: HTMLElement, parents: HTMLElement[] = []): HTMLElement[] => {
   parents.push(node);
@@ -55,5 +56,5 @@ export const getTopCommonParent = (
   // TODO: add assert here?
   return (topCommon as unknown) as HTMLInputElement;
 };
-export const allParentAutofocusables = (entries: HTMLElement[]): HTMLInputElement[] =>
-  entries.reduce((acc, node) => acc.concat(parentAutofocusables(node)), [] as HTMLInputElement[]);
+export const allParentAutofocusables = (entries: HTMLElement[], visibilityCache: VisibilityCache): HTMLInputElement[] =>
+  entries.reduce((acc, node) => acc.concat(parentAutofocusables(node, visibilityCache)), [] as HTMLInputElement[]);

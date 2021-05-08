@@ -4,7 +4,7 @@ const getRelativeFocusable = (element: HTMLInputElement, scope: HTMLElement | HT
   if (!element || !scope || !scope.contains(element)) {
     return {};
   }
-  const focusables = getTabbableNodes([scope as HTMLElement]);
+  const focusables = getTabbableNodes([scope as HTMLElement], new Map());
   const current = focusables.findIndex(({ node }) => node === element);
   if (current === -1) {
     return {};
