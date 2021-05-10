@@ -7,7 +7,7 @@ const isElementHidden = (computedStyle: CSSStyleDeclaration): boolean => {
   );
 };
 
-export const isVisible = (node: HTMLElement | undefined): boolean =>
+const isVisible = (node: HTMLElement | undefined): boolean =>
   !node ||
   // @ts-ignore
   node === document ||
@@ -18,6 +18,18 @@ export const isVisible = (node: HTMLElement | undefined): boolean =>
         ? (node.parentNode as any).host
         : node.parentNode
     ));
+
+export type VisibilityCache = Map<HTMLElement | undefined, boolean>;
+
+export const isVisibleCached = (node: HTMLElement | undefined, visibilityCache: VisibilityCache): boolean => {
+  const cached = visibilityCache.get(node)
+  if (cached !== undefined) {
+    return cached;
+  }
+  const result = isVisible(node);
+  visibilityCache.set(node, result)
+  return result;
+};
 
 export const notHiddenInput = (node: HTMLInputElement) =>
   !((node.tagName === 'INPUT' || node.tagName === 'BUTTON') && (node.type === 'hidden' || node.disabled));

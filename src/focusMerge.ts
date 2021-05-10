@@ -22,9 +22,10 @@ export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HT
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
+  const visibilityCache = new Map();
 
-  const anyFocusable = getAllTabbableNodes(entries);
-  let innerElements = getTabbableNodes(entries).filter(({ node }) => isNotAGuard(node));
+  const anyFocusable = getAllTabbableNodes(entries, visibilityCache);
+  let innerElements = getTabbableNodes(entries, visibilityCache).filter(({ node }) => isNotAGuard(node));
 
   if (!innerElements[0]) {
     innerElements = anyFocusable;
@@ -33,7 +34,7 @@ export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HT
     }
   }
 
-  const outerNodes = getAllTabbableNodes([commonParent]).map(({ node }) => node);
+  const outerNodes = getAllTabbableNodes([commonParent], visibilityCache).map(({ node }) => node);
   const orderedInnerElements = reorderNodes(outerNodes, innerElements);
   const innerNodes = orderedInnerElements.map(({ node }) => node);
 
@@ -42,7 +43,7 @@ export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HT
   if (newId === NEW_FOCUS) {
     const autoFocusable = anyFocusable
       .map(({ node }) => node)
-      .filter(findAutoFocused(allParentAutofocusables(entries)));
+      .filter(findAutoFocused(allParentAutofocusables(entries, visibilityCache)));
 
     return {
       node: autoFocusable && autoFocusable.length ? pickFirstFocus(autoFocusable) : pickFirstFocus(innerNodes),
