@@ -5,14 +5,18 @@ import { getFocusables, getParentAutofocusables } from './tabUtils';
 
 export const filterFocusable = (nodes: HTMLInputElement[], visibilityCache: VisibilityCache): HTMLInputElement[] =>
   toArray(nodes)
-    .filter((node) => isVisibleCached(node, visibilityCache))
+    .filter((node) => isVisibleCached(visibilityCache, node))
     .filter((node) => notHiddenInput(node));
 
 /**
  * only tabbable ones
  * (but with guards which would be ignored)
  */
-export const getTabbableNodes = (topNodes: HTMLElement[], visibilityCache: VisibilityCache, withGuards?: boolean): NodeIndex[] =>
+export const getTabbableNodes = (
+  topNodes: HTMLElement[],
+  visibilityCache: VisibilityCache,
+  withGuards?: boolean
+): NodeIndex[] =>
   orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards), visibilityCache), true, withGuards);
 
 /**

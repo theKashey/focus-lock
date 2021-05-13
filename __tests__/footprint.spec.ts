@@ -1,15 +1,21 @@
 import { focusMerge } from '../src';
 
 describe('Complexity footprint', () => {
-  const createTest = () => {
+  const createTest = (n: number) => {
     document.body.innerHTML = `    
     <div id="d1"> 
        <button id="b1">1</button>
-       <button>2</button>       
+       ${Array(n)
+         .fill(1)
+         .map((_, index) => `<button>${index}</button>`)
+         .join('\n')}                        
     </div>    
     <div id="d2"> 
        <button id="b2">1</button>
-       <button>2</button>
+       ${Array(n)
+         .fill(1)
+         .map((_, index) => `<button>${index}</button>`)
+         .join('\n')}
     </div>
     `;
   };
@@ -26,15 +32,27 @@ describe('Complexity footprint', () => {
   });
 
   it('known operation complexity - no focus', () => {
-    createTest();
+    createTest(3);
     focusMerge(querySelector('#d1'), null);
-    expect(window.getComputedStyle).toBeCalledTimes(16);
+    expect(window.getComputedStyle).toBeCalledTimes(12);
+  });
+  it('known operation complexity - no focus + 1', () => {
+    createTest(3 + 1);
+    focusMerge(querySelector('#d1'), null);
+    expect(window.getComputedStyle).toBeCalledTimes(14);
   });
 
   it('known operation complexity - has focus inside', () => {
-    createTest();
+    createTest(4);
     querySelector('#b1').focus();
     focusMerge(querySelector('#d1'), null);
     expect(window.getComputedStyle).toBeCalledTimes(8);
+  });
+
+  it('known operation complexity - has focus inside + 1', () => {
+    createTest(4 + 1);
+    querySelector('#b1').focus();
+    focusMerge(querySelector('#d1'), null);
+    expect(window.getComputedStyle).toBeCalledTimes(9);
   });
 });
