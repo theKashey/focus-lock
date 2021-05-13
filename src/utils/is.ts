@@ -7,13 +7,15 @@ const isElementHidden = (computedStyle: CSSStyleDeclaration): boolean => {
   );
 };
 
-const isVisible = (node: HTMLElement | undefined): boolean =>
+type CheckParentCallback = (node: HTMLElement | undefined) => boolean;
+
+const isVisibleUncached = (node: HTMLElement | undefined, checkParent: CheckParentCallback): boolean =>
   !node ||
   // @ts-ignore
   node === document ||
   (node && node.nodeType === Node.DOCUMENT_NODE) ||
   (!isElementHidden(window.getComputedStyle(node, null)) &&
-    isVisible(
+    checkParent(
       node.parentNode && node.parentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE
         ? (node.parentNode as any).host
         : node.parentNode
@@ -21,13 +23,13 @@ const isVisible = (node: HTMLElement | undefined): boolean =>
 
 export type VisibilityCache = Map<HTMLElement | undefined, boolean>;
 
-export const isVisibleCached = (node: HTMLElement | undefined, visibilityCache: VisibilityCache): boolean => {
-  const cached = visibilityCache.get(node)
+export const isVisibleCached = (visibilityCache: VisibilityCache, node: HTMLElement | undefined): boolean => {
+  const cached = visibilityCache.get(node);
   if (cached !== undefined) {
     return cached;
   }
-  const result = isVisible(node);
-  visibilityCache.set(node, result)
+  const result = isVisibleUncached(node, isVisibleCached.bind(undefined, visibilityCache));
+  visibilityCache.set(node, result);
   return result;
 };
 
