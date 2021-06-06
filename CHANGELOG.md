@@ -1,3 +1,21 @@
+## [0.9.1](https://github.com/theKashey/focus-lock/compare/v0.9.0...v0.9.1) (2021-05-13)
+
+### Performance Improvements
+
+- track operation complexity ([0d91516](https://github.com/theKashey/focus-lock/commit/0d91516d48a36572507861ca167d93ba16e41a1b))
+
+# [0.9.0](https://github.com/theKashey/focus-lock/compare/v0.8.1...v0.9.0) (2021-03-28)
+
+### Features
+
+- allow setting focusOptions for prev/next focus actions ([d2e17d6](https://github.com/theKashey/focus-lock/commit/d2e17d66c59d9d04ac5f2196610a56e18cc1e1cf))
+
+## [0.8.1](https://github.com/theKashey/focus-lock/compare/v0.8.0...v0.8.1) (2020-11-16)
+
+### Bug Fixes
+
+- contants endpoint not exposed ([ab51c37](https://github.com/theKashey/focus-lock/commit/ab51c37008c89348ab26f5efaa7ae159e239faa7))
+
 # [0.8.0](https://github.com/theKashey/focus-lock/compare/v0.7.0...v0.8.0) (2020-09-30)
 
 ### Bug Fixes
