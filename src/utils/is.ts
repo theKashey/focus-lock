@@ -1,4 +1,6 @@
-const isElementHidden = (computedStyle: CSSStyleDeclaration): boolean => {
+const isElementHidden = (node: HTMLElement): boolean => {
+  if (node.nodeType !== Node.ELEMENT_NODE) { return false; }
+  const computedStyle: CSSStyleDeclaration = window.getComputedStyle(node, null);
   if (!computedStyle || !computedStyle.getPropertyValue) {
     return false;
   }
@@ -14,7 +16,7 @@ const isVisibleUncached = (node: HTMLElement | undefined, checkParent: CheckPare
   // @ts-ignore
   node === document ||
   (node && node.nodeType === Node.DOCUMENT_NODE) ||
-  (!isElementHidden(window.getComputedStyle(node, null)) &&
+  (!isElementHidden(node) &&
     checkParent(
       node.parentNode && node.parentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE
         ? (node.parentNode as any).host
