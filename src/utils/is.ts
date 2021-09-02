@@ -1,5 +1,10 @@
 const isElementHidden = (node: HTMLElement): boolean => {
-  if (node.nodeType !== Node.ELEMENT_NODE) { return false; }
+  // we can measure only "elements"
+  // consider others as "visible"
+  if (node.nodeType !== Node.ELEMENT_NODE) {
+    return false;
+  }
+
   const computedStyle: CSSStyleDeclaration = window.getComputedStyle(node, null);
   if (!computedStyle || !computedStyle.getPropertyValue) {
     return false;
@@ -18,6 +23,7 @@ const isVisibleUncached = (node: HTMLElement | undefined, checkParent: CheckPare
   (node && node.nodeType === Node.DOCUMENT_NODE) ||
   (!isElementHidden(node) &&
     checkParent(
+      // DOCUMENT_FRAGMENT_NODE can also point on ShadowRoot. In this case .host will point on the next node
       node.parentNode && node.parentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE
         ? (node.parentNode as any).host
         : node.parentNode
