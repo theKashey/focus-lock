@@ -1,16 +1,11 @@
 import { getFocusMerge } from './focusMerge';
 
-type FocusOptionsType = {
-  preventScroll?: boolean
-};
-
 type Options = {
-  focusOptions?: FocusOptionsType
+  focusOptions?: FocusOptions
 };
 
-export const focusOn = (target: HTMLInputElement | HTMLFrameElement, focusOptions?: FocusOptionsType) => {
-  const { preventScroll } = focusOptions || {};
-  target.focus({ preventScroll });
+export const focusOn = (target: HTMLInputElement | HTMLFrameElement, focusOptions?: FocusOptions) => {
+  target.focus(focusOptions);
   if ('contentWindow' in target && target.contentWindow) {
     target.contentWindow.focus();
   }
@@ -21,7 +16,7 @@ let lockDisabled = false;
 
 export const setFocus = (topNode: HTMLElement, lastNode: HTMLInputElement, options?: Options) => {
   const focusable = getFocusMerge(topNode, lastNode);
-  const { focusOptions } = options || {};
+  const { focusOptions = undefined } = options || {};
 
   if (lockDisabled) {
     return;
