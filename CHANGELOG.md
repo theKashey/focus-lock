@@ -1,3 +1,11 @@
+## [0.10.1](https://github.com/theKashey/focus-lock/compare/v0.9.2...v0.10.1) (2021-12-12)
+
+### Features
+
+- suport focusOptions in setFocus ([69debee](https://github.com/theKashey/focus-lock/commit/69debee17264c44685c63e2d3366a524d1bcdb8b))
+
+## [0.9.2](https://github.com/theKashey/focus-lock/compare/v0.9.1...v0.9.2) (2021-09-02)
+
 ## [0.9.1](https://github.com/theKashey/focus-lock/compare/v0.9.0...v0.9.1) (2021-05-13)
 
 ### Performance Improvements
