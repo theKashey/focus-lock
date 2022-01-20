@@ -1,6 +1,7 @@
 import { NEW_FOCUS, newFocus } from './solver';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
+import { getActiveElement } from './utils/findActiveElement';
 import { pickFirstFocus } from './utils/firstFocus';
 import { isDefined, isNotAGuard } from './utils/is';
 import { allParentAutofocusables, getTopCommonParent } from './utils/parenting';
@@ -18,7 +19,7 @@ const reorderNodes = (srcNodes: HTMLElement[], dstNodes: NodeIndex[]): NodeIndex
 };
 
 export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HTMLInputElement | null) => {
-  const activeElement: HTMLInputElement = (document && document.activeElement) as any;
+  const activeElement: HTMLInputElement = (document && getActiveElement()) as any;
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
