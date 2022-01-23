@@ -1,6 +1,6 @@
 import { getAllAffectedNodes } from './utils/all-affected';
 import { toArray } from './utils/array';
-import { getActiveElement } from './utils/findActiveElement';
+import { getActiveElement } from './utils/getActiveElement';
 
 const focusInFrame = (frame: HTMLIFrameElement) => frame === document.activeElement;
 

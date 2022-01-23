@@ -1,8 +1,8 @@
 import { NEW_FOCUS, newFocus } from './solver';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
-import { getActiveElement } from './utils/findActiveElement';
 import { pickFirstFocus } from './utils/firstFocus';
+import { getActiveElement } from './utils/getActiveElement';
 import { isDefined, isNotAGuard } from './utils/is';
 import { allParentAutofocusables, getTopCommonParent } from './utils/parenting';
 import { NodeIndex } from './utils/tabOrder';

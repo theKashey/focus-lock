@@ -7,7 +7,7 @@ import { setFocus } from './setFocus';
 import { focusNextElement, focusPrevElement } from './sibling';
 import tabHook from './tabHook';
 import { getAllAffectedNodes } from './utils/all-affected';
-import { getActiveElement } from './utils/findActiveElement';
+import { getActiveElement } from './utils/getActiveElement';
 
 export {
   tabHook,

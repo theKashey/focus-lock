@@ -1,6 +1,6 @@
 import { FOCUS_ALLOW } from './constants';
 import { toArray } from './utils/array';
-import { getActiveElement } from './utils/findActiveElement';
+import { getActiveElement } from './utils/getActiveElement';
 
 /**
  * focus is hidden FROM the focus-lock
