@@ -1,7 +1,7 @@
-import { toArray } from './array';
+import {toArray} from './array';
 
 export interface NodeIndex {
-  node: HTMLInputElement;
+  node: HTMLElement;
   tabIndex: number;
   index: number;
 }
@@ -23,7 +23,7 @@ export const tabSort = (a: NodeIndex, b: NodeIndex) => {
 };
 
 export const orderByTabIndex = (
-  nodes: HTMLInputElement[],
+  nodes: HTMLElement[],
   filterNegative: boolean,
   keepGuards?: boolean
 ): NodeIndex[] =>

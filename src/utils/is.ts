@@ -1,4 +1,4 @@
-const isElementHidden = (node: HTMLElement): boolean => {
+const isElementHidden = (node: Element): boolean => {
   // we can measure only "elements"
   // consider others as "visible"
   if (node.nodeType !== Node.ELEMENT_NODE) {
@@ -14,9 +14,9 @@ const isElementHidden = (node: HTMLElement): boolean => {
   );
 };
 
-type CheckParentCallback = (node: HTMLElement | undefined) => boolean;
+type CheckParentCallback = (node: Element | undefined) => boolean;
 
-const isVisibleUncached = (node: HTMLElement | undefined, checkParent: CheckParentCallback): boolean =>
+const isVisibleUncached = (node: Element | undefined, checkParent: CheckParentCallback): boolean =>
   !node ||
   // @ts-ignore
   node === document ||
@@ -29,9 +29,9 @@ const isVisibleUncached = (node: HTMLElement | undefined, checkParent: CheckPare
         : node.parentNode
     ));
 
-export type VisibilityCache = Map<HTMLElement | undefined, boolean>;
+export type VisibilityCache = Map<Element | undefined, boolean>;
 
-export const isVisibleCached = (visibilityCache: VisibilityCache, node: HTMLElement | undefined): boolean => {
+export const isVisibleCached = (visibilityCache: VisibilityCache, node: Element | undefined): boolean => {
   const cached = visibilityCache.get(node);
   if (cached !== undefined) {
     return cached;
@@ -41,9 +41,21 @@ export const isVisibleCached = (visibilityCache: VisibilityCache, node: HTMLElem
   return result;
 };
 
-export const notHiddenInput = (node: HTMLInputElement) =>
-  !((node.tagName === 'INPUT' || node.tagName === 'BUTTON') && (node.type === 'hidden' || node.disabled));
-export const isGuard = (node: HTMLElement): boolean => Boolean(node && node.dataset && node.dataset.focusGuard);
-export const isNotAGuard = (node: HTMLElement) => !isGuard(node);
+export const getDataset = (node: Element): HTMLElement['dataset'] | undefined => (
+  // @ts-ignore
+  node.dataset
+)
+
+export const isHTMLButtonElement = (node: Element): node is HTMLInputElement => node.tagName === 'BUTTON';
+export const isHTMLInputElement = (node: Element): node is HTMLInputElement => node.tagName === 'INPUT';
+export const isRadioElement = (node: Element): node is HTMLInputElement => (
+  isHTMLInputElement(node) &&
+  node.type === 'radio'
+);
+
+export const notHiddenInput = (node: Element) =>
+  !((isHTMLInputElement(node) || isHTMLInputElement(node)) && (node.type === 'hidden' || node.disabled));
+export const isGuard = (node: Element | undefined): boolean => Boolean(node && getDataset(node)?.focusGuard);
+export const isNotAGuard = (node: Element | undefined) => !isGuard(node);
 
 export const isDefined = <T>(x: T | null | undefined): x is T => Boolean(x);

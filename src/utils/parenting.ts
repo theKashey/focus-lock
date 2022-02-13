@@ -2,7 +2,7 @@ import { asArray } from './array';
 import { parentAutofocusables } from './DOMutils';
 import { VisibilityCache } from "./is";
 
-const getParents = (node: HTMLElement, parents: HTMLElement[] = []): HTMLElement[] => {
+const getParents = (node: Element, parents: Element[] = []): Element[] => {
   parents.push(node);
   if (node.parentNode) {
     getParents(node.parentNode as HTMLElement, parents);
@@ -15,7 +15,7 @@ const getParents = (node: HTMLElement, parents: HTMLElement[] = []): HTMLElement
  * @param nodeB
  * @returns {boolean|*}
  */
-export const getCommonParent = (nodeA: HTMLElement, nodeB: HTMLElement) => {
+export const getCommonParent = (nodeA: Element, nodeB: Element) => {
   const parentsA = getParents(nodeA);
   const parentsB = getParents(nodeB);
 
@@ -30,14 +30,14 @@ export const getCommonParent = (nodeA: HTMLElement, nodeB: HTMLElement) => {
 };
 
 export const getTopCommonParent = (
-  baseActiveElement: HTMLElement,
-  leftEntry: HTMLElement | HTMLElement[],
-  rightEntries: HTMLElement[]
-): HTMLElement => {
+  baseActiveElement: Element | Element[],
+  leftEntry: Element | Element[],
+  rightEntries: Element[]
+): Element => {
   const activeElements = asArray(baseActiveElement);
   const leftEntries = asArray(leftEntry);
   const activeElement = activeElements[0];
-  let topCommon: HTMLElement | false = false;
+  let topCommon: Element | false = false;
 
   leftEntries.filter(Boolean).forEach((entry) => {
     topCommon = getCommonParent(topCommon || entry, entry) || topCommon;
@@ -54,7 +54,7 @@ export const getTopCommonParent = (
   });
 
   // TODO: add assert here?
-  return (topCommon as unknown) as HTMLInputElement;
+  return (topCommon as unknown) as Element;
 };
-export const allParentAutofocusables = (entries: HTMLElement[], visibilityCache: VisibilityCache): HTMLInputElement[] =>
-  entries.reduce((acc, node) => acc.concat(parentAutofocusables(node, visibilityCache)), [] as HTMLInputElement[]);
+export const allParentAutofocusables = (entries: Element[], visibilityCache: VisibilityCache): Element[] =>
+  entries.reduce((acc, node) => acc.concat(parentAutofocusables(node, visibilityCache)), [] as Element[]);

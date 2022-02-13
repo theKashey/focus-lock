@@ -1,6 +1,7 @@
 import { getTabbableNodes } from './utils/DOMutils';
+import {focusOn} from "./setFocus";
 
-const getRelativeFocusable = (element: HTMLInputElement, scope: HTMLElement | HTMLDocument) => {
+const getRelativeFocusable = (element: Element, scope: HTMLElement | HTMLDocument) => {
   if (!element || !scope || !scope.contains(element)) {
     return {};
   }
@@ -51,10 +52,10 @@ const defaultOptions = (options: FocusNextOptions) =>
  */
 export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}) => {
   const { scope, cycle } = defaultOptions(options);
-  const { next, first } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
+  const { next, first } = getRelativeFocusable(baseElement as Element, scope);
   const newTarget = next || (cycle && first);
   if (newTarget) {
-    newTarget.node.focus(options.focusOptions);
+    focusOn(newTarget.node, options.focusOptions)
   }
 };
 
@@ -65,9 +66,9 @@ export const focusNextElement = (baseElement: Element, options: FocusNextOptions
  */
 export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}) => {
   const { scope, cycle } = defaultOptions(options);
-  const { prev, last } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
+  const { prev, last } = getRelativeFocusable(baseElement as Element, scope);
   const newTarget = prev || (cycle && last);
   if (newTarget) {
-    newTarget.node.focus(options.focusOptions);
+    focusOn(newTarget.node, options.focusOptions)
   }
 };

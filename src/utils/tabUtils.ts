@@ -1,11 +1,11 @@
-import { FOCUS_AUTO } from '../constants';
-import { toArray } from './array';
-import { tabbables } from './tabbables';
+import {FOCUS_AUTO} from '../constants';
+import {toArray} from './array';
+import {tabbables} from './tabbables';
 
 const queryTabbables = tabbables.join(',');
 const queryGuardTabbables = `${queryTabbables}, [data-focus-guard]`;
 
-export const getFocusables = (parents: HTMLElement[], withGuards?: boolean): HTMLInputElement[] =>
+export const getFocusables = (parents: Element[], withGuards?: boolean): HTMLElement[] =>
   parents.reduce(
     (acc, parent) =>
       acc.concat(
@@ -13,16 +13,16 @@ export const getFocusables = (parents: HTMLElement[], withGuards?: boolean): HTM
         toArray(parent.querySelectorAll(withGuards ? queryGuardTabbables : queryTabbables)),
         // add if node is tabbale itself
         parent.parentNode
-          ? toArray(parent.parentNode.querySelectorAll<HTMLInputElement>(queryTabbables)).filter(
-              (node) => node === parent
-            )
+          ? toArray(parent.parentNode.querySelectorAll<HTMLElement>(queryTabbables)).filter(
+            (node) => node === parent
+          )
           : []
       ),
-    [] as HTMLInputElement[]
+    [] as HTMLElement[]
   );
 
-export const getParentAutofocusables = (parent: HTMLElement): HTMLInputElement[] => {
-  const parentFocus = parent.querySelectorAll<HTMLInputElement>(`[${FOCUS_AUTO}]`);
+export const getParentAutofocusables = (parent: Element): HTMLElement[] => {
+  const parentFocus = parent.querySelectorAll<Element>(`[${FOCUS_AUTO}]`);
   return toArray(parentFocus)
     .map((node) => getFocusables([node]))
     .reduce((acc, nodes) => acc.concat(nodes), []);

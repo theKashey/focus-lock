@@ -8,7 +8,7 @@ import { asArray, toArray } from './array';
  * @param nodes
  * @returns {*}
  */
-const filterNested = <T extends HTMLElement>(nodes: T[]): T[] => {
+const filterNested = <T extends Element>(nodes: T[]): T[] => {
   const contained = new Set();
   const l = nodes.length;
   for (let i = 0; i < l; i += 1) {
@@ -32,7 +32,7 @@ const filterNested = <T extends HTMLElement>(nodes: T[]): T[] => {
  * @param node
  * @returns {*}
  */
-const getTopParent = (node: HTMLElement): HTMLElement =>
+const getTopParent = (node: Element): Element =>
   node.parentNode ? getTopParent(node.parentNode as HTMLElement) : node;
 
 /**
@@ -40,7 +40,7 @@ const getTopParent = (node: HTMLElement): HTMLElement =>
  * @param node
  * @returns {T}
  */
-export const getAllAffectedNodes = (node: HTMLElement | HTMLElement[]): HTMLInputElement[] => {
+export const getAllAffectedNodes = (node: Element | Element[]): Element[] => {
   const nodes = asArray(node);
   return nodes.filter(Boolean).reduce((acc, currentNode) => {
     const group = currentNode.getAttribute(FOCUS_GROUP);
@@ -48,13 +48,13 @@ export const getAllAffectedNodes = (node: HTMLElement | HTMLElement[]): HTMLInpu
       ...(group
         ? filterNested(
             toArray(
-              getTopParent(currentNode).querySelectorAll<HTMLInputElement>(
+              getTopParent(currentNode).querySelectorAll<Element>(
                 `[${FOCUS_GROUP}="${group}"]:not([${FOCUS_DISABLED}="disabled"])`
               )
             )
           )
-        : [currentNode as HTMLInputElement])
+        : [currentNode as Element])
     );
     return acc;
-  }, [] as HTMLInputElement[]);
+  }, [] as Element[]);
 };

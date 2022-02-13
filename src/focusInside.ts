@@ -4,7 +4,7 @@ import { getActiveElement } from './utils/getActiveElement';
 
 const focusInFrame = (frame: HTMLIFrameElement) => frame === document.activeElement;
 
-const focusInsideIframe = (topNode: HTMLElement) =>
+const focusInsideIframe = (topNode: Element) =>
   Boolean(toArray(topNode.querySelectorAll<HTMLIFrameElement>('iframe')).some((node) => focusInFrame(node)));
 
 export const focusInside = (topNode: HTMLElement | HTMLElement[]): boolean => {

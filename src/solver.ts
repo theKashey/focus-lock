@@ -1,6 +1,6 @@
-import { correctNodes } from './utils/correctFocus';
-import { pickFocusable } from './utils/firstFocus';
-import { isGuard } from './utils/is';
+import {correctNodes} from './utils/correctFocus';
+import {pickFocusable} from './utils/firstFocus';
+import {isGuard} from './utils/is';
 
 export const NEW_FOCUS = 'NEW_FOCUS';
 /**
@@ -12,10 +12,10 @@ export const NEW_FOCUS = 'NEW_FOCUS';
  * @returns {number|string|undefined|*}
  */
 export const newFocus = (
-  innerNodes: HTMLInputElement[],
-  outerNodes: HTMLInputElement[],
-  activeElement: HTMLInputElement,
-  lastNode: HTMLInputElement | null
+  innerNodes: HTMLElement[],
+  outerNodes: HTMLElement[],
+  activeElement: HTMLElement | undefined,
+  lastNode: HTMLElement | null
 ): number | undefined | typeof NEW_FOCUS => {
   const cnt = innerNodes.length;
   const firstFocus = innerNodes[0];
@@ -23,11 +23,11 @@ export const newFocus = (
   const isOnGuard = isGuard(activeElement);
 
   // focus is inside
-  if (innerNodes.indexOf(activeElement) >= 0) {
+  if (activeElement && innerNodes.indexOf(activeElement) >= 0) {
     return undefined;
   }
 
-  const activeIndex = outerNodes.indexOf(activeElement);
+  const activeIndex = activeElement !== undefined ? outerNodes.indexOf(activeElement) : -1;
   const lastIndex = lastNode ? outerNodes.indexOf(lastNode) : activeIndex;
   const lastNodeInside = lastNode ? innerNodes.indexOf(lastNode) : -1;
   const indexDiff = activeIndex - lastIndex;
@@ -35,8 +35,8 @@ export const newFocus = (
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
 
   const correctedNodes = correctNodes(outerNodes);
-  const correctedIndexDiff =
-    correctedNodes.indexOf(activeElement) - (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex);
+  const correctedIndex = activeElement !== undefined ? correctedNodes.indexOf(activeElement) : -1;
+  const correctedIndexDiff = correctedIndex - (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex);
 
   const returnFirstNode = pickFocusable(innerNodes, 0);
   const returnLastNode = pickFocusable(innerNodes, cnt - 1);
