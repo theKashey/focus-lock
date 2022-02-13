@@ -23,7 +23,7 @@ export const getTabbableNodes = (
  * actually anything "focusable", not only tabbable
  * (without guards, as long as they are not expected to be focused)
  */
-export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: VisibilityCache) =>
+export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: VisibilityCache): NodeIndex[] =>
   orderByTabIndex(filterFocusable(getFocusables(topNodes), visibilityCache), false);
 
 export const parentAutofocusables = (topNode: Element, visibilityCache: VisibilityCache): Element[] =>

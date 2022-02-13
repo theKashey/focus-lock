@@ -11,19 +11,23 @@ import { asArray, toArray } from './array';
 const filterNested = <T extends Element>(nodes: T[]): T[] => {
   const contained = new Set();
   const l = nodes.length;
+
   for (let i = 0; i < l; i += 1) {
     for (let j = i + 1; j < l; j += 1) {
       const position = nodes[i].compareDocumentPosition(nodes[j]);
+
       /* eslint-disable no-bitwise */
       if ((position & Node.DOCUMENT_POSITION_CONTAINED_BY) > 0) {
         contained.add(j);
       }
+
       if ((position & Node.DOCUMENT_POSITION_CONTAINS) > 0) {
         contained.add(i);
       }
       /* eslint-enable */
     }
   }
+
   return nodes.filter((_, index) => !contained.has(index));
 };
 
@@ -42,8 +46,10 @@ const getTopParent = (node: Element): Element =>
  */
 export const getAllAffectedNodes = (node: Element | Element[]): Element[] => {
   const nodes = asArray(node);
+
   return nodes.filter(Boolean).reduce((acc, currentNode) => {
     const group = currentNode.getAttribute(FOCUS_GROUP);
+
     acc.push(
       ...(group
         ? filterNested(
@@ -55,6 +61,7 @@ export const getAllAffectedNodes = (node: Element | Element[]): Element[] => {
           )
         : [currentNode as Element])
     );
+
     return acc;
   }, [] as Element[]);
 };

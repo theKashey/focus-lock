@@ -1,4 +1,4 @@
-import {toArray} from './array';
+import { toArray } from './array';
 
 export interface NodeIndex {
   node: HTMLElement;
@@ -6,7 +6,7 @@ export interface NodeIndex {
   index: number;
 }
 
-export const tabSort = (a: NodeIndex, b: NodeIndex) => {
+export const tabSort = (a: NodeIndex, b: NodeIndex): number => {
   const tabDiff = a.tabIndex - b.tabIndex;
   const indexDiff = a.index - b.index;
 
@@ -14,6 +14,7 @@ export const tabSort = (a: NodeIndex, b: NodeIndex) => {
     if (!a.tabIndex) {
       return 1;
     }
+
     if (!b.tabIndex) {
       return -1;
     }
@@ -22,11 +23,7 @@ export const tabSort = (a: NodeIndex, b: NodeIndex) => {
   return tabDiff || indexDiff;
 };
 
-export const orderByTabIndex = (
-  nodes: HTMLElement[],
-  filterNegative: boolean,
-  keepGuards?: boolean
-): NodeIndex[] =>
+export const orderByTabIndex = (nodes: HTMLElement[], filterNegative: boolean, keepGuards?: boolean): NodeIndex[] =>
   toArray(nodes)
     .map(
       (node, index): NodeIndex => ({

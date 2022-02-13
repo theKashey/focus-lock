@@ -9,9 +9,11 @@ interface ListOf<TNode> {
 
 export const toArray = <T>(a: T[] | ListOf<T>): T[] => {
   const ret = Array(a.length);
+
   for (let i = 0; i < a.length; ++i) {
     ret[i] = a[i];
   }
+
   return ret;
 };
 

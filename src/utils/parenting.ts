@@ -1,31 +1,36 @@
-import { asArray } from './array';
 import { parentAutofocusables } from './DOMutils';
-import { VisibilityCache } from "./is";
+import { asArray } from './array';
+import { VisibilityCache } from './is';
 
 const getParents = (node: Element, parents: Element[] = []): Element[] => {
   parents.push(node);
+
   if (node.parentNode) {
     getParents(node.parentNode as HTMLElement, parents);
   }
+
   return parents;
 };
+
 /**
  * finds a parent for both nodeA and nodeB
  * @param nodeA
  * @param nodeB
  * @returns {boolean|*}
  */
-export const getCommonParent = (nodeA: Element, nodeB: Element) => {
+export const getCommonParent = (nodeA: Element, nodeB: Element): Element | false => {
   const parentsA = getParents(nodeA);
   const parentsB = getParents(nodeB);
 
   // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < parentsA.length; i += 1) {
     const currentParent = parentsA[i];
+
     if (parentsB.indexOf(currentParent) >= 0) {
       return currentParent;
     }
   }
+
   return false;
 };
 
@@ -41,8 +46,10 @@ export const getTopCommonParent = (
 
   leftEntries.filter(Boolean).forEach((entry) => {
     topCommon = getCommonParent(topCommon || entry, entry) || topCommon;
+
     rightEntries.filter(Boolean).forEach((subEntry) => {
       const common = getCommonParent(activeElement, subEntry);
+
       if (common) {
         if (!topCommon || common.contains(topCommon)) {
           topCommon = common;
@@ -54,7 +61,8 @@ export const getTopCommonParent = (
   });
 
   // TODO: add assert here?
-  return (topCommon as unknown) as Element;
+  return topCommon as unknown as Element;
 };
+
 export const allParentAutofocusables = (entries: Element[], visibilityCache: VisibilityCache): Element[] =>
   entries.reduce((acc, node) => acc.concat(parentAutofocusables(node, visibilityCache)), [] as Element[]);
