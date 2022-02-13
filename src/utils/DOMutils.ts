@@ -3,7 +3,7 @@ import { isVisibleCached, notHiddenInput, VisibilityCache } from './is';
 import { NodeIndex, orderByTabIndex } from './tabOrder';
 import { getFocusables, getParentAutofocusables } from './tabUtils';
 
-export const filterFocusable = (nodes: HTMLInputElement[], visibilityCache: VisibilityCache): HTMLInputElement[] =>
+export const filterFocusable = (nodes: HTMLElement[], visibilityCache: VisibilityCache): HTMLElement[] =>
   toArray(nodes)
     .filter((node) => isVisibleCached(visibilityCache, node))
     .filter((node) => notHiddenInput(node));
@@ -13,7 +13,7 @@ export const filterFocusable = (nodes: HTMLInputElement[], visibilityCache: Visi
  * (but with guards which would be ignored)
  */
 export const getTabbableNodes = (
-  topNodes: HTMLElement[],
+  topNodes: Element[],
   visibilityCache: VisibilityCache,
   withGuards?: boolean
 ): NodeIndex[] =>
@@ -23,8 +23,8 @@ export const getTabbableNodes = (
  * actually anything "focusable", not only tabbable
  * (without guards, as long as they are not expected to be focused)
  */
-export const getAllTabbableNodes = (topNodes: HTMLElement[], visibilityCache: VisibilityCache) =>
+export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: VisibilityCache): NodeIndex[] =>
   orderByTabIndex(filterFocusable(getFocusables(topNodes), visibilityCache), false);
 
-export const parentAutofocusables = (topNode: HTMLElement, visibilityCache: VisibilityCache): HTMLInputElement[] =>
+export const parentAutofocusables = (topNode: Element, visibilityCache: VisibilityCache): Element[] =>
   filterFocusable(getParentAutofocusables(topNode), visibilityCache);

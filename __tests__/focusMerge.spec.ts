@@ -29,15 +29,18 @@ describe('FocusMerge', () => {
 
     expect(focusMerge(querySelector('#d4'), null)).toBe(undefined);
 
+    // @ts-ignore
     focusMerge(querySelector('#d1'), null)!.node.focus();
     expect(focusInside(querySelector('#d1'))).toBe(true);
 
+    // @ts-ignore
     focusMerge(querySelector('#d2'), null)!.node.focus();
     expect(focusInside(querySelector('#d2'))).toBe(true);
 
     expect(focusMerge([querySelector('#d2'), querySelector('#d3')], null)).toBe(undefined);
     expect(focusInside(querySelector('#d2'))).toBe(true);
 
+    // @ts-ignore
     focusMerge([querySelector('#d3'), querySelector('#d4')], null)!.node.focus();
     expect(focusInside(querySelector('#d3'))).toBe(true);
   });

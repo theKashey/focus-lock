@@ -1,4 +1,4 @@
-/* tslint:disable:no-empty */
+/* eslint-disable */
 export default {
   attach() {},
 

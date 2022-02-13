@@ -1,11 +1,14 @@
+import { focusOn } from './setFocus';
 import { getTabbableNodes } from './utils/DOMutils';
 
-const getRelativeFocusable = (element: HTMLInputElement, scope: HTMLElement | HTMLDocument) => {
+const getRelativeFocusable = (element: Element, scope: HTMLElement | HTMLDocument) => {
   if (!element || !scope || !scope.contains(element)) {
     return {};
   }
+
   const focusables = getTabbableNodes([scope as HTMLElement], new Map());
   const current = focusables.findIndex(({ node }) => node === element);
+
   if (current === -1) {
     return {};
   }
@@ -49,12 +52,13 @@ const defaultOptions = (options: FocusNextOptions) =>
  * @param baseElement - common parent to scope active element search or tab cycle order
  * @param {FocusNextOptions} [options] - focus options
  */
-export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}) => {
+export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}): void => {
   const { scope, cycle } = defaultOptions(options);
-  const { next, first } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
+  const { next, first } = getRelativeFocusable(baseElement as Element, scope);
   const newTarget = next || (cycle && first);
+
   if (newTarget) {
-    newTarget.node.focus(options.focusOptions);
+    focusOn(newTarget.node, options.focusOptions);
   }
 };
 
@@ -63,11 +67,12 @@ export const focusNextElement = (baseElement: Element, options: FocusNextOptions
  * @param baseElement - common parent to scope active element search or tab cycle order
  * @param {FocusNextOptions} [options] - focus options
  */
-export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}) => {
+export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}): void => {
   const { scope, cycle } = defaultOptions(options);
-  const { prev, last } = getRelativeFocusable(baseElement as HTMLInputElement, scope);
+  const { prev, last } = getRelativeFocusable(baseElement as Element, scope);
   const newTarget = prev || (cycle && last);
+
   if (newTarget) {
-    newTarget.node.focus(options.focusOptions);
+    focusOn(newTarget.node, options.focusOptions);
   }
 };

@@ -1,24 +1,32 @@
 import { NEW_FOCUS, newFocus } from './solver';
-import { getAllAffectedNodes } from './utils/all-affected';
 import { getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
+import { getAllAffectedNodes } from './utils/all-affected';
 import { pickFirstFocus } from './utils/firstFocus';
-import { isDefined, isNotAGuard } from './utils/is';
+import { getActiveElement } from './utils/getActiveElement';
+import { getDataset, isDefined, isNotAGuard } from './utils/is';
 import { allParentAutofocusables, getTopCommonParent } from './utils/parenting';
 import { NodeIndex } from './utils/tabOrder';
 
-const findAutoFocused = (autoFocusables: HTMLInputElement[]) => (node: HTMLInputElement): boolean =>
-  node.autofocus || (node.dataset && !!node.dataset.autofocus) || autoFocusables.indexOf(node) >= 0;
+const findAutoFocused =
+  (autoFocusables: Element[]) =>
+  (node: Element): boolean =>
+    // @ts-expect-error
+    node.autofocus || !!getDataset(node)?.autofocus || autoFocusables.indexOf(node) >= 0;
 
-const reorderNodes = (srcNodes: HTMLElement[], dstNodes: NodeIndex[]): NodeIndex[] => {
-  const remap = new Map<HTMLElement, NodeIndex>();
+const reorderNodes = (srcNodes: Element[], dstNodes: NodeIndex[]): NodeIndex[] => {
+  const remap = new Map<Element, NodeIndex>();
   // no Set(dstNodes) for IE11 :(
   dstNodes.forEach((entity) => remap.set(entity.node, entity));
+
   // remap to dstNodes
   return srcNodes.map((node) => remap.get(node)).filter(isDefined);
 };
 
-export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HTMLInputElement | null) => {
-  const activeElement: HTMLInputElement = (document && document.activeElement) as any;
+export const getFocusMerge = (
+  topNode: Element | Element[],
+  lastNode: Element | null
+): undefined | { node: HTMLElement } => {
+  const activeElement = document && getActiveElement();
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
 
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
@@ -29,6 +37,7 @@ export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HT
 
   if (!innerElements[0]) {
     innerElements = anyFocusable;
+
     if (!innerElements[0]) {
       return undefined;
     }
@@ -38,7 +47,7 @@ export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HT
   const orderedInnerElements = reorderNodes(outerNodes, innerElements);
   const innerNodes = orderedInnerElements.map(({ node }) => node);
 
-  const newId = newFocus(innerNodes, outerNodes, activeElement, lastNode);
+  const newId = newFocus(innerNodes, outerNodes, activeElement, lastNode as HTMLElement);
 
   if (newId === NEW_FOCUS) {
     const autoFocusable = anyFocusable
@@ -53,5 +62,6 @@ export const getFocusMerge = (topNode: HTMLElement | HTMLElement[], lastNode: HT
   if (newId === undefined) {
     return newId;
   }
+
   return orderedInnerElements[newId];
 };
