@@ -1,6 +1,9 @@
 import { focusMerge } from '../src';
 
 describe('shadow dow ', () => {
+  afterEach(() => {
+    document.getElementsByTagName('html')[0].innerHTML = '';
+  });
   it('supports detached elements', () => {
     document.body.innerHTML = `<div><button></button></div>`;
     const frag = document.createDocumentFragment();
@@ -9,6 +12,31 @@ describe('shadow dow ', () => {
 
     expect(focusMerge(document.body, null)).toEqual({
       node: button,
+    });
+  });
+
+  it('support for shadow dom', () => {
+    const html = `
+      <div id="app">
+            <input />
+            <button>I am a button</button>
+          <div id="shadowdom"></div>
+      </div>`;
+    const shadowHtml = `
+          <div id="first"></div>
+          <button id="firstBtn">first button</button>
+          <button id="secondBtn">second button</button>
+          <div id="last"></div>
+      `;
+    document.body.innerHTML = html;
+    const shadowContainer = document.getElementById('shadowdom') as HTMLElement;
+    const root = shadowContainer.attachShadow({ mode: 'open' });
+    const shadowDiv = document.createElement('div');
+    shadowDiv.innerHTML = shadowHtml;
+    root.appendChild(shadowDiv);
+    const firstBtn = root.getElementById('firstBtn');
+    expect(focusMerge(shadowDiv, null)).toEqual({
+      node: firstBtn,
     });
   });
 
