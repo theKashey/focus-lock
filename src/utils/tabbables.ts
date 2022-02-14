@@ -6,6 +6,8 @@ export const tabbables = [
   'select:enabled',
   'textarea:enabled',
   'input:enabled',
+  // elements with explicit roles will also use explicit tabindex
+  // '[role="button"]',
 
   'a[href]',
   'area[href]',

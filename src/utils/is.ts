@@ -53,11 +53,14 @@ export const getDataset = (node: Element): HTMLElement['dataset'] | undefined =>
 
 export const isHTMLButtonElement = (node: Element): node is HTMLInputElement => node.tagName === 'BUTTON';
 export const isHTMLInputElement = (node: Element): node is HTMLInputElement => node.tagName === 'INPUT';
+
 export const isRadioElement = (node: Element): node is HTMLInputElement =>
   isHTMLInputElement(node) && node.type === 'radio';
 
 export const notHiddenInput = (node: Element): boolean =>
-  !((isHTMLInputElement(node) || isHTMLInputElement(node)) && (node.type === 'hidden' || node.disabled));
+  !((isHTMLInputElement(node) || isHTMLButtonElement(node)) && (node.type === 'hidden' || node.disabled)) &&
+  // @ts-ignore
+  !node.ariaDisabled;
 export const isGuard = (node: Element | undefined): boolean => Boolean(node && getDataset(node)?.focusGuard);
 export const isNotAGuard = (node: Element | undefined): boolean => !isGuard(node);
 
