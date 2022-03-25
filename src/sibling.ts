@@ -1,8 +1,18 @@
 import { focusOn } from './setFocus';
 import { getTabbableNodes } from './utils/DOMutils';
 
+// need to search within shadowRoots (and potentially nested shadowRoots) for
+// the element
+const contains = (scope: Element, element: Element): boolean => {
+  return (
+    scope.contains(element) ||
+    (scope as HTMLElement).shadowRoot?.contains(element) ||
+    Array.from(scope.children).some((child) => contains(child, element))
+  );
+};
+
 const getRelativeFocusable = (element: Element, scope: HTMLElement | HTMLDocument) => {
-  if (!element || !scope || !scope.contains(element)) {
+  if (!element || !scope || !contains(scope as Element, element)) {
     return {};
   }
 
