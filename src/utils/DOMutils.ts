@@ -28,3 +28,14 @@ export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: Visibi
 
 export const parentAutofocusables = (topNode: Element, visibilityCache: VisibilityCache): Element[] =>
   filterFocusable(getParentAutofocusables(topNode), visibilityCache);
+
+/*
+ * Determines if element is contained in scope, including nested shadow DOMs
+ */
+export const contains = (scope: Element | ShadowRoot, element: Element): boolean => {
+  return (
+    ((scope as HTMLElement).shadowRoot
+      ? contains((scope as HTMLElement).shadowRoot as ShadowRoot, element)
+      : scope.contains(element)) || Array.from(scope.children).some((child) => contains(child, element))
+  );
+};

@@ -74,8 +74,8 @@ describe('shadow dow ', () => {
     `;
   });
 
-  it('web components respect tabIndex', () => {
-    expect.assertions(1);
+  it.only('web components respect tabIndex', () => {
+    expect.assertions(2);
 
     class FocusOutsideShadow extends HTMLElement {
       public connectedCallback() {
@@ -88,8 +88,15 @@ describe('shadow dow ', () => {
         const shadow = this.attachShadow({ mode: 'open' });
         shadow.innerHTML = html;
 
+        const input = shadow.querySelector('input') as HTMLInputElement;
+        const button = shadow.querySelector('button') as HTMLButtonElement;
+
         expect(focusMerge(document.body, null)).toEqual({
           node: document.querySelector('#focused'),
+        });
+
+        expect(focusMerge([input, button], null)).toEqual({
+          node: input,
         });
       }
     }

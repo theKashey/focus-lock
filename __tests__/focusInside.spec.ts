@@ -60,4 +60,101 @@ describe('smoke', () => {
       expect(focusInside([querySelector('#d3'), querySelector('#d1')])).toBe(true);
     });
   });
+
+  const createShadowTest = (nested?: boolean) => {
+    const html = `
+      <div id="app">
+        <div id="nonshadow">
+          <input />
+          <button>I am a button</button>
+        </div>
+        <div id="shadowdom"></div>
+      </div>`;
+    const shadowHtml = `
+      <div id="first"></div>
+      <button id="firstBtn">first button</button>
+      <div id="last">
+        <button id="secondBtn">second button</button>
+      </div>
+      `;
+    document.body.innerHTML = html;
+
+    const shadowContainer = document.getElementById('shadowdom') as HTMLElement;
+    const root = shadowContainer.attachShadow({ mode: 'open' });
+    const shadowDiv = document.createElement('div');
+    shadowDiv.innerHTML = shadowHtml;
+    root.appendChild(shadowDiv);
+
+    if (nested) {
+      const firstDiv = root.querySelector('#first') as HTMLDivElement;
+      const nestedRoot = firstDiv.attachShadow({ mode: 'open' });
+      const nestedShadowDiv = document.createElement('div');
+
+      nestedShadowDiv.innerHTML = shadowHtml;
+      nestedRoot.appendChild(nestedShadowDiv);
+    }
+  };
+
+  describe('with shadow dom', () => {
+    it('false when the focus is within a shadow dom not within the topNode', () => {
+      createShadowTest();
+
+      const nonShadowDiv = querySelector('#nonshadow');
+
+      const shadowBtn = querySelector('#shadowdom')?.shadowRoot?.querySelector('#firstBtn') as HTMLButtonElement;
+
+      shadowBtn.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(nonShadowDiv)).toBe(false);
+    });
+
+    it('false when topNode is shadow sibling of focused node', () => {
+      createShadowTest();
+
+      const shadowHost = querySelector('#shadowdom');
+
+      const shadowBtn = shadowHost.shadowRoot?.querySelector('#firstBtn') as HTMLButtonElement;
+      const shadowDivLast = shadowHost.shadowRoot?.querySelector('#last') as HTMLDivElement;
+
+      shadowBtn.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(shadowDivLast)).toBe(false);
+    });
+
+    it('true when focus is within shadow dom within topNode', () => {
+      createShadowTest();
+
+      const shadowHost = querySelector('#shadowdom');
+
+      const shadowDivLast = shadowHost.shadowRoot?.querySelector('#last') as HTMLDivElement;
+      const shadowBtn = shadowHost.shadowRoot?.querySelector('#secondBtn') as HTMLButtonElement;
+
+      shadowBtn.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(shadowHost)).toBe(true);
+      expect(focusInside(shadowDivLast)).toBe(true);
+    });
+
+    it('true when focus is within nested shadow dom', () => {
+      createShadowTest(true);
+
+      const shadowHost = querySelector('#shadowdom');
+      const nestedShadowHost = shadowHost.shadowRoot?.querySelector('#first') as HTMLDivElement;
+
+      const nestedShadowDiv = nestedShadowHost.shadowRoot?.querySelector('#first') as HTMLDivElement;
+      const nestedShadowDivLast = nestedShadowHost.shadowRoot?.querySelector('#last') as HTMLDivElement;
+      const nestedShadowButton = nestedShadowDivLast.querySelector('#secondBtn') as HTMLButtonElement;
+
+      nestedShadowButton.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(shadowHost)).toBe(true);
+      expect(focusInside(nestedShadowHost)).toBe(true);
+      expect(focusInside(nestedShadowDiv)).toBe(false);
+      expect(focusInside(nestedShadowDivLast)).toBe(true);
+    });
+  });
 });

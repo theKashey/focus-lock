@@ -1,4 +1,5 @@
 import { FOCUS_ALLOW } from './constants';
+import { contains } from './utils/DOMutils';
 import { toArray } from './utils/array';
 import { getActiveElement } from './utils/getActiveElement';
 
@@ -14,5 +15,6 @@ export const focusIsHidden = (): boolean => {
     return false;
   }
 
-  return toArray(document.querySelectorAll(`[${FOCUS_ALLOW}]`)).some((node) => node.contains(activeElement));
+  // this does not support setting FOCUS_ALLOW within shadow dom
+  return toArray(document.querySelectorAll(`[${FOCUS_ALLOW}]`)).some((node) => contains(node, activeElement));
 };
