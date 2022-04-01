@@ -74,7 +74,7 @@ describe('shadow dow ', () => {
     `;
   });
 
-  it.only('web components respect tabIndex', () => {
+  it('web components respect tabIndex', () => {
     expect.assertions(2);
 
     class FocusOutsideShadow extends HTMLElement {
