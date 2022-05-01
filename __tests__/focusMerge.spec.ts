@@ -54,6 +54,7 @@ describe('FocusMerge', () => {
         <button>2</button>
         </div>    
     `;
+
     expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
   });
 
@@ -66,6 +67,7 @@ describe('FocusMerge', () => {
         <button>2</button>
         </div>    
     `;
+
     expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
   });
 });

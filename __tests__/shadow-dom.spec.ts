@@ -129,19 +129,15 @@ describe('shadow dow ', () => {
         const button = document.querySelector('button') as HTMLButtonElement;
 
         focusMerge(document.body, null)?.node?.focus();
-
         expect(document.activeElement).toBe(input);
 
         focusNextElement(input);
-
         expect(document.activeElement).toBe(button);
 
         focusNextElement(button);
-
         expect(document.activeElement?.shadowRoot?.activeElement).toBe(shadowButton);
 
         focusNextElement(shadowButton);
-
         expect(document.activeElement?.shadowRoot?.activeElement).toBe(shadowInput);
       }
     }
@@ -175,19 +171,15 @@ describe('shadow dow ', () => {
         const button = document.querySelector('button') as HTMLButtonElement;
 
         focusMerge(document.body, null)?.node?.focus();
-
         expect(document.activeElement).toBe(input);
 
         focusPrevElement(input);
-
         expect(document.activeElement?.shadowRoot?.activeElement).toBe(shadowInput);
 
         focusPrevElement(shadowInput);
-
         expect(document.activeElement?.shadowRoot?.activeElement).toBe(shadowButton);
 
         focusPrevElement(shadowButton);
-
         expect(document.activeElement).toBe(button);
       }
     }
