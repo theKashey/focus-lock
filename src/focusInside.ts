@@ -1,3 +1,4 @@
+import { contains } from './utils/DOMutils';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { toArray } from './utils/array';
 import { getActiveElement } from './utils/getActiveElement';
@@ -14,8 +15,5 @@ export const focusInside = (topNode: HTMLElement | HTMLElement[]): boolean => {
     return false;
   }
 
-  return getAllAffectedNodes(topNode).reduce(
-    (result, node) => result || node.contains(activeElement) || focusInsideIframe(node),
-    false as boolean
-  );
+  return getAllAffectedNodes(topNode).some((node) => contains(node, activeElement) || focusInsideIframe(node));
 };

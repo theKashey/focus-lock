@@ -1,13 +1,19 @@
+const getNestedShadowActiveElement = (shadowRoot: ShadowRoot): HTMLElement | undefined =>
+  shadowRoot.activeElement
+    ? shadowRoot.activeElement.shadowRoot
+      ? getNestedShadowActiveElement(shadowRoot.activeElement.shadowRoot)
+      : (shadowRoot.activeElement as HTMLElement)
+    : undefined;
+
 /**
- * returns active element from document or from shadowdom
+ * returns active element from document or from nested shadowdoms
  */
 export const getActiveElement = (): HTMLElement | undefined => {
   return (
     document.activeElement
       ? document.activeElement.shadowRoot
-        ? document.activeElement.shadowRoot.activeElement
+        ? getNestedShadowActiveElement(document.activeElement.shadowRoot)
         : document.activeElement
       : undefined
-  ) as // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  any;
+  ) as any; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 };

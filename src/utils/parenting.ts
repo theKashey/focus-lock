@@ -1,4 +1,5 @@
 import { parentAutofocusables } from './DOMutils';
+import { contains } from './DOMutils';
 import { asArray } from './array';
 import { VisibilityCache } from './is';
 
@@ -6,7 +7,7 @@ const getParents = (node: Element, parents: Element[] = []): Element[] => {
   parents.push(node);
 
   if (node.parentNode) {
-    getParents(node.parentNode as HTMLElement, parents);
+    getParents((node.parentNode as ShadowRoot).host || node.parentNode, parents);
   }
 
   return parents;
@@ -51,7 +52,7 @@ export const getTopCommonParent = (
       const common = getCommonParent(activeElement, subEntry);
 
       if (common) {
-        if (!topCommon || common.contains(topCommon)) {
+        if (!topCommon || contains(common, topCommon)) {
           topCommon = common;
         } else {
           topCommon = getCommonParent(common, topCommon);

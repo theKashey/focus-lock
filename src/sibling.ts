@@ -1,8 +1,8 @@
 import { focusOn } from './setFocus';
-import { getTabbableNodes } from './utils/DOMutils';
+import { getTabbableNodes, contains } from './utils/DOMutils';
 
 const getRelativeFocusable = (element: Element, scope: HTMLElement | HTMLDocument) => {
-  if (!element || !scope || !scope.contains(element)) {
+  if (!element || !scope || !contains(scope as Element, element)) {
     return {};
   }
 
