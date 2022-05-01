@@ -58,9 +58,7 @@ export const isRadioElement = (node: Element): node is HTMLInputElement =>
   isHTMLInputElement(node) && node.type === 'radio';
 
 export const notHiddenInput = (node: Element): boolean =>
-  !((isHTMLInputElement(node) || isHTMLButtonElement(node)) && (node.type === 'hidden' || node.disabled)) &&
-  // @ts-ignore
-  !node.ariaDisabled;
+  !((isHTMLInputElement(node) || isHTMLButtonElement(node)) && (node.type === 'hidden' || node.disabled));
 export const isGuard = (node: Element | undefined): boolean => Boolean(node && getDataset(node)?.focusGuard);
 export const isNotAGuard = (node: Element | undefined): boolean => !isGuard(node);
 
