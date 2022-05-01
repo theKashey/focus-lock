@@ -65,5 +65,10 @@ export const getTopCommonParent = (
   return topCommon as unknown as Element;
 };
 
+/**
+ * return list of nodes which are expected to be autofocused inside a given top nodes
+ * @param entries
+ * @param visibilityCache
+ */
 export const allParentAutofocusables = (entries: Element[], visibilityCache: VisibilityCache): Element[] =>
   entries.reduce((acc, node) => acc.concat(parentAutofocusables(node, visibilityCache)), [] as Element[]);

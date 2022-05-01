@@ -58,6 +58,20 @@ describe('FocusMerge', () => {
     expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
   });
 
+  it('autofocus - should pick first available tabbable | first ignored', () => {
+    document.body.innerHTML = `    
+        <div id="d1"> 
+        <span>
+            <button tabindex="-1">1</button>
+        </span>
+        <button data-no-autofocus>2</button>
+        <button>3</button>
+        </div>    
+    `;
+
+    expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
+  });
+
   it('autofocus - should pick first available focusable if pointed', () => {
     document.body.innerHTML = `    
         <div id="d1"> 

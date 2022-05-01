@@ -48,6 +48,21 @@ This one is about managing the focus.
 
 I'v got a good [article about focus management, dialogs and WAI-ARIA](https://medium.com/@antonkorzunov/its-a-focus-trap-699a04d66fb5).
 
+# Declarative control
+
+`Focus-lock` provides not only API to be called by some other scripts, but also a way one can leave instructions inside HTML markup
+to amend focus behavior in a desired way.
+
+These are data-attributes one can add on the elements:
+
+- `data-focus-lock` to create a focus group (scattered focus)
+- `data-focus-lock-disabled` marks such group as disables and removes from the list
+- `data-no-focus-lock` focus-lock will ignore focus inside marked area
+- `data-autofocus-inside` focus-lock will try to autofocus elements within selected area
+- `data-no-autofocus` focus-lock will not autofocus any node within marked area
+
+These markers are available as `import * as markers from 'focus-lock/constants'`
+
 # Focus fighting
 
 It is possible, that more that one "focus management system" is present on the site.

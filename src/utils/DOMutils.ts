@@ -1,12 +1,20 @@
 import { toArray } from './array';
-import { isVisibleCached, notHiddenInput, VisibilityCache } from './is';
+import { isAutoFocusAllowedCached, isVisibleCached, notHiddenInput, VisibilityCache } from './is';
 import { NodeIndex, orderByTabIndex } from './tabOrder';
 import { getFocusables, getParentAutofocusables } from './tabUtils';
 
+/**
+ * given list of focusable elements keeps the ones user can interact with
+ * @param nodes
+ * @param visibilityCache
+ */
 export const filterFocusable = (nodes: HTMLElement[], visibilityCache: VisibilityCache): HTMLElement[] =>
   toArray(nodes)
     .filter((node) => isVisibleCached(visibilityCache, node))
     .filter((node) => notHiddenInput(node));
+
+export const filterAutoFocusable = (nodes: HTMLElement[], cache: VisibilityCache = new Map()): HTMLElement[] =>
+  toArray(nodes).filter((node) => isAutoFocusAllowedCached(cache, node));
 
 /**
  * only tabbable ones
@@ -26,6 +34,11 @@ export const getTabbableNodes = (
 export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: VisibilityCache): NodeIndex[] =>
   orderByTabIndex(filterFocusable(getFocusables(topNodes), visibilityCache), false);
 
+/**
+ * return list of nodes which are expected to be auto-focused
+ * @param topNode
+ * @param visibilityCache
+ */
 export const parentAutofocusables = (topNode: Element, visibilityCache: VisibilityCache): Element[] =>
   filterFocusable(getParentAutofocusables(topNode), visibilityCache);
 

@@ -29,6 +29,10 @@ export const getFocusables = (parents: Element[], withGuards?: boolean): HTMLEle
     [] as HTMLElement[]
   );
 
+/**
+ * return a list of focusable nodes within an area marked as "auto-focusable"
+ * @param parent
+ */
 export const getParentAutofocusables = (parent: Element): HTMLElement[] => {
   const parentFocus = parent.querySelectorAll<Element>(`[${FOCUS_AUTO}]`);
 

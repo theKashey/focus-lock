@@ -1,5 +1,5 @@
 import { NEW_FOCUS, newFocus } from './solver';
-import { getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
+import { filterAutoFocusable, getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { pickFirstFocus } from './utils/firstFocus';
 import { getActiveElement } from './utils/getActiveElement';
@@ -50,12 +50,15 @@ export const getFocusMerge = (
   const newId = newFocus(innerNodes, outerNodes, activeElement, lastNode as HTMLElement);
 
   if (newId === NEW_FOCUS) {
-    const autoFocusable = anyFocusable
-      .map(({ node }) => node)
-      .filter(findAutoFocused(allParentAutofocusables(entries, visibilityCache)));
+    const autoFocusable = filterAutoFocusable(anyFocusable.map(({ node }) => node)).filter(
+      findAutoFocused(allParentAutofocusables(entries, visibilityCache))
+    );
 
     return {
-      node: autoFocusable && autoFocusable.length ? pickFirstFocus(autoFocusable) : pickFirstFocus(innerNodes),
+      node:
+        autoFocusable && autoFocusable.length
+          ? pickFirstFocus(autoFocusable)
+          : pickFirstFocus(filterAutoFocusable(innerNodes)),
     };
   }
 
