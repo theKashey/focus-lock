@@ -2,7 +2,7 @@ import * as constants from './constants';
 import { focusInside } from './focusInside';
 import { focusIsHidden } from './focusIsHidden';
 import { getFocusMerge as focusMerge } from './focusMerge';
-import { getFocusabledIn } from './focusables';
+import { getFocusabledIn, getFocusableIn } from './focusables';
 import { setFocus } from './setFocus';
 import { focusNextElement, focusPrevElement } from './sibling';
 import tabHook from './tabHook';
@@ -14,6 +14,7 @@ export {
   focusInside,
   focusIsHidden,
   focusMerge,
+  getFocusableIn,
   getFocusabledIn,
   constants,
   getAllAffectedNodes,

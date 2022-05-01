@@ -22,6 +22,11 @@ const reorderNodes = (srcNodes: Element[], dstNodes: NodeIndex[]): NodeIndex[] =
   return srcNodes.map((node) => remap.get(node)).filter(isDefined);
 };
 
+/**
+ * given top node(s) and the last active element return the element to be focused next
+ * @param topNode
+ * @param lastNode
+ */
 export const getFocusMerge = (
   topNode: Element | Element[],
   lastNode: Element | null

@@ -8,6 +8,9 @@ const focusInFrame = (frame: HTMLIFrameElement) => frame === document.activeElem
 const focusInsideIframe = (topNode: Element) =>
   Boolean(toArray(topNode.querySelectorAll<HTMLIFrameElement>('iframe')).some((node) => focusInFrame(node)));
 
+/**
+ * @returns {Boolean} true, if the current focus is inside given node or nodes
+ */
 export const focusInside = (topNode: HTMLElement | HTMLElement[]): boolean => {
   const activeElement = document && getActiveElement();
 

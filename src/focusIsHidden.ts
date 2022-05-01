@@ -6,7 +6,7 @@ import { getActiveElement } from './utils/getActiveElement';
 /**
  * focus is hidden FROM the focus-lock
  * ie contained inside a node focus-lock shall ignore
- * @returns {boolean}
+ * @returns {boolean} focus is currently is in "allow" area
  */
 export const focusIsHidden = (): boolean => {
   const activeElement = document && getActiveElement();
