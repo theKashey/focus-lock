@@ -49,6 +49,6 @@ export const contains = (scope: Element | ShadowRoot, element: Element): boolean
   return (
     ((scope as HTMLElement).shadowRoot
       ? contains((scope as HTMLElement).shadowRoot as ShadowRoot, element)
-      : scope.contains(element)) || Array.from(scope.children).some((child) => contains(child, element))
+      : scope.contains(element)) || toArray(scope.children).some((child) => contains(child, element))
   );
 };
