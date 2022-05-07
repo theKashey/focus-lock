@@ -1,3 +1,22 @@
+## [0.11.2](https://github.com/theKashey/focus-lock/compare/v0.11.1...v0.11.2) (2022-05-07)
+
+### Bug Fixes
+
+- use prototype-based node.contains, fixes [#36](https://github.com/theKashey/focus-lock/issues/36) ([c7eb950](https://github.com/theKashey/focus-lock/commit/c7eb9500adcb37ff2cac8a84b440fc59804d5874))
+
+## [0.11.1](https://github.com/theKashey/focus-lock/compare/v0.11.0...v0.11.1) (2022-05-04)
+
+# [0.11.0](https://github.com/theKashey/focus-lock/compare/v0.10.2...v0.11.0) (2022-05-01)
+
+### Bug Fixes
+
+- no longer block aria-disabled elements, fixes [#34](https://github.com/theKashey/focus-lock/issues/34) ([2bc8ee3](https://github.com/theKashey/focus-lock/commit/2bc8ee3a58f5c51b6a44df24b4bd443c01977737))
+- restore built-in jsdoc ([edc8a82](https://github.com/theKashey/focus-lock/commit/edc8a82b1fe1e0a349ff60ebb599f63dbc2aa599))
+
+### Features
+
+- introduce FOCUS_NO_AUTOFOCUS ([5c2dc8f](https://github.com/theKashey/focus-lock/commit/5c2dc8fb371ee83400ae65c7f0923b19eaf99d05))
+
 ## [0.10.2](https://github.com/theKashey/focus-lock/compare/v0.10.1...v0.10.2) (2022-02-14)
 
 ### Bug Fixes
