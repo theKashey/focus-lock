@@ -46,10 +46,16 @@ export const parentAutofocusables = (topNode: Element, visibilityCache: Visibili
  * Determines if element is contained in scope, including nested shadow DOMs
  */
 export const contains = (scope: Element | ShadowRoot, element: Element): boolean => {
-  return (
-    ((scope as HTMLElement).shadowRoot
-      ? contains((scope as HTMLElement).shadowRoot as ShadowRoot, element)
-      : Object.getPrototypeOf(scope).contains.call(scope, element)) ||
-    toArray(scope.children).some((child) => contains(child, element))
-  );
+  if ((scope as HTMLElement).shadowRoot) {
+    return contains((scope as HTMLElement).shadowRoot as ShadowRoot, element);
+  } else {
+    if (
+      Object.getPrototypeOf(scope).contains !== undefined &&
+      Object.getPrototypeOf(scope).contains.call(scope, element)
+    ) {
+      return true;
+    }
+
+    return toArray(scope.children).some((child) => contains(child, element));
+  }
 };
