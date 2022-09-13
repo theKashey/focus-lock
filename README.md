@@ -55,11 +55,14 @@ to amend focus behavior in a desired way.
 
 These are data-attributes one can add on the elements:
 
-- `data-focus-lock` to create a focus group (scattered focus)
-- `data-focus-lock-disabled` marks such group as disables and removes from the list
-- `data-no-focus-lock` focus-lock will ignore focus inside marked area
-- `data-autofocus-inside` focus-lock will try to autofocus elements within selected area
-- `data-no-autofocus` focus-lock will not autofocus any node within marked area
+- control
+  - `data-focus-lock` to create a focus group (scattered focus)
+  - `data-focus-lock-disabled` marks such group as disabled and removes from the list
+  - `data-no-focus-lock` focus-lock will ignore focus inside marked area
+- autofocus
+  - `data-autofocus` will autofocus marked element on activation. Require _control delegation_ to focus-lock
+  - `data-autofocus-inside` focus-lock will try to autofocus elements within selected area
+  - `data-no-autofocus` focus-lock will not autofocus any node within marked area
 
 These markers are available as `import * as markers from 'focus-lock/constants'`
 
