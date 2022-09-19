@@ -84,4 +84,31 @@ describe('FocusMerge', () => {
 
     expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
   });
+
+  describe('data-autofocus', () => {
+    it('autofocus - should pick first available focusable if pointed directly', () => {
+      document.body.innerHTML = `    
+        <div id="d1">         
+        <button>1</button>
+        <button data-autofocus disabled>disabled</button>        
+        <button data-autofocus>2</button>
+        <button>3</button>
+        </div>    
+    `;
+
+      expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+    });
+
+    it('autofocus - false value', () => {
+      document.body.innerHTML = `    
+        <div id="d1">         
+        <button>1</button>        
+        <button data-autofocus="false">2</button>
+        <button>3</button>
+        </div>    
+    `;
+
+      expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+    });
+  });
 });

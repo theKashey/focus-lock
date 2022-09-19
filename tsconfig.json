@@ -12,6 +12,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
+    "removeComments": false,
     "importHelpers": true,
     "target": "es6",
     "moduleResolution": "node",

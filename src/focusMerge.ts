@@ -1,17 +1,11 @@
 import { NEW_FOCUS, newFocus } from './solver';
-import { filterAutoFocusable, getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
+import { getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
 import { getAllAffectedNodes } from './utils/all-affected';
-import { pickFirstFocus } from './utils/firstFocus';
+import { pickAutofocus } from './utils/auto-focus';
 import { getActiveElement } from './utils/getActiveElement';
-import { getDataset, isDefined, isNotAGuard } from './utils/is';
+import { isDefined, isNotAGuard } from './utils/is';
 import { allParentAutofocusables, getTopCommonParent } from './utils/parenting';
 import { NodeIndex } from './utils/tabOrder';
-
-const findAutoFocused =
-  (autoFocusables: Element[]) =>
-  (node: Element): boolean =>
-    // @ts-expect-error
-    node.autofocus || !!getDataset(node)?.autofocus || autoFocusables.indexOf(node) >= 0;
 
 const reorderNodes = (srcNodes: Element[], dstNodes: NodeIndex[]): NodeIndex[] => {
   const remap = new Map<Element, NodeIndex>();
@@ -55,16 +49,7 @@ export const getFocusMerge = (
   const newId = newFocus(innerNodes, outerNodes, activeElement, lastNode as HTMLElement);
 
   if (newId === NEW_FOCUS) {
-    const autoFocusable = filterAutoFocusable(anyFocusable.map(({ node }) => node)).filter(
-      findAutoFocused(allParentAutofocusables(entries, visibilityCache))
-    );
-
-    return {
-      node:
-        autoFocusable && autoFocusable.length
-          ? pickFirstFocus(autoFocusable)
-          : pickFirstFocus(filterAutoFocusable(innerNodes)),
-    };
+    return { node: pickAutofocus(anyFocusable, innerNodes, allParentAutofocusables(entries, visibilityCache)) };
   }
 
   if (newId === undefined) {
