@@ -1,3 +1,10 @@
+## [0.11.3](https://github.com/theKashey/focus-lock/compare/v0.11.2...v0.11.3) (2022-09-19)
+
+### Bug Fixes
+
+- correct autofocus behavior; accept empty data-autofocus prop ([e144d52](https://github.com/theKashey/focus-lock/commit/e144d52eb5448badc4ab3a06b815a3924d1abdf8))
+- Skip `.contains` if it is not available ([8d4c91c](https://github.com/theKashey/focus-lock/commit/8d4c91c457941a0ae668f477c3c5556e786ce929))
+
 ## [0.11.2](https://github.com/theKashey/focus-lock/compare/v0.11.1...v0.11.2) (2022-05-07)
 
 ### Bug Fixes
