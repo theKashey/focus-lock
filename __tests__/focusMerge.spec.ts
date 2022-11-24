@@ -110,5 +110,15 @@ describe('FocusMerge', () => {
 
       expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
     });
+
+    it('autofocus - nothing to focus', () => {
+      document.body.innerHTML = `    
+        <div id="d1">         
+        <button disabled>1</button>        
+        </div>    
+    `;
+
+      expect(focusMerge(querySelector('#d1'), null)!).toBe(undefined);
+    });
   });
 });
