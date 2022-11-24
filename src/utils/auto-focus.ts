@@ -22,7 +22,7 @@ export const pickAutofocus = (
   nodesIndexes: NodeIndex[],
   orderedNodes: HTMLElement[],
   groups: Element[]
-): HTMLElement => {
+): HTMLElement | undefined => {
   const nodes = nodesIndexes.map(({ node }) => node);
 
   const autoFocusable = filterAutoFocusable(nodes.filter(findAutoFocused(groups)));

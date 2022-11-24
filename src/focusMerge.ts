@@ -49,7 +49,15 @@ export const getFocusMerge = (
   const newId = newFocus(innerNodes, outerNodes, activeElement, lastNode as HTMLElement);
 
   if (newId === NEW_FOCUS) {
-    return { node: pickAutofocus(anyFocusable, innerNodes, allParentAutofocusables(entries, visibilityCache)) };
+    const focusNode = pickAutofocus(anyFocusable, innerNodes, allParentAutofocusables(entries, visibilityCache));
+
+    if (focusNode) {
+      return { node: focusNode };
+    } else {
+      console.warn('focus-lock: cannot find any node to move focus into');
+
+      return undefined;
+    }
   }
 
   if (newId === undefined) {
