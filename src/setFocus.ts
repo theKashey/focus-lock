@@ -34,7 +34,7 @@ export const setFocus = (topNode: HTMLElement, lastNode: Element, options: Focus
     return;
   }
 
-  if (focusable) {
+  if (focusable && focusable.node) {
     if (guardCount > 2) {
       // tslint:disable-next-line:no-console
       console.error(
