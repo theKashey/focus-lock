@@ -15,19 +15,31 @@ const getFocusablesWithShadowDom = (parent: Element, withGuards?: boolean): HTML
     [] as HTMLElement[]
   );
 
-export const getFocusables = (parents: Element[], withGuards?: boolean): HTMLElement[] =>
-  parents.reduce(
-    (acc, parent) =>
-      acc.concat(
-        // add all tabbables inside and within shadow DOMs in DOM order
-        getFocusablesWithShadowDom(parent, withGuards),
-        // add if node is tabbable itself
-        parent.parentNode
-          ? toArray(parent.parentNode.querySelectorAll<HTMLElement>(queryTabbables)).filter((node) => node === parent)
-          : []
-      ),
-    [] as HTMLElement[]
-  );
+const getFocusablesWithIFrame = (parent: Element, withGuards?: boolean): HTMLElement[] => {
+  if (parent instanceof HTMLIFrameElement && parent.contentDocument) {
+    return getFocusables([parent.contentDocument.body], withGuards);
+  }
+
+  return [parent] as HTMLElement[];
+};
+
+export const getFocusables = (parents: Element[], withGuards?: boolean): HTMLElement[] => {
+  return parents.reduce((acc, parent) => {
+    const focusableWithShadowDom = getFocusablesWithShadowDom(parent, withGuards);
+    const focusableWithIframes = ([] as HTMLElement[]).concat(
+      ...focusableWithShadowDom.map((node) => getFocusablesWithIFrame(node, withGuards))
+    );
+
+    return acc.concat(
+      // add all tabbables inside and within shadow DOMs in DOM order
+      focusableWithIframes,
+      // add if node is tabbable itself
+      parent.parentNode
+        ? toArray(parent.parentNode.querySelectorAll<HTMLElement>(queryTabbables)).filter((node) => node === parent)
+        : []
+    );
+  }, [] as HTMLElement[]);
+};
 
 /**
  * return a list of focusable nodes within an area marked as "auto-focusable"

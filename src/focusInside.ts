@@ -18,5 +18,7 @@ export const focusInside = (topNode: HTMLElement | HTMLElement[]): boolean => {
     return false;
   }
 
-  return getAllAffectedNodes(topNode).some((node) => contains(node, activeElement) || focusInsideIframe(node));
+  return getAllAffectedNodes(topNode).some((node) => {
+    return contains(node, activeElement) || focusInsideIframe(node);
+  });
 };
