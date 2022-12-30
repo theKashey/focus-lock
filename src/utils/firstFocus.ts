@@ -1,6 +1,6 @@
 import { correctNode } from './correctFocus';
 
-export const pickFirstFocus = (nodes: HTMLElement[]): HTMLElement => {
+export const pickFirstFocus = (nodes: HTMLElement[]): HTMLElement | undefined => {
   if (nodes[0] && nodes.length > 1) {
     return correctNode(nodes[0], nodes);
   }
