@@ -157,4 +157,131 @@ describe('smoke', () => {
       expect(focusInside(nestedShadowDivLast)).toBe(true);
     });
   });
+
+  const createIframeTest = (nested?: boolean) => {
+    const html = `
+      <div id="app">
+        <div id="noniframe">
+          <input />
+          <button>I am a button</button>
+        </div>
+        <iframe></iframe>
+      </div>`;
+    const iframeHtml = `
+      <div id="first"></div>
+      <button id="firstBtn">first button</button>
+      <div id="last">
+        <button id="secondBtn">second button</button>
+      </div>
+      `;
+    document.body.innerHTML = html;
+
+    const iframe = document.querySelector('iframe') as HTMLIFrameElement;
+    const root = iframe.contentDocument;
+
+    if (!root) {
+      throw new Error('Unable to get iframe content document');
+    } else {
+      root.write(iframeHtml);
+    }
+
+    if (nested) {
+      const firstDiv = root.querySelector('#first') as HTMLDivElement;
+      const nestedIframeElement = document.createElement('iframe');
+      nestedIframeElement.id = 'nested-iframe';
+
+      firstDiv.appendChild(nestedIframeElement);
+
+      const nestedRoot = nestedIframeElement.contentDocument;
+
+      if (!nestedRoot) {
+        throw new Error('Unable to get iframe content document');
+      } else {
+        nestedRoot.write(iframeHtml);
+      }
+    }
+  };
+
+  describe('with iframe', () => {
+    it('false when the focus is within an iframe not within the topNode', () => {
+      createIframeTest();
+
+      const nonIframeDiv = querySelector('#noniframe');
+
+      const iframe = querySelector('iframe') as HTMLIFrameElement;
+      const iframeBtn = iframe?.contentDocument?.querySelector('#firstBtn') as HTMLButtonElement;
+
+      iframeBtn.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(nonIframeDiv)).toBe(false);
+    });
+
+    it('false when topNode is iframe sibling of focused node', () => {
+      createIframeTest();
+
+      const iframe = querySelector('iframe') as HTMLIFrameElement;
+
+      const iframeBtn = iframe.contentDocument?.querySelector('#firstBtn') as HTMLButtonElement;
+      const iframeDivLast = iframe.contentDocument?.querySelector('#last') as HTMLDivElement;
+
+      iframeBtn.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(iframeDivLast)).toBe(false);
+    });
+
+    it('true when focus is within the iframe dom within topNode', () => {
+      createIframeTest();
+
+      const iframe = querySelector('iframe') as HTMLIFrameElement;
+      const iframeRoot = iframe.contentDocument?.body;
+
+      if (!iframeRoot) {
+        throw new Error('Unable to get iframe content document');
+      }
+
+      const iframeDivLast = iframeRoot?.querySelector('#last') as HTMLDivElement;
+      const iframeBtn = iframeRoot?.querySelector('#secondBtn') as HTMLButtonElement;
+
+      iframeBtn.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(iframeRoot)).toBe(true);
+      expect(focusInside(iframeDivLast)).toBe(true);
+    });
+
+    it('true when focus is within nested iframe dom', () => {
+      createIframeTest(true);
+
+      const iframe = querySelector('iframe') as HTMLIFrameElement;
+
+      const iframeRoot = iframe.contentDocument?.body;
+
+      if (!iframeRoot) {
+        throw new Error('Unable to get iframe content document');
+      }
+
+      const nestedIframe = iframeRoot.querySelector('iframe') as HTMLIFrameElement;
+      const nestedIframeRoot = nestedIframe.contentDocument?.body;
+
+      if (!nestedIframeRoot) {
+        throw new Error('Unable to get iframe content document');
+      }
+
+      const iframeButton = iframeRoot.querySelector('#secondBtn') as HTMLButtonElement;
+      const nestedIframeDiv = nestedIframeRoot.querySelector('#first') as HTMLDivElement;
+      const nestedIframeDivLast = nestedIframeRoot.querySelector('#last') as HTMLDivElement;
+      const nestedIframeButton = nestedIframeDivLast.querySelector('#secondBtn') as HTMLButtonElement;
+
+      iframeButton.focus();
+      nestedIframeButton.focus();
+
+      expect(focusInside(document.body)).toBe(true);
+      expect(focusInside(iframeRoot)).toBe(true);
+      expect(focusInside(nestedIframeRoot)).toBe(true);
+      expect(focusInside(nestedIframeDiv)).toBe(false);
+      expect(focusInside(nestedIframeButton)).toBe(true);
+    });
+  });
 });

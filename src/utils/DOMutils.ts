@@ -56,6 +56,18 @@ export const contains = (scope: Element | ShadowRoot, element: Element): boolean
       return true;
     }
 
-    return toArray(scope.children).some((child) => contains(child, element));
+    return toArray(scope.children).some((child) => {
+      if (child instanceof HTMLIFrameElement) {
+        const iframeBody = (child as HTMLIFrameElement).contentDocument?.body;
+
+        if (iframeBody) {
+          return contains(iframeBody, element);
+        }
+
+        return false;
+      }
+
+      return contains(child, element);
+    });
   }
 };
