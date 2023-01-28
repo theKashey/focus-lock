@@ -8,13 +8,13 @@ import { getActiveElement } from './utils/getActiveElement';
  * ie contained inside a node focus-lock shall ignore
  * @returns {boolean} focus is currently is in "allow" area
  */
-export const focusIsHidden = (): boolean => {
-  const activeElement = document && getActiveElement();
+export const focusIsHidden = (inDocument: Document = document): boolean => {
+  const activeElement = getActiveElement(inDocument);
 
   if (!activeElement) {
     return false;
   }
 
   // this does not support setting FOCUS_ALLOW within shadow dom
-  return toArray(document.querySelectorAll(`[${FOCUS_ALLOW}]`)).some((node) => contains(node, activeElement));
+  return toArray(inDocument.querySelectorAll(`[${FOCUS_ALLOW}]`)).some((node) => contains(node, activeElement));
 };
