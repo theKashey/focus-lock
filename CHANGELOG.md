@@ -1,3 +1,15 @@
+## [0.11.5](https://github.com/theKashey/focus-lock/compare/v0.11.4...v0.11.5) (2023-01-28)
+
+### Bug Fixes
+
+- Improve support for iframes [#43](https://github.com/theKashey/focus-lock/pull/43)
+
+## [0.11.4](https://github.com/theKashey/focus-lock/compare/v0.11.3...v0.11.4) (2022-11-24)
+
+### Bug Fixes
+
+- correct behavior for focusable-less targets. Implements [#41](https://github.com/theKashey/focus-lock/issues/41) ([9466d49](https://github.com/theKashey/focus-lock/commit/9466d49bc9ee72e53cc52821f5c67330aa284005))
+
 ## [0.11.3](https://github.com/theKashey/focus-lock/compare/v0.11.2...v0.11.3) (2022-09-19)
 
 ### Bug Fixes
