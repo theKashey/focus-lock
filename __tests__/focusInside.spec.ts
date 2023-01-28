@@ -213,6 +213,7 @@ describe('smoke', () => {
 
       iframeBtn.focus();
 
+      expect(focusInside(iframe!.contentDocument!.body!)).toBe(true);
       expect(focusInside(document.body)).toBe(true);
       expect(focusInside(nonIframeDiv)).toBe(false);
     });

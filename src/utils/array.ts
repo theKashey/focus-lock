@@ -18,3 +18,5 @@ export const toArray = <T>(a: T[] | ListOf<T>): T[] => {
 };
 
 export const asArray = <T>(a: T | T[]): T[] => (Array.isArray(a) ? a : [a]);
+
+export const getFirst = <T>(a: T | T[]): T => (Array.isArray(a) ? a[0] : a);
