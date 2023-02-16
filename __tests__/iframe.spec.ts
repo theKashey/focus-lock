@@ -66,6 +66,22 @@ describe('iframes', () => {
     });
   });
 
+  // jsdom has no iframe security. We cannot test this here
+  it('iframe on another domain', () => {
+    const html = `
+      <div id="app">
+            <input />
+            <button>I am a button</button>          
+          <iframe src="https://localhost:9090/not-existing"></iframe>
+          <button>I should be not be focused<button>
+      </div>`;
+    document.body.innerHTML = html;
+
+    expect(focusMerge(document.body, null)).toEqual({
+      node: expect.any(HTMLInputElement),
+    });
+  });
+
   it('iframe respect tabIndex', () => {
     const html = `
       <div id="app">

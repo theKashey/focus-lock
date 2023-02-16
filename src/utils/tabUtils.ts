@@ -6,7 +6,7 @@ const queryTabbables = tabbables.join(',');
 const queryGuardTabbables = `${queryTabbables}, [data-focus-guard]`;
 
 const getFocusablesWithShadowDom = (parent: Element, withGuards?: boolean): HTMLElement[] =>
-  toArray(parent.shadowRoot?.children || parent.children).reduce(
+  toArray((parent.shadowRoot || parent).children).reduce(
     (acc, child) =>
       acc.concat(
         child.matches(withGuards ? queryGuardTabbables : queryTabbables) ? [child as HTMLElement] : [],
@@ -16,7 +16,8 @@ const getFocusablesWithShadowDom = (parent: Element, withGuards?: boolean): HTML
   );
 
 const getFocusablesWithIFrame = (parent: Element, withGuards?: boolean): HTMLElement[] => {
-  if (parent instanceof HTMLIFrameElement && parent.contentDocument) {
+  // contentDocument of iframe will be null if current origin cannot access it
+  if (parent instanceof HTMLIFrameElement && parent.contentDocument?.body) {
     return getFocusables([parent.contentDocument.body], withGuards);
   }
 
