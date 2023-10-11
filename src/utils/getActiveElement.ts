@@ -3,6 +3,10 @@
  */
 import { safeProbe } from './safe';
 
+/**
+ * returns current active element. If the active element is a "container" itself(shadowRoot or iframe) returns active element inside it
+ * @param [inDocument]
+ */
 export const getActiveElement = (inDocument: Document | ShadowRoot | undefined = document): HTMLElement | undefined => {
   if (!inDocument || !inDocument.activeElement) {
     return undefined;

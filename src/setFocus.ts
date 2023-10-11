@@ -1,4 +1,4 @@
-import { getFocusMerge } from './focusMerge';
+import { focusMerge } from './focusMerge';
 
 export const focusOn = (
   target: Element | HTMLFrameElement | HTMLElement,
@@ -21,14 +21,15 @@ interface FocusLockFocusOptions {
 }
 
 /**
- * Sets focus at a given node. The last focused element will help to determine which element(first or last) should be focused.
+ * Control focus at a given node.
+ * The last focused element will help to determine which element(first or last) should be focused.
+ *
+ * In principle is nothing more than a wrapper around {@link focusMerge} with autofocus
+ *
  * HTML markers (see {@link import('./constants').FOCUS_AUTO} constants) can control autofocus
- * @param topNode
- * @param lastNode
- * @param options
  */
 export const setFocus = (topNode: HTMLElement, lastNode: Element, options: FocusLockFocusOptions = {}): void => {
-  const focusable = getFocusMerge(topNode, lastNode);
+  const focusable = focusMerge(topNode, lastNode);
 
   if (lockDisabled) {
     return;

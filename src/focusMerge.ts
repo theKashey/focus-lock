@@ -18,11 +18,14 @@ const reorderNodes = (srcNodes: Element[], dstNodes: NodeIndex[]): NodeIndex[] =
 };
 
 /**
- * given top node(s) and the last active element return the element to be focused next
+ * The main functionality of the focus-lock package
+ *
+ * given top node(s) and the last active element returns the element to be focused next
+ * @returns element which should be focused to move focus inside
  * @param topNode
  * @param lastNode
  */
-export const getFocusMerge = (
+export const focusMerge = (
   topNode: Element | Element[],
   lastNode: Element | null
 ): undefined | { node: HTMLElement } => {

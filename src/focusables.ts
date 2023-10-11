@@ -20,10 +20,9 @@ interface FocusableIn {
 }
 
 /**
- * return list of focusable elements inside a given top node
- * @deprecated use {@link getFocusableIn}. Yep, there is typo in the function name
+ * @returns list of focusable elements inside a given top node
  */
-export const getFocusabledIn = (topNode: HTMLElement): FocusableIn[] => {
+export const getFocusableIn = (topNode: HTMLElement): FocusableIn[] => {
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
   const commonParent = getTopCommonParent(topNode, topNode, entries);
   const visibilityCache = new Map();
@@ -41,8 +40,3 @@ export const getFocusabledIn = (topNode: HTMLElement): FocusableIn[] => {
     })
   );
 };
-
-/**
- * return list of focusable elements inside a given top node
- */
-export const getFocusableIn = getFocusabledIn;

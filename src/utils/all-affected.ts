@@ -41,8 +41,8 @@ const getTopParent = (node: Element): Element =>
 
 /**
  * returns all "focus containers" inside a given node
- * @param node
- * @returns {T}
+ * @param node - node or nodes to look inside
+ * @returns Element[]
  */
 export const getAllAffectedNodes = (node: Element | Element[]): Element[] => {
   const nodes = asArray(node);

@@ -49,12 +49,12 @@ const defaultOptions = (options: FocusNextOptions) =>
 
 /**
  * focuses next element in the tab-order
- * @param baseElement - common parent to scope active element search or tab cycle order
+ * @param fromElement - common parent to scope active element search or tab cycle order
  * @param {FocusNextOptions} [options] - focus options
  */
-export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}): void => {
+export const focusNextElement = (fromElement: Element, options: FocusNextOptions = {}): void => {
   const { scope, cycle } = defaultOptions(options);
-  const { next, first } = getRelativeFocusable(baseElement as Element, scope);
+  const { next, first } = getRelativeFocusable(fromElement as Element, scope);
   const newTarget = next || (cycle && first);
 
   if (newTarget) {
@@ -64,12 +64,12 @@ export const focusNextElement = (baseElement: Element, options: FocusNextOptions
 
 /**
  * focuses prev element in the tab order
- * @param baseElement - common parent to scope active element search or tab cycle order
+ * @param fromElement - common parent to scope active element search or tab cycle order
  * @param {FocusNextOptions} [options] - focus options
  */
-export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}): void => {
+export const focusPrevElement = (fromElement: Element, options: FocusNextOptions = {}): void => {
   const { scope, cycle } = defaultOptions(options);
-  const { prev, last } = getRelativeFocusable(baseElement as Element, scope);
+  const { prev, last } = getRelativeFocusable(fromElement as Element, scope);
   const newTarget = prev || (cycle && last);
 
   if (newTarget) {
