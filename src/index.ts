@@ -1,11 +1,11 @@
 import * as allConstants from './constants';
 import { focusInside } from './focusInside';
 import { focusIsHidden } from './focusIsHidden';
-import { focusMerge } from './focusMerge';
-import { getFocusableIn } from './focusables';
-import { setFocus } from './setFocus';
-import { focusNextElement, focusPrevElement } from './sibling';
-import { getActiveElement } from './utils/getActiveElement';
+import { focusSolver } from './focusSolver';
+import { expandFocusableNodes } from './focusables';
+import { moveFocusInside } from './moveFocusInside';
+import { focusNextElement, focusPrevElement, getRelativeFocusable } from './sibling';
+import { getFocusableNodes, getTabbableNodes } from './utils/DOMutils';
 
 /**
  * magic symbols to control focus behavior from DOM
@@ -15,20 +15,26 @@ const constants = allConstants;
 
 export {
   constants,
+  //
   focusInside,
   focusIsHidden,
-  setFocus,
-  focusMerge,
-  getFocusableIn,
+  //
+  moveFocusInside,
+  focusSolver,
+  //
+  expandFocusableNodes,
+  getFocusableNodes,
+  getTabbableNodes,
+  //
   focusNextElement,
   focusPrevElement,
-  getActiveElement,
+  getRelativeFocusable,
 };
 
 /**
- * @deprecated - please use {@link setFocus} named export
+ * @deprecated - please use {@link moveFocusInside} named export
  */
-const oldDefaultExport: typeof setFocus = setFocus;
+const deprecated_default_moveFocusInside: typeof moveFocusInside = moveFocusInside;
 
-export default oldDefaultExport;
+export default deprecated_default_moveFocusInside;
 //

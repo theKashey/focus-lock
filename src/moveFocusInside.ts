@@ -1,17 +1,5 @@
-import { focusMerge } from './focusMerge';
-
-export const focusOn = (
-  target: Element | HTMLFrameElement | HTMLElement,
-  focusOptions?: FocusOptions | undefined
-): void => {
-  if ('focus' in target) {
-    target.focus(focusOptions);
-  }
-
-  if ('contentWindow' in target && target.contentWindow) {
-    target.contentWindow.focus();
-  }
-};
+import { focusOn } from './commands';
+import { focusSolver } from './focusSolver';
 
 let guardCount = 0;
 let lockDisabled = false;
@@ -21,23 +9,30 @@ interface FocusLockFocusOptions {
 }
 
 /**
- * Control focus at a given node.
- * The last focused element will help to determine which element(first or last) should be focused.
+ * The main functionality of the focus-lock package
  *
- * In principle is nothing more than a wrapper around {@link focusMerge} with autofocus
+ * Contains focus at a given node.
+ * The last focused element will help to determine which element(first or last) should be focused.
+ * The found element will be focused.
+ *
+ * This is one time action (move), not a persistent focus-lock
  *
  * HTML markers (see {@link import('./constants').FOCUS_AUTO} constants) can control autofocus
+ * @see {@link focusSolver} for the same functionality without autofocus
  */
-export const setFocus = (topNode: HTMLElement, lastNode: Element, options: FocusLockFocusOptions = {}): void => {
-  const focusable = focusMerge(topNode, lastNode);
+export const moveFocusInside = (topNode: HTMLElement, lastNode: Element, options: FocusLockFocusOptions = {}): void => {
+  const focusable = focusSolver(topNode, lastNode);
 
+  // global local side effect to countain recursive lock activation and resolve focus-fighting
   if (lockDisabled) {
     return;
   }
 
   if (focusable) {
+    /** +FOCUS-FIGHTING prevention **/
+
     if (guardCount > 2) {
-      // tslint:disable-next-line:no-console
+      // we have recursive entered back the lock activation
       console.error(
         'FocusLock: focus-fighting detected. Only one focus management system could be active. ' +
           'See https://github.com/theKashey/focus-lock/#focus-fighting'

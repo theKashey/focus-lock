@@ -1,4 +1,4 @@
-import { focusMerge, focusNextElement, focusPrevElement } from '../src';
+import { focusSolver, focusNextElement, focusPrevElement } from '../src';
 
 describe('shadow dow ', () => {
   afterEach(() => {
@@ -12,7 +12,7 @@ describe('shadow dow ', () => {
     const button = document.createElement('button');
     frag.appendChild(button);
 
-    expect(focusMerge(document.body, null)).toEqual({
+    expect(focusSolver(document.body, null)).toEqual({
       node: button,
     });
   });
@@ -40,7 +40,7 @@ describe('shadow dow ', () => {
 
     const firstBtn = root.getElementById('firstBtn');
 
-    expect(focusMerge(shadowDiv, null)).toEqual({
+    expect(focusSolver(shadowDiv, null)).toEqual({
       node: firstBtn,
     });
   });
@@ -60,7 +60,7 @@ describe('shadow dow ', () => {
         const shadow = this.attachShadow({ mode: 'open' });
         shadow.innerHTML = html;
 
-        expect(focusMerge(document.body, null)).toEqual({
+        expect(focusSolver(document.body, null)).toEqual({
           node: shadow.querySelector('input'),
         });
       }
@@ -91,11 +91,11 @@ describe('shadow dow ', () => {
         const input = shadow.querySelector('input') as HTMLInputElement;
         const button = shadow.querySelector('button') as HTMLButtonElement;
 
-        expect(focusMerge(document.body, null)).toEqual({
+        expect(focusSolver(document.body, null)).toEqual({
           node: document.querySelector('#focused'),
         });
 
-        expect(focusMerge([input, button], null)).toEqual({
+        expect(focusSolver([input, button], null)).toEqual({
           node: input,
         });
       }
@@ -128,7 +128,7 @@ describe('shadow dow ', () => {
         const input = document.querySelector('input') as HTMLInputElement;
         const button = document.querySelector('button') as HTMLButtonElement;
 
-        focusMerge(document.body, null)?.node?.focus();
+        focusSolver(document.body, null)?.node?.focus();
         expect(document.activeElement).toBe(input);
 
         focusNextElement(input);
@@ -170,7 +170,7 @@ describe('shadow dow ', () => {
         const input = document.querySelector('input') as HTMLInputElement;
         const button = document.querySelector('button') as HTMLButtonElement;
 
-        focusMerge(document.body, null)?.node?.focus();
+        focusSolver(document.body, null)?.node?.focus();
         expect(document.activeElement).toBe(input);
 
         focusPrevElement(input);

@@ -1,4 +1,4 @@
-import { focusMerge } from '../src';
+import { focusSolver } from '../src';
 
 describe('Complexity footprint', () => {
   const createTest = (n: number) => {
@@ -28,31 +28,32 @@ describe('Complexity footprint', () => {
   });
 
   afterEach(() => {
-    ((window.getComputedStyle as unknown) as jest.SpyInstance).mockRestore();
+    (window.getComputedStyle as unknown as jest.SpyInstance).mockRestore();
   });
 
   it('known operation complexity - no focus', () => {
     createTest(3);
-    focusMerge(querySelector('#d1'), null);
+    focusSolver(querySelector('#d1'), null);
     expect(window.getComputedStyle).toBeCalledTimes(12);
   });
+
   it('known operation complexity - no focus + 1', () => {
     createTest(3 + 1);
-    focusMerge(querySelector('#d1'), null);
+    focusSolver(querySelector('#d1'), null);
     expect(window.getComputedStyle).toBeCalledTimes(14);
   });
 
   it('known operation complexity - has focus inside', () => {
     createTest(4);
     querySelector('#b1').focus();
-    focusMerge(querySelector('#d1'), null);
+    focusSolver(querySelector('#d1'), null);
     expect(window.getComputedStyle).toBeCalledTimes(8);
   });
 
   it('known operation complexity - has focus inside + 1', () => {
     createTest(4 + 1);
     querySelector('#b1').focus();
-    focusMerge(querySelector('#d1'), null);
+    focusSolver(querySelector('#d1'), null);
     expect(window.getComputedStyle).toBeCalledTimes(9);
   });
 });
