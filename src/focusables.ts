@@ -3,10 +3,10 @@ import { getAllAffectedNodes } from './utils/all-affected';
 import { isGuard, isNotAGuard } from './utils/is';
 import { getTopCommonParent } from './utils/parenting';
 
-interface FocusableIn {
+interface FocusableNode {
   node: HTMLElement;
   /**
-   * tab index
+   * index in the tab order
    */
   index: number;
   /**
@@ -20,10 +20,10 @@ interface FocusableIn {
 }
 
 /**
- * return list of focusable elements inside a given top node
- * @deprecated use {@link getFocusableIn}. Yep, there is typo in the function name
+ * @returns list of focusable elements inside a given top node
+ * @see {@link getFocusableNodes} for lower level access
  */
-export const getFocusabledIn = (topNode: HTMLElement): FocusableIn[] => {
+export const expandFocusableNodes = (topNode: HTMLElement): FocusableNode[] => {
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
   const commonParent = getTopCommonParent(topNode, topNode, entries);
   const visibilityCache = new Map();
@@ -33,7 +33,7 @@ export const getFocusabledIn = (topNode: HTMLElement): FocusableIn[] => {
     .map(({ node }) => node);
 
   return outerNodes.map(
-    ({ node, index }): FocusableIn => ({
+    ({ node, index }): FocusableNode => ({
       node,
       index,
       lockItem: innerElements.indexOf(node) >= 0,
@@ -41,8 +41,3 @@ export const getFocusabledIn = (topNode: HTMLElement): FocusableIn[] => {
     })
   );
 };
-
-/**
- * return list of focusable elements inside a given top node
- */
-export const getFocusableIn = getFocusabledIn;

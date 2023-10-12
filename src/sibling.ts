@@ -1,7 +1,14 @@
-import { focusOn } from './setFocus';
+import { focusOn } from './commands';
 import { getTabbableNodes, contains } from './utils/DOMutils';
 
-const getRelativeFocusable = (element: Element, scope: HTMLElement | HTMLDocument) => {
+/**
+ * for a given `element` in a given `scope` returns focusable siblings
+ * @param element - base element
+ * @param scope - common parent. Can be document, but better to narrow it down for performance reasons
+ * @returns {prev,next} - references to a focusable element before and after
+ * @returns undefined - if operation is not applicable
+ */
+export const getRelativeFocusable = (element: Element, scope: HTMLElement | Document) => {
   if (!element || !scope || !contains(scope as Element, element)) {
     return {};
   }
@@ -10,7 +17,8 @@ const getRelativeFocusable = (element: Element, scope: HTMLElement | HTMLDocumen
   const current = focusables.findIndex(({ node }) => node === element);
 
   if (current === -1) {
-    return {};
+    // an edge case, when anchor element is not found
+    return undefined;
   }
 
   return {
@@ -49,12 +57,18 @@ const defaultOptions = (options: FocusNextOptions) =>
 
 /**
  * focuses next element in the tab-order
- * @param baseElement - common parent to scope active element search or tab cycle order
+ * @param fromElement - common parent to scope active element search or tab cycle order
  * @param {FocusNextOptions} [options] - focus options
  */
-export const focusNextElement = (baseElement: Element, options: FocusNextOptions = {}): void => {
+export const focusNextElement = (fromElement: Element, options: FocusNextOptions = {}): void => {
   const { scope, cycle } = defaultOptions(options);
-  const { next, first } = getRelativeFocusable(baseElement as Element, scope);
+  const solution = getRelativeFocusable(fromElement as Element, scope);
+
+  if (!solution) {
+    return;
+  }
+
+  const { next, first } = solution;
   const newTarget = next || (cycle && first);
 
   if (newTarget) {
@@ -64,12 +78,18 @@ export const focusNextElement = (baseElement: Element, options: FocusNextOptions
 
 /**
  * focuses prev element in the tab order
- * @param baseElement - common parent to scope active element search or tab cycle order
+ * @param fromElement - common parent to scope active element search or tab cycle order
  * @param {FocusNextOptions} [options] - focus options
  */
-export const focusPrevElement = (baseElement: Element, options: FocusNextOptions = {}): void => {
+export const focusPrevElement = (fromElement: Element, options: FocusNextOptions = {}): void => {
   const { scope, cycle } = defaultOptions(options);
-  const { prev, last } = getRelativeFocusable(baseElement as Element, scope);
+  const solution = getRelativeFocusable(fromElement as Element, scope);
+
+  if (!solution) {
+    return;
+  }
+
+  const { prev, last } = solution;
   const newTarget = prev || (cycle && last);
 
   if (newTarget) {

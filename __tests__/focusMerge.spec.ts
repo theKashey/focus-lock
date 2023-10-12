@@ -1,4 +1,4 @@
-import { focusInside, focusMerge } from '../src';
+import { focusInside, focusSolver } from '../src';
 import { FOCUS_AUTO } from '../src/constants';
 
 describe('FocusMerge', () => {
@@ -27,21 +27,21 @@ describe('FocusMerge', () => {
     createTest();
     querySelector('#d4').focus();
 
-    expect(focusMerge(querySelector('#d4'), null)).toBe(undefined);
+    expect(focusSolver(querySelector('#d4'), null)).toBe(undefined);
 
     // @ts-ignore
-    focusMerge(querySelector('#d1'), null)!.node.focus();
+    focusSolver(querySelector('#d1'), null)!.node.focus();
     expect(focusInside(querySelector('#d1'))).toBe(true);
 
     // @ts-ignore
-    focusMerge(querySelector('#d2'), null)!.node.focus();
+    focusSolver(querySelector('#d2'), null)!.node.focus();
     expect(focusInside(querySelector('#d2'))).toBe(true);
 
-    expect(focusMerge([querySelector('#d2'), querySelector('#d3')], null)).toBe(undefined);
+    expect(focusSolver([querySelector('#d2'), querySelector('#d3')], null)).toBe(undefined);
     expect(focusInside(querySelector('#d2'))).toBe(true);
 
     // @ts-ignore
-    focusMerge([querySelector('#d3'), querySelector('#d4')], null)!.node.focus();
+    focusSolver([querySelector('#d3'), querySelector('#d4')], null)!.node.focus();
     expect(focusInside(querySelector('#d3'))).toBe(true);
   });
 
@@ -55,7 +55,7 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
   });
 
   it('autofocus - should pick first available tabbable | first ignored', () => {
@@ -69,7 +69,7 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
+    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
   });
 
   it('autofocus - should pick first available focusable if pointed', () => {
@@ -82,7 +82,7 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
   });
 
   describe('data-autofocus', () => {
@@ -96,7 +96,7 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-      expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
     });
 
     it('autofocus - false value', () => {
@@ -108,7 +108,7 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-      expect(focusMerge(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
     });
 
     it('autofocus - nothing to focus', () => {
@@ -118,7 +118,7 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-      expect(focusMerge(querySelector('#d1'), null)!).toBe(undefined);
+      expect(focusSolver(querySelector('#d1'), null)!).toBe(undefined);
     });
   });
 });

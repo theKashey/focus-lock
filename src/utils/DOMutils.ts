@@ -17,8 +17,13 @@ export const filterAutoFocusable = (nodes: HTMLElement[], cache: VisibilityCache
   toArray(nodes).filter((node) => isAutoFocusAllowedCached(cache, node));
 
 /**
- * only tabbable ones
- * (but with guards which would be ignored)
+ * !__WARNING__! Low level API.
+ * @returns all tabbable nodes
+ *
+ * @see {@link getFocusableNodes} to get any focusable element
+ *
+ * @param topNodes - array of top level HTMLElements to search inside
+ * @param visibilityCache - an cache to store intermediate measurements. Expected to be a fresh `new Map` on every call
  */
 export const getTabbableNodes = (
   topNodes: Element[],
@@ -28,10 +33,17 @@ export const getTabbableNodes = (
   orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards), visibilityCache), true, withGuards);
 
 /**
- * actually anything "focusable", not only tabbable
- * (without guards, as long as they are not expected to be focused)
+ * !__WARNING__! Low level API.
+ *
+ * @returns anything "focusable", not only tabbable. The difference is in `tabIndex=-1`
+ * (without guards, as long as they are not expected to be ever focused)
+ *
+ * @see {@link getTabbableNodes} to get only tabble nodes element
+ *
+ * @param topNodes - array of top level HTMLElements to search inside
+ * @param visibilityCache - an cache to store intermediate measurements. Expected to be a fresh `new Map` on every call
  */
-export const getAllTabbableNodes = (topNodes: Element[], visibilityCache: VisibilityCache): NodeIndex[] =>
+export const getFocusableNodes = (topNodes: Element[], visibilityCache: VisibilityCache): NodeIndex[] =>
   orderByTabIndex(filterFocusable(getFocusables(topNodes), visibilityCache), false);
 
 /**

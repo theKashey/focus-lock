@@ -4,7 +4,10 @@ It is a trap! We got your focus and will not let him out!
 
 [![NPM](https://nodei.co/npm/focus-lock.png?downloads=true&stars=true)](https://nodei.co/npm/react-focus-lock/)
 
-# Consumers
+**Important** - this is a low level package to be used in order to create "focus lock".
+It does not provide any "lock" capabilities by itself, only helpers you can use to create one
+
+# Focus-lock implementations
 
 This is a base package for:
 
@@ -15,18 +18,34 @@ This is a base package for:
 - [dom-focus-lock](https://github.com/theKashey/dom-focus-lock)
   [![downloads](https://badgen.net/npm/dm/dom-focus-lock)](https://www.npmtrends.com/dom-focus-lock)
 
-Provides a low level API, to be used by final realization.
-Usually everything can be solved in 3 lines
+The common use case will look like final realization.
 
 ```js
-import moveFocusInside, { focusInside } from 'focus-lock';
+import { moveFocusInside, focusInside } from 'focus-lock';
 
-if (topNode && !focusInside(topNode)) {
-  moveFocusInside(topNode, lastActiveFocus);
+if (someNode && !focusInside(someNode)) {
+  moveFocusInside(someNode, lastActiveFocus /* very important to know */);
 }
 ```
 
 ## Additional API
+
+### Get focusable nodes
+
+Returns visible and focusable nodes
+
+```ts
+import { expandFocusableNodes, getFocusableNodes, getTabbleNodes } from 'focus-lock';
+
+// returns an "extended information" but focusable nodes inside. To be used for advances cases (react-focus-lock)
+expandFocusableNodes(singleNodes);
+
+// returns all focusable nodes inside given locations
+getFocusableNodes([many, nodes])[0].node.focus();
+
+// returns all nodes reacheable in the "taborder" inside given locations
+getTabbleNodes([many, nodes])[0].node.focus();
+```
 
 ### Programmatic focus management
 

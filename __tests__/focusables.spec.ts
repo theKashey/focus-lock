@@ -1,5 +1,5 @@
 import { FOCUS_ALLOW, FOCUS_DISABLED, FOCUS_NO_AUTOFOCUS } from '../src/constants';
-import { filterAutoFocusable, getAllTabbableNodes } from '../src/utils/DOMutils';
+import { filterAutoFocusable, getFocusableNodes } from '../src/utils/DOMutils';
 
 describe('focusables', () => {
   it('should remove disabled buttons', () => {
@@ -11,7 +11,7 @@ describe('focusables', () => {
         `;
 
     const cache = new Map();
-    const nodes = getAllTabbableNodes([document.body], cache).map(({ node }) => node);
+    const nodes = getFocusableNodes([document.body], cache).map(({ node }) => node);
 
     expect(nodes.map((el) => el.textContent)).toEqual([
       // because it's normal button
@@ -42,7 +42,7 @@ describe('auto-focusables', () => {
         `;
 
     const cache = new Map();
-    const nodes = getAllTabbableNodes([document.body], cache).map(({ node }) => node);
+    const nodes = getFocusableNodes([document.body], cache).map(({ node }) => node);
 
     expect(filterAutoFocusable(nodes).map((el) => el.textContent)).toEqual([
       // hoisted

@@ -1,4 +1,4 @@
-import { focusMerge, focusNextElement /*, focusPrevElement*/ } from '../src';
+import { focusSolver, focusNextElement /*, focusPrevElement*/ } from '../src';
 
 describe('iframes', () => {
   afterEach(() => {
@@ -31,7 +31,7 @@ describe('iframes', () => {
 
     const firstBtn = root.getElementById('firstBtn');
 
-    expect(focusMerge(root.body, null)).toEqual({
+    expect(focusSolver(root.body, null)).toEqual({
       node: firstBtn,
     });
   });
@@ -61,7 +61,7 @@ describe('iframes', () => {
 
     const input = root.querySelector('input') as HTMLInputElement;
 
-    expect(focusMerge(document.body, null)).toEqual({
+    expect(focusSolver(document.body, null)).toEqual({
       node: input,
     });
   });
@@ -77,7 +77,7 @@ describe('iframes', () => {
       </div>`;
     document.body.innerHTML = html;
 
-    expect(focusMerge(document.body, null)).toEqual({
+    expect(focusSolver(document.body, null)).toEqual({
       node: expect.any(HTMLInputElement),
     });
   });
@@ -108,11 +108,11 @@ describe('iframes', () => {
     const input = root.querySelector('input') as HTMLInputElement;
     const button = root.querySelector('button') as HTMLButtonElement;
 
-    expect(focusMerge(document.body, null)).toEqual({
+    expect(focusSolver(document.body, null)).toEqual({
       node: document.querySelector('#focused'),
     });
 
-    expect(focusMerge([input, button], null)).toEqual({
+    expect(focusSolver([input, button], null)).toEqual({
       node: input,
     });
   });
@@ -145,7 +145,7 @@ describe('iframes', () => {
     const input = document.querySelector('input') as HTMLInputElement;
     const button = document.querySelector('button') as HTMLButtonElement;
 
-    focusMerge(document.body, null)?.node?.focus();
+    focusSolver(document.body, null)?.node?.focus();
     expect(document.activeElement).toBe(input);
 
     focusNextElement(input);

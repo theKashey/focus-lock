@@ -1,5 +1,5 @@
 import { NEW_FOCUS, newFocus } from './solver';
-import { getAllTabbableNodes, getTabbableNodes } from './utils/DOMutils';
+import { getFocusableNodes, getTabbableNodes } from './utils/DOMutils';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { asArray, getFirst } from './utils/array';
 import { pickAutofocus } from './utils/auto-focus';
@@ -18,11 +18,16 @@ const reorderNodes = (srcNodes: Element[], dstNodes: NodeIndex[]): NodeIndex[] =
 };
 
 /**
- * given top node(s) and the last active element return the element to be focused next
+ * contains the main logic of the `focus-lock` package.
+ *
+ * ! you probably dont need this function !
+ *
+ * given top node(s) and the last active element returns the element to be focused next
+ * @returns element which should be focused to move focus inside
  * @param topNode
  * @param lastNode
  */
-export const getFocusMerge = (
+export const focusSolver = (
   topNode: Element | Element[],
   lastNode: Element | null
 ): undefined | { node: HTMLElement } => {
@@ -32,7 +37,7 @@ export const getFocusMerge = (
   const commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
   const visibilityCache = new Map();
 
-  const anyFocusable = getAllTabbableNodes(entries, visibilityCache);
+  const anyFocusable = getFocusableNodes(entries, visibilityCache);
   let innerElements = getTabbableNodes(entries, visibilityCache).filter(({ node }) => isNotAGuard(node));
 
   if (!innerElements[0]) {
@@ -43,7 +48,7 @@ export const getFocusMerge = (
     }
   }
 
-  const outerNodes = getAllTabbableNodes([commonParent], visibilityCache).map(({ node }) => node);
+  const outerNodes = getFocusableNodes([commonParent], visibilityCache).map(({ node }) => node);
   const orderedInnerElements = reorderNodes(outerNodes, innerElements);
   const innerNodes = orderedInnerElements.map(({ node }) => node);
 

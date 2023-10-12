@@ -11,7 +11,8 @@ const focusInsideIframe = (topNode: Element, activeElement: Element | undefined)
   );
 
 /**
- * @returns {Boolean} true, if the current focus is inside given node or nodes
+ * @returns {Boolean} true, if the current focus is inside given node or nodes.
+ * Supports nodes hidden inside shadowDom
  */
 export const focusInside = (
   topNode: HTMLElement | HTMLElement[],
