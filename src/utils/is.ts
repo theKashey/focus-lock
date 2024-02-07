@@ -31,8 +31,10 @@ const isTopNode = (node: Element): boolean =>
   // @ts-ignore
   node === document || (node && node.nodeType === Node.DOCUMENT_NODE);
 
+const isInert = (node: Element): boolean => node.hasAttribute('inert');
+
 const isVisibleUncached = (node: Element | undefined, checkParent: CheckParentCallback): boolean =>
-  !node || isTopNode(node) || (!isElementHidden(node) && checkParent(getParentNode(node)));
+  !node || isTopNode(node) || (!isElementHidden(node) && !isInert(node) && checkParent(getParentNode(node)));
 
 export type VisibilityCache = Map<Element | undefined, boolean>;
 
