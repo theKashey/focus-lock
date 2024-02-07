@@ -85,6 +85,19 @@ describe('FocusMerge', () => {
     expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
   });
 
+  it('autofocus - ignores inert attributes', () => {
+    document.body.innerHTML = `    
+        <div id="d1"> 
+        <span inert>
+            <button>1</button>
+        </span>
+        <button>2</button>
+        </div>    
+    `;
+
+    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+  });
+
   describe('data-autofocus', () => {
     it('autofocus - should pick first available focusable if pointed directly', () => {
       document.body.innerHTML = `    
