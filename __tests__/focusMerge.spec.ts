@@ -58,6 +58,19 @@ describe('FocusMerge', () => {
     expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
   });
 
+  it('autofocus - should pick first available exotic tabbable', () => {
+    document.body.innerHTML = `    
+        <div id="d1"> 
+        <span>
+            <div contenteditable="true">1</div>
+        </span>
+        <button>2</button>
+        </div>    
+    `;
+
+    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+  });
+
   it('autofocus - should pick first available tabbable | first ignored', () => {
     document.body.innerHTML = `    
         <div id="d1"> 
@@ -72,7 +85,7 @@ describe('FocusMerge', () => {
     expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
   });
 
-  it('autofocus - should pick first available focusable if pointed', () => {
+  it('autofocus - should pick first available focusable if pointed by AUTOFOCUS', () => {
     document.body.innerHTML = `    
         <div id="d1"> 
         <span ${FOCUS_AUTO}>
@@ -96,6 +109,32 @@ describe('FocusMerge', () => {
     `;
 
     expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+  });
+
+  describe('return behavior', () => {
+    beforeEach(() => {
+      document.body.innerHTML = `
+        <button id="d0" tabindex="0">base</button>    
+        <div id="d1"> 
+        <button id="d2"tabindex="-1">1</button>
+        <span id="d3">2</span>
+        <button>3</button>
+        </div>    
+    `;
+    });
+
+    it('should first tabbable', () => {
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
+    });
+
+    it('should focusable if pointed', () => {
+      expect(focusSolver(querySelector('#d1'), querySelector('#d2'))!.node.innerHTML).toBe('1');
+    });
+
+    it('should first tabbable if target lost', () => {
+      // TODO: this test might corrected by smarter returnFocus
+      expect(focusSolver(querySelector('#d1'), querySelector('#d3'))!.node.innerHTML).toBe('3');
+    });
   });
 
   describe('data-autofocus', () => {
