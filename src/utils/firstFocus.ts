@@ -8,10 +8,6 @@ export const pickFirstFocus = (nodes: HTMLElement[]): HTMLElement | undefined =>
   return nodes[0];
 };
 
-export const pickFocusable = (nodes: HTMLElement[], index: number): number => {
-  if (nodes.length > 1) {
-    return nodes.indexOf(correctNode(nodes[index], nodes));
-  }
-
-  return index;
+export const pickFocusable = (nodes: HTMLElement[], node: HTMLElement): number => {
+  return nodes.indexOf(correctNode(node, nodes));
 };

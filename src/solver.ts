@@ -6,7 +6,8 @@ export const NEW_FOCUS = 'NEW_FOCUS';
 
 /**
  * Main solver for the "find next focus" question
- * @param innerNodes
+ * @param innerNodes - used to control "return focus"
+ * @param innerTabbables - used to control "autofocus"
  * @param outerNodes
  * @param activeElement
  * @param lastNode
@@ -14,6 +15,7 @@ export const NEW_FOCUS = 'NEW_FOCUS';
  */
 export const newFocus = (
   innerNodes: HTMLElement[],
+  innerTabbables: HTMLElement[],
   outerNodes: HTMLElement[],
   activeElement: HTMLElement | undefined,
   lastNode: HTMLElement | null
@@ -31,6 +33,22 @@ export const newFocus = (
   const activeIndex = activeElement !== undefined ? outerNodes.indexOf(activeElement) : -1;
   const lastIndex = lastNode ? outerNodes.indexOf(lastNode) : activeIndex;
   const lastNodeInside = lastNode ? innerNodes.indexOf(lastNode) : -1;
+
+  // no active focus (or focus is on the body)
+  if (activeIndex === -1) {
+    // known fallback
+    if (lastNodeInside !== -1) {
+      return lastNodeInside;
+    }
+
+    return NEW_FOCUS;
+  }
+
+  // new focus, nothing to calculate
+  if (lastNodeInside === -1) {
+    return NEW_FOCUS;
+  }
+
   const indexDiff = activeIndex - lastIndex;
   const firstNodeIndex = outerNodes.indexOf(firstFocus);
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
@@ -39,13 +57,8 @@ export const newFocus = (
   const correctedIndex = activeElement !== undefined ? correctedNodes.indexOf(activeElement) : -1;
   const correctedIndexDiff = correctedIndex - (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex);
 
-  const returnFirstNode = pickFocusable(innerNodes, 0);
-  const returnLastNode = pickFocusable(innerNodes, cnt - 1);
-
-  // new focus
-  if (activeIndex === -1 || lastNodeInside === -1) {
-    return NEW_FOCUS;
-  }
+  const returnFirstNode = pickFocusable(innerNodes, innerTabbables[0]);
+  const returnLastNode = pickFocusable(innerNodes, innerTabbables[innerTabbables.length - 1]);
 
   // old focus
   if (!indexDiff && lastNodeInside >= 0) {

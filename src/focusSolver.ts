@@ -1,5 +1,5 @@
 import { NEW_FOCUS, newFocus } from './solver';
-import { getFocusableNodes, getTabbableNodes } from './utils/DOMutils';
+import { getFocusableNodes } from './utils/DOMutils';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { asArray, getFirst } from './utils/array';
 import { pickAutofocus } from './utils/auto-focus';
@@ -38,24 +38,23 @@ export const focusSolver = (
   const visibilityCache = new Map();
 
   const anyFocusable = getFocusableNodes(entries, visibilityCache);
-  let innerElements = getTabbableNodes(entries, visibilityCache).filter(({ node }) => isNotAGuard(node));
+  const innerElements = anyFocusable.filter(({ node }) => isNotAGuard(node));
 
   if (!innerElements[0]) {
-    innerElements = anyFocusable;
-
-    if (!innerElements[0]) {
-      return undefined;
-    }
+    return undefined;
   }
 
   const outerNodes = getFocusableNodes([commonParent], visibilityCache).map(({ node }) => node);
   const orderedInnerElements = reorderNodes(outerNodes, innerElements);
-  const innerNodes = orderedInnerElements.map(({ node }) => node);
 
-  const newId = newFocus(innerNodes, outerNodes, activeElement, lastNode as HTMLElement);
+  // collect inner focusable and separately tabbables
+  const innerFocusables = orderedInnerElements.map(({ node }) => node);
+  const innerTabbable = orderedInnerElements.filter(({ tabIndex }) => tabIndex >= 0).map(({ node }) => node);
+
+  const newId = newFocus(innerFocusables, innerTabbable, outerNodes, activeElement, lastNode as HTMLElement);
 
   if (newId === NEW_FOCUS) {
-    const focusNode = pickAutofocus(anyFocusable, innerNodes, allParentAutofocusables(entries, visibilityCache));
+    const focusNode = pickAutofocus(anyFocusable, innerTabbable, allParentAutofocusables(entries, visibilityCache));
 
     if (focusNode) {
       return { node: focusNode };
