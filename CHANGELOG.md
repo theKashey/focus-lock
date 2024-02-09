@@ -1,8 +1,20 @@
-## [0.11.5](https://github.com/theKashey/focus-lock/compare/v0.11.4...v0.11.5) (2023-01-28)
+## [1.0.1](https://github.com/theKashey/focus-lock/compare/v1.0.0...v1.0.1) (2024-02-09)
 
 ### Bug Fixes
 
-- Improve support for iframes [#43](https://github.com/theKashey/focus-lock/pull/43)
+- correct abiity to restore focus on any focusable, fixes [#54](https://github.com/theKashey/focus-lock/issues/54) ([81ba288](https://github.com/theKashey/focus-lock/commit/81ba2883f6ecdb8f9ea367474d77306778e69185))
+- correct tabIndex calculation for exotic components, fixes [#55](https://github.com/theKashey/focus-lock/issues/55) ([ef76a09](https://github.com/theKashey/focus-lock/commit/ef76a098639eeffb800e25680c17a277666d6cbf))
+- support inert Attribute, fixes [#58](https://github.com/theKashey/focus-lock/issues/58) ([601f8d1](https://github.com/theKashey/focus-lock/commit/601f8d1af4a3161495174881f84dcedcdfa4c841))
+
+# [1.0.0](https://github.com/theKashey/focus-lock/compare/v0.11.6...v1.0.0) (2023-10-12)
+
+## [0.11.6](https://github.com/theKashey/focus-lock/compare/v0.11.5...v0.11.6) (2023-02-16)
+
+### Bug Fixes
+
+- secure access to cross-origin iframes, fixes [#45](https://github.com/theKashey/focus-lock/issues/45) ([860e283](https://github.com/theKashey/focus-lock/commit/860e2831a4b5c346c973b9d57f833e78a58fcc6f))
+
+## [0.11.5](https://github.com/theKashey/focus-lock/compare/v0.11.4...v0.11.5) (2023-01-28)
 
 ## [0.11.4](https://github.com/theKashey/focus-lock/compare/v0.11.3...v0.11.4) (2022-11-24)
 
