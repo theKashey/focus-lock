@@ -45,10 +45,9 @@ describe('auto-focusables', () => {
     const nodes = getFocusableNodes([document.body], cache).map(({ node }) => node);
 
     expect(filterAutoFocusable(nodes).map((el) => el.textContent)).toEqual([
-      // hoisted
-      'tabindex-1 button',
       'normal button',
       'aria-disabled button',
+      'tabindex-1 button',
       'normal button in allow group',
       'normal button in disabled group',
     ]);

@@ -7,15 +7,17 @@ export interface NodeIndex {
 }
 
 export const tabSort = (a: NodeIndex, b: NodeIndex): number => {
-  const tabDiff = a.tabIndex - b.tabIndex;
+  const aTab = Math.max(0, a.tabIndex);
+  const bTab = Math.max(0, b.tabIndex);
+  const tabDiff = aTab - bTab;
   const indexDiff = a.index - b.index;
 
   if (tabDiff) {
-    if (!a.tabIndex) {
+    if (!aTab) {
       return 1;
     }
 
-    if (!b.tabIndex) {
+    if (!bTab) {
       return -1;
     }
   }

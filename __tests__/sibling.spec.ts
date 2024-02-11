@@ -4,12 +4,13 @@ describe('smoke', () => {
   const createTest = () => {
     document.body.innerHTML = `    
     <div id="d1"> 
-    <button>1</button>
+    <button id="first">1</button>
     <button>2</button>
-    </div>
+    </div>    
+    <button tabindex="-1">negative</button>
     <div id="d2">
     <button>3</button>
-    <button>4</button>
+    <button id="b4">4</button>
     </div>
     <div id="d3">
     <button>5</button>
@@ -21,8 +22,9 @@ describe('smoke', () => {
 
   const querySelector = (q: string): HTMLElement => document.querySelector<HTMLElement>(q)!;
 
-  it('init', () => {
+  beforeEach(() => {
     createTest();
+    document.getElementById('first')?.focus();
   });
 
   it('focus button1', () => {
@@ -45,6 +47,16 @@ describe('smoke', () => {
     expect(document.activeElement!.innerHTML).toBe('1');
   });
 
+  it('cycle forward via negavite', () => {
+    expect(document.activeElement!.innerHTML).toBe('1');
+    focusNextElement(document.activeElement!, { onlyTabbable: false });
+    expect(document.activeElement!.innerHTML).toBe('2');
+    focusNextElement(document.activeElement!, { onlyTabbable: false });
+    expect(document.activeElement!.innerHTML).toBe('negative');
+    focusNextElement(document.activeElement!, { onlyTabbable: false });
+    expect(document.activeElement!.innerHTML).toBe('3');
+  });
+
   it('cycle backward', () => {
     expect(document.activeElement!.innerHTML).toBe('1');
     focusPrevElement(document.activeElement!);
@@ -57,6 +69,7 @@ describe('smoke', () => {
 
   it('works with a scope', () => {
     const parent = querySelector('#d2');
+    document.getElementById('b4')?.focus();
 
     expect(document.activeElement!.innerHTML).toBe('4');
     focusNextElement(document.activeElement!, { scope: parent });
