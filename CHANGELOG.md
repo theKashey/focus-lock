@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/theKashey/focus-lock/compare/v1.0.1...v1.1.0) (2024-02-11)
+
+### Features
+
+- extend sibling API for all focuble elements ([ecd666c](https://github.com/theKashey/focus-lock/commit/ecd666c5d92b95251f286b22d9429d816d70e669))
+
 ## [1.0.1](https://github.com/theKashey/focus-lock/compare/v1.0.0...v1.0.1) (2024-02-09)
 
 ### Bug Fixes
