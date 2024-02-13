@@ -28,6 +28,26 @@ if (someNode && !focusInside(someNode)) {
 }
 ```
 
+> note that tracking `lastActiveFocus` is on the end user.
+
+## Declarative control
+
+`focus-lock` provides not only API to be called by some other scripts, but also a way one can leave instructions inside HTML markup
+to amend focus behavior in a desired way.
+
+These are `data-attributes` one can add on the elements:
+
+- control
+  - `data-focus-lock=[group-name]` to create a focus group (scattered focus)
+  - `data-focus-lock-disabled="disabled"` marks such group as disabled and removes from the list. Equal to removing elements from the DOM.
+  - `data-no-focus-lock` focus-lock will ignore/allow focus inside marked area. Focus on this elements will not be managed by focus-lock.
+- autofocus (via `moveFocusInside(someNode, null)`)
+  - `data-autofocus` will autofocus marked element on activation.
+  - `data-autofocus-inside` focus-lock will try to autofocus elements within selected area on activation.
+  - `data-no-autofocus` focus-lock will not autofocus any node within marked area on activation.
+
+These markers are available as `import * as markers from 'focus-lock/constants'`
+
 ## Additional API
 
 ### Get focusable nodes
@@ -37,23 +57,36 @@ Returns visible and focusable nodes
 ```ts
 import { expandFocusableNodes, getFocusableNodes, getTabbleNodes } from 'focus-lock';
 
-// returns an "extended information" but focusable nodes inside. To be used for advances cases (react-focus-lock)
-expandFocusableNodes(singleNodes);
-
 // returns all focusable nodes inside given locations
 getFocusableNodes([many, nodes])[0].node.focus();
 
 // returns all nodes reacheable in the "taborder" inside given locations
 getTabbleNodes([many, nodes])[0].node.focus();
+
+// returns an "extended information" about focusable nodes inside. To be used for advances cases (react-focus-lock)
+expandFocusableNodes(singleNodes);
 ```
 
 ### Programmatic focus management
 
+Allows moving back and forth between focusable/tabbable elements
+
 ```ts
 import { focusNextElement, focusPrevElement } from 'focus-lock';
-focusNextElement(sourceElement, {
+focusNextElement(document.activeElement, {
   scope: theBoundingDOMNode,
 }); // -> next tabbable element
+```
+
+### Return focus
+
+Advanced API to return focus (from the Modal) to the last or the next best location
+
+```ts
+import { captureFocusRestore } from 'focus-lock';
+const restore = captureFocusRestore(element);
+// ....
+restore()?.focus(); // restores focus the the element, or it's siblings in case it no longer exists
 ```
 
 # WHY?
@@ -66,24 +99,6 @@ From [MDN Article about accessible dialogs](https://developer.mozilla.org/en-US/
 This one is about managing the focus.
 
 I'v got a good [article about focus management, dialogs and WAI-ARIA](https://medium.com/@antonkorzunov/its-a-focus-trap-699a04d66fb5).
-
-# Declarative control
-
-`Focus-lock` provides not only API to be called by some other scripts, but also a way one can leave instructions inside HTML markup
-to amend focus behavior in a desired way.
-
-These are data-attributes one can add on the elements:
-
-- control
-  - `data-focus-lock` to create a focus group (scattered focus)
-  - `data-focus-lock-disabled` marks such group as disabled and removes from the list
-  - `data-no-focus-lock` focus-lock will ignore focus inside marked area
-- autofocus
-  - `data-autofocus` will autofocus marked element on activation. Require _control delegation_ to focus-lock
-  - `data-autofocus-inside` focus-lock will try to autofocus elements within selected area
-  - `data-no-autofocus` focus-lock will not autofocus any node within marked area
-
-These markers are available as `import * as markers from 'focus-lock/constants'`
 
 # Focus fighting
 

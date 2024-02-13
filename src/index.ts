@@ -30,6 +30,7 @@ export {
   focusNextElement,
   focusPrevElement,
   getRelativeFocusable,
+  //
   captureFocusRestore,
 };
 
