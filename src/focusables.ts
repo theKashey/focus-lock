@@ -20,10 +20,12 @@ interface FocusableNode {
 }
 
 /**
- * @returns list of focusable elements inside a given top node
- * @see {@link getFocusableNodes} for lower level access
+ * traverses all related nodes (including groups) returning a list of all nodes(outer and internal) with meta information
+ * This is low-level API!
+ * @returns list of focusable elements inside a given top(!) node.
+ * @see {@link getFocusableNodes} providing a simpler API
  */
-export const expandFocusableNodes = (topNode: HTMLElement): FocusableNode[] => {
+export const expandFocusableNodes = (topNode: HTMLElement | HTMLElement[]): FocusableNode[] => {
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
   const commonParent = getTopCommonParent(topNode, topNode, entries);
   const visibilityCache = new Map();

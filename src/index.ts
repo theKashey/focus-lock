@@ -4,6 +4,7 @@ import { focusIsHidden } from './focusIsHidden';
 import { focusSolver } from './focusSolver';
 import { expandFocusableNodes } from './focusables';
 import { moveFocusInside } from './moveFocusInside';
+import { captureFocusRestore } from './return-focus';
 import { focusNextElement, focusPrevElement, getRelativeFocusable } from './sibling';
 import { getFocusableNodes, getTabbableNodes } from './utils/DOMutils';
 
@@ -29,6 +30,8 @@ export {
   focusNextElement,
   focusPrevElement,
   getRelativeFocusable,
+  //
+  captureFocusRestore,
 };
 
 /**
