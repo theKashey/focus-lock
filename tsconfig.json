@@ -16,7 +16,16 @@
     "importHelpers": true,
     "target": "es6",
     "moduleResolution": "node",
-    "lib": ["dom", "es5", "scripthost", "es2015.collection", "es2015.symbol", "es2015.iterable", "es2015.promise"],
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.collection",
+      "es2015.symbol",
+      "es2015.iterable",
+      "es2015.promise",
+      "ES2021.WeakRef"
+    ],
     "types": ["node", "jest"],
     "typeRoots": ["./node_modules/@types"],
     "jsx": "react"
