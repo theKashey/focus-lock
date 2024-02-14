@@ -1,7 +1,8 @@
-import { getTabbableNodes } from './utils/DOMutils';
 import { getAllAffectedNodes } from './utils/all-affected';
 import { isGuard, isNotAGuard } from './utils/is';
 import { getTopCommonParent } from './utils/parenting';
+import { orderByTabIndex } from './utils/tabOrder';
+import { getFocusables } from './utils/tabUtils';
 
 interface FocusableNode {
   node: HTMLElement;
@@ -28,11 +29,8 @@ interface FocusableNode {
 export const expandFocusableNodes = (topNode: HTMLElement | HTMLElement[]): FocusableNode[] => {
   const entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
   const commonParent = getTopCommonParent(topNode, topNode, entries);
-  const visibilityCache = new Map();
-  const outerNodes = getTabbableNodes([commonParent], visibilityCache, true);
-  const innerElements = getTabbableNodes(entries, visibilityCache)
-    .filter(({ node }) => isNotAGuard(node))
-    .map(({ node }) => node);
+  const outerNodes = orderByTabIndex(getFocusables([commonParent], true), true, true);
+  const innerElements = getFocusables(entries, false);
 
   return outerNodes.map(
     ({ node, index }): FocusableNode => ({

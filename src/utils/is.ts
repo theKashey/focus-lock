@@ -33,6 +33,9 @@ const isTopNode = (node: Element): boolean =>
 
 const isInert = (node: Element): boolean => node.hasAttribute('inert');
 
+/**
+ * @see https://github.com/testing-library/jest-dom/blob/main/src/to-be-visible.js
+ */
 const isVisibleUncached = (node: Element | undefined, checkParent: CheckParentCallback): boolean =>
   !node || isTopNode(node) || (!isElementHidden(node) && !isInert(node) && checkParent(getParentNode(node)));
 
