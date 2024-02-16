@@ -5,7 +5,13 @@ import { focusSolver } from './focusSolver';
 import { expandFocusableNodes } from './focusables';
 import { moveFocusInside } from './moveFocusInside';
 import { captureFocusRestore } from './return-focus';
-import { focusNextElement, focusPrevElement, getRelativeFocusable } from './sibling';
+import {
+  focusNextElement,
+  focusPrevElement,
+  getRelativeFocusable,
+  focusFirstElement,
+  focusLastElement,
+} from './sibling';
 import { getFocusableNodes, getTabbableNodes } from './utils/DOMutils';
 
 /**
@@ -29,6 +35,8 @@ export {
   //
   focusNextElement,
   focusPrevElement,
+  focusFirstElement,
+  focusLastElement,
   getRelativeFocusable,
   //
   captureFocusRestore,
