@@ -1,3 +1,13 @@
+# [1.2.0](https://github.com/theKashey/focus-lock/compare/v1.1.0...v1.2.0) (2024-02-14)
+
+### Bug Fixes
+
+- remove visibility check from expandFocusableNodes ([543b9fe](https://github.com/theKashey/focus-lock/commit/543b9fe9f379e5744f2b51046422b51cf390370c))
+
+### Features
+
+- implement return focus ([f82447c](https://github.com/theKashey/focus-lock/commit/f82447cedec4d439601e07dc7ed879a5d90de01c))
+
 # [1.1.0](https://github.com/theKashey/focus-lock/compare/v1.0.1...v1.1.0) (2024-02-11)
 
 ### Features

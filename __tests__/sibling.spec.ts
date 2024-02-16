@@ -1,4 +1,5 @@
 import { focusNextElement, focusPrevElement } from '../src/';
+import { focusFirstElement, focusLastElement } from '../src/sibling';
 
 describe('smoke', () => {
   const createTest = () => {
@@ -78,5 +79,13 @@ describe('smoke', () => {
     expect(document.activeElement!.innerHTML).toBe('4');
     focusNextElement(document.activeElement!, { scope: parent, cycle: false });
     expect(document.activeElement!.innerHTML).toBe('4');
+  });
+
+  it('picks the boundary edges', () => {
+    expect(document.activeElement!.innerHTML).toBe('1');
+    focusLastElement(document.body);
+    expect(document.activeElement!.innerHTML).toBe('6');
+    focusFirstElement(document.body);
+    expect(document.activeElement!.innerHTML).toBe('1');
   });
 });

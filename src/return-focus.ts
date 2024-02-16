@@ -30,7 +30,7 @@ export const recordElementLocation = (element: Element): Location => {
   const stack: ElementLocation[] = [];
   let currentElement: Element | null = element;
 
-  while (currentElement) {
+  while (currentElement && currentElement !== document.body) {
     stack.push({
       current: weakRef(currentElement),
       parent: weakRef(currentElement.parentElement),

@@ -7,6 +7,15 @@ const getb = () => {
   return { b1, restore };
 };
 
+test('does nothing for nothing', () => {
+  document.body.innerHTML = `
+     <div><button id="b1"></button></div>
+   `;
+
+  const restore = captureFocusRestore(document.body);
+  expect(restore()).toBe(undefined);
+});
+
 test('returns focus to the original location', () => {
   document.body.innerHTML = `
      <div><button id="b1"></button></div>
