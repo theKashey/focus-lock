@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/theKashey/focus-lock/compare/v1.2.0...v1.2.1) (2024-02-16)
+
+### Bug Fixes
+
+- add missing API to sibling/return-focus ([33cb860](https://github.com/theKashey/focus-lock/commit/33cb86087466570ec0a900c97b8f4c4c0b4dd6f4))
+
 # [1.2.0](https://github.com/theKashey/focus-lock/compare/v1.1.0...v1.2.0) (2024-02-14)
 
 ### Bug Fixes
