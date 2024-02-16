@@ -21,7 +21,7 @@ type ResolvedSolution = {
  */
 export const getRelativeFocusable = (
   element: Element,
-  scope: HTMLElement | HTMLElement[] | Document,
+  scope: HTMLElement | HTMLElement[],
   useTabbables: boolean
 ): UnresolvedSolution | ResolvedSolution | undefined => {
   if (!element || !scope) {
@@ -56,12 +56,24 @@ export const getRelativeFocusable = (
   };
 };
 
+const getBoundary = (shards: HTMLElement | HTMLElement[], useTabbables: boolean) => {
+  const set = useTabbables
+    ? getTabbableNodes(asArray(shards) as HTMLElement[], new Map())
+    : getFocusableNodes(asArray(shards) as HTMLElement[], new Map());
+
+  return {
+    first: set[0],
+    last: set[set.length - 1],
+  };
+};
+
+type ScopeRef = HTMLElement | HTMLElement[];
 interface FocusNextOptions {
   /**
    * the component to "scope" focus in
    * @default document.body
    */
-  scope?: HTMLElement | HTMLElement[] | HTMLDocument;
+  scope?: ScopeRef;
   /**
    * enables cycling inside the scope
    * @default true
@@ -90,7 +102,7 @@ const defaultOptions = (options: FocusNextOptions) =>
   );
 
 const moveFocus = (
-  fromElement: Element,
+  fromElement: Element | undefined,
   options: FocusNextOptions = {},
   cb: (solution: Partial<ResolvedSolution>, cycle: boolean) => NodeIndex | undefined | false
 ) => {
@@ -124,4 +136,31 @@ export const focusNextElement = (fromElement: Element, options: FocusNextOptions
  */
 export const focusPrevElement = (fromElement: Element, options: FocusNextOptions = {}): void => {
   moveFocus(fromElement, options, ({ prev, last }, cycle) => prev || (cycle && last));
+};
+
+type FocusBoundaryOptions = Pick<FocusNextOptions, 'focusOptions' | 'onlyTabbable'>;
+
+const pickBoundary = (scope: ScopeRef, options: FocusBoundaryOptions, what: 'last' | 'first') => {
+  const boundary = getBoundary(scope, options.onlyTabbable ?? true);
+  const node = boundary[what];
+
+  if (node) {
+    focusOn(node.node, options.focusOptions);
+  }
+};
+
+/**
+ * focuses first element in the tab-order
+ * @param {FocusNextOptions} options - focus options
+ */
+export const focusFirstElement = (scope: ScopeRef, options: FocusBoundaryOptions = {}): void => {
+  pickBoundary(scope, options, 'first');
+};
+
+/**
+ * focuses last element in the tab order
+ * @param {FocusNextOptions} options - focus options
+ */
+export const focusLastElement = (scope: ScopeRef, options: FocusBoundaryOptions = {}): void => {
+  pickBoundary(scope, options, 'last');
 };
