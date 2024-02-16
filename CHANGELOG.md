@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/theKashey/focus-lock/compare/v1.3.0...v1.3.1) (2024-02-16)
+
+### Bug Fixes
+
+- support lock reactivation with no tabble nodes, fixes [#63](https://github.com/theKashey/focus-lock/issues/63) ([a8ef771](https://github.com/theKashey/focus-lock/commit/a8ef771bf83001d62402c17000ba0a12a18b67db))
+
 # [1.3.0](https://github.com/theKashey/focus-lock/compare/v1.2.1...v1.3.0) (2024-02-16)
 
 ## [1.2.1](https://github.com/theKashey/focus-lock/compare/v1.2.0...v1.2.1) (2024-02-16)
