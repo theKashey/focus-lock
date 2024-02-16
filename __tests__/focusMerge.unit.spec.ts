@@ -12,6 +12,15 @@ describe('focus Merge order', () => {
     expect(newFocus([], [], [], undefined, 0)).toBe(NEW_FOCUS);
   });
 
+  it('handle no tabbable values', () => {
+    expect(newFocus([2, 3], [], [1, 2, 3, 4], undefined, 0)).toBe(NEW_FOCUS);
+
+    // behavior prior to v1.0.1, cycling via lock
+    // expect(newFocus([2,3], [], [1,2,3,4], 1, 2)).toBe(1);
+    // behavior after v1.0.1, cycling only via (absent) tabbleles
+    expect(newFocus([2, 3], [], [1, 2, 3, 4], 1, 2)).toBe(0);
+  });
+
   it('should move from start to end', () => {
     // cycle via left
     expect(newFocus([2, 3, 4], [2, 3, 4], [1, 2, 3, 4, 5], 1, 2)).toBe(2);
