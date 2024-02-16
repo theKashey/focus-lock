@@ -57,13 +57,21 @@ export const newFocus = (
   const correctedIndex = activeElement !== undefined ? correctedNodes.indexOf(activeElement) : -1;
   const correctedIndexDiff = correctedIndex - (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex);
 
-  const returnFirstNode = pickFocusable(innerNodes, innerTabbables[0]);
-  const returnLastNode = pickFocusable(innerNodes, innerTabbables[innerTabbables.length - 1]);
-
   // old focus
   if (!indexDiff && lastNodeInside >= 0) {
     return lastNodeInside;
   }
+
+  // no tabbable elements, autofocus is not possible
+  if (innerTabbables.length === 0) {
+    // an edge case with no tabbable elements
+    // return the last focusable one
+    // with some probability this will prevent focus from cycling across the lock, but there is no tabbale elements to cycle to
+    return lastNodeInside;
+  }
+
+  const returnFirstNode = pickFocusable(innerNodes, innerTabbables[0]);
+  const returnLastNode = pickFocusable(innerNodes, innerTabbables[innerTabbables.length - 1]);
 
   // first element
   if (activeIndex <= firstNodeIndex && isOnGuard && Math.abs(indexDiff) > 1) {
