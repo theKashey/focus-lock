@@ -54,7 +54,10 @@ export const focusSolver = (
   const newId = newFocus(innerFocusables, innerTabbable, outerNodes, activeElement, lastNode as HTMLElement);
 
   if (newId === NEW_FOCUS) {
-    const focusNode = pickAutofocus(anyFocusable, innerTabbable, allParentAutofocusables(entries, visibilityCache));
+    const focusNode =
+      // first try only tabbable, and the fallback to all focusable, as long as at least one element should be picked for focus
+      pickAutofocus(anyFocusable, innerTabbable, allParentAutofocusables(entries, visibilityCache)) ||
+      pickAutofocus(anyFocusable, innerFocusables, allParentAutofocusables(entries, visibilityCache));
 
     if (focusNode) {
       return { node: focusNode };
