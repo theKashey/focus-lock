@@ -26,7 +26,11 @@ type Location = {
   element: SetRef;
 };
 
-export const recordElementLocation = (element: Element): Location => {
+export const recordElementLocation = (element: Element | null): Location | null => {
+  if (!element) {
+    return null;
+  }
+
   const stack: ElementLocation[] = [];
   let currentElement: Element | null = element;
 
@@ -48,7 +52,11 @@ export const recordElementLocation = (element: Element): Location => {
   };
 };
 
-const restoreFocusTo = (location: Location): Element | undefined => {
+const restoreFocusTo = (location: Location | null): Element | undefined => {
+  if (!location) {
+    return undefined;
+  }
+
   const { stack, ownerDocument } = location;
   const visibilityCache = new Map();
 
@@ -96,7 +104,7 @@ const restoreFocusTo = (location: Location): Element | undefined => {
  * @param targetElement - element where focus should be restored
  * @returns a function returning a new element to focus
  */
-export const captureFocusRestore = (targetElement: Element): (() => Element | undefined) => {
+export const captureFocusRestore = (targetElement: Element | null): (() => Element | undefined) => {
   const location = recordElementLocation(targetElement);
 
   return () => {

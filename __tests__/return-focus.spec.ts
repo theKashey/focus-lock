@@ -104,3 +104,8 @@ test('returns undefined if nothing focusable', () => {
   b1.parentElement!.removeChild(b1);
   expect(restore()).toBe(undefined);
 });
+
+test('handle null cases', () => {
+  const restore = captureFocusRestore(null);
+  expect(restore).not.toThrow();
+});
