@@ -1,3 +1,9 @@
+## [1.3.3](https://github.com/theKashey/focus-lock/compare/v1.3.2...v1.3.3) (2024-02-20)
+
+### Bug Fixes
+
+- handle no activeElement case ([2895218](https://github.com/theKashey/focus-lock/commit/289521888013793e305146c9f68a54258ba55ae7))
+
 ## [1.3.2](https://github.com/theKashey/focus-lock/compare/v1.3.1...v1.3.2) (2024-02-19)
 
 ## [1.3.1](https://github.com/theKashey/focus-lock/compare/v1.3.0...v1.3.1) (2024-02-16)
