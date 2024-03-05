@@ -16,9 +16,27 @@ test('does nothing for nothing', () => {
   expect(restore()).toBe(undefined);
 });
 
-test('returns focus to the original location', () => {
+test('returns focus to the original location - single node', () => {
   document.body.innerHTML = `
      <div><button id="b1"></button></div>
+   `;
+
+  const { b1, restore } = getb();
+  expect(restore()).toBe(b1);
+});
+
+test('returns focus to the original location - first of two', () => {
+  document.body.innerHTML = `
+     <div><button id="b1"></button><button id="b2"></button></div>
+   `;
+
+  const { b1, restore } = getb();
+  expect(restore()).toBe(b1);
+});
+
+test('returns focus to the original location - second of two', () => {
+  document.body.innerHTML = `
+     <div><button id="b0"></button><button id="b1"></button></div>
    `;
 
   const { b1, restore } = getb();
