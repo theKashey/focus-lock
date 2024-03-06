@@ -66,9 +66,12 @@ const restoreFocusTo = (location: Location | null): Element | undefined => {
     // is it still here?
     if (parent && ownerDocument.contains(parent)) {
       const left = line.left?.();
+      const savedCurrent = line.current();
+      const current = parent.contains(savedCurrent) ? savedCurrent : undefined;
       const right = line.right?.();
       const focusables = getTabbableNodes([parent], visibilityCache);
       let aim =
+        current ??
         // that is element itself
         left?.nextElementSibling ??
         // or somebody to the right?
