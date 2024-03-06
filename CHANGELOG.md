@@ -1,3 +1,9 @@
+## [1.3.4](https://github.com/theKashey/focus-lock/compare/v1.3.3...v1.3.4) (2024-03-06)
+
+### Bug Fixes
+
+- correct first of two return case ([9bf3859](https://github.com/theKashey/focus-lock/commit/9bf3859ac68d25117dbc09e042df523ff96c7010))
+
 ## [1.3.3](https://github.com/theKashey/focus-lock/compare/v1.3.2...v1.3.3) (2024-02-20)
 
 ### Bug Fixes
