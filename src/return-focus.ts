@@ -71,12 +71,13 @@ const restoreFocusTo = (location: Location | null): Element | undefined => {
       const right = line.right?.();
       const focusables = getTabbableNodes([parent], visibilityCache);
       let aim =
-        current ??
         // that is element itself
+        current ??
+        // or something in it's place
         left?.nextElementSibling ??
-        // or somebody to the right?
+        // or somebody to the right, still close enough
         right ??
-        // or somebody to the left
+        // or somebody to the left, something?
         left;
 
       while (aim) {
