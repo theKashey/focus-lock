@@ -1,3 +1,9 @@
+## [1.3.5](https://github.com/theKashey/focus-lock/compare/v1.3.4...v1.3.5) (2024-04-06)
+
+### Bug Fixes
+
+- correct WeakRef for old Safari. fixes [#68](https://github.com/theKashey/focus-lock/issues/68) ([3e79b5f](https://github.com/theKashey/focus-lock/commit/3e79b5f545cf5e9895dc43f824f2ed3239e7db3f))
+
 ## [1.3.4](https://github.com/theKashey/focus-lock/compare/v1.3.3...v1.3.4) (2024-03-06)
 
 ### Bug Fixes
