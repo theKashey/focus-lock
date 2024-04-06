@@ -15,6 +15,12 @@ function weakRef(value: Element | null): null | Ref;
 function weakRef(value: Element | null): SetRef | Ref | null {
   if (!value) return null;
 
+  // #68 Safari 14.1 dont have it yet
+  // FIXME: remove in 2025
+  if (typeof WeakRef === 'undefined') {
+    return () => value || null;
+  }
+
   const w = value ? new WeakRef(value) : null;
 
   return () => w?.deref() || null;
