@@ -5,7 +5,18 @@
   "main": "dist/es5/index.js",
   "jsnext:main": "dist/es2015/index.js",
   "module": "dist/es2015/index.js",
+  "type": "module",
   "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/es2015/index.js",
+      "require": "./dist/es5/index.js"
+    },
+    "./constants": {
+      "import": "./dist/es2015/constants.js",
+      "require": "./dist/es5/constants.js"
+    }
+  },
   "scripts": {
     "dev": "lib-builder dev",
     "test": "jest",
