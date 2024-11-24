@@ -42,7 +42,7 @@ export const moveFocusInside = (topNode: HTMLElement, lastNode: Element, options
 
       setTimeout(() => {
         lockDisabled = false;
-      }, 1);
+      }, 2);
 
       return;
     }
