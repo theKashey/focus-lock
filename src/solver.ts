@@ -54,8 +54,19 @@ export const newFocus = (
   const lastNodeIndex = outerNodes.indexOf(lastFocus);
 
   const correctedNodes = correctNodes(outerNodes);
-  const correctedIndex = activeElement !== undefined ? correctedNodes.indexOf(activeElement) : -1;
-  const correctedIndexDiff = correctedIndex - (lastNode ? correctedNodes.indexOf(lastNode) : activeIndex);
+  const currentFocusableIndex = activeElement !== undefined ? correctedNodes.indexOf(activeElement) : -1;
+  const previousFocusableIndex = lastNode ? correctedNodes.indexOf(lastNode) : currentFocusableIndex;
+
+  const tabbableNodes = correctedNodes.filter((node) => node.tabIndex >= 0);
+  const currentTabbableIndex = activeElement !== undefined ? tabbableNodes.indexOf(activeElement) : -1;
+  const previousTabbableIndex = lastNode ? tabbableNodes.indexOf(lastNode) : currentTabbableIndex;
+
+  const focusIndexDiff =
+    currentTabbableIndex >= 0 && previousTabbableIndex >= 0
+      ? // old/new are tabbables, measure distance in tabbable space
+        previousTabbableIndex - currentTabbableIndex
+      : // or else measure in focusable space
+        previousFocusableIndex - currentFocusableIndex;
 
   // old focus
   if (!indexDiff && lastNodeInside >= 0) {
@@ -84,7 +95,7 @@ export const newFocus = (
   }
 
   // jump out, but not on the guard
-  if (indexDiff && Math.abs(correctedIndexDiff) > 1) {
+  if (indexDiff && Math.abs(focusIndexDiff) > 1) {
     return lastNodeInside;
   }
 

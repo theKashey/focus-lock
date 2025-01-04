@@ -45,8 +45,9 @@ describe('FocusMerge', () => {
     expect(focusInside(querySelector('#d3'))).toBe(true);
   });
 
-  it('autofocus - should pick first available tabbable', () => {
-    document.body.innerHTML = `    
+  describe('autofocus', () => {
+    it('autofocus - should pick first available tabbable', () => {
+      document.body.innerHTML = `    
         <div id="d1"> 
         <span>
             <button tabindex="-1">1</button>
@@ -55,11 +56,11 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
-  });
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+    });
 
-  it('autofocus - should pick first available focusable if tabbables are absent', () => {
-    document.body.innerHTML = `    
+    it('autofocus - should pick first available focusable if tabbables are absent', () => {
+      document.body.innerHTML = `    
         <div id="d1"> 
         <span>
             <button tabindex="-1">1</button>
@@ -67,11 +68,11 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
-  });
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+    });
 
-  it('autofocus - should pick first available exotic tabbable', () => {
-    document.body.innerHTML = `    
+    it('autofocus - should pick first available exotic tabbable', () => {
+      document.body.innerHTML = `    
         <div id="d1"> 
         <span>
             <div contenteditable="true">1</div>
@@ -80,11 +81,11 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
-  });
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+    });
 
-  it('autofocus - should pick first available tabbable | first ignored', () => {
-    document.body.innerHTML = `    
+    it('autofocus - should pick first available tabbable | first ignored', () => {
+      document.body.innerHTML = `    
         <div id="d1"> 
         <span>
             <button tabindex="-1">1</button>
@@ -94,11 +95,11 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
-  });
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('3');
+    });
 
-  it('autofocus - should pick first available focusable if pointed by AUTOFOCUS', () => {
-    document.body.innerHTML = `    
+    it('autofocus - should pick first available focusable if pointed by AUTOFOCUS', () => {
+      document.body.innerHTML = `    
         <div id="d1"> 
         <span ${FOCUS_AUTO}>
             <button tabindex="-1">1</button>
@@ -107,11 +108,11 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
-  });
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('1');
+    });
 
-  it('autofocus - ignores inert attributes', () => {
-    document.body.innerHTML = `    
+    it('autofocus - ignores inert attributes', () => {
+      document.body.innerHTML = `    
         <div id="d1"> 
         <span inert>
             <button>1</button>
@@ -120,7 +121,58 @@ describe('FocusMerge', () => {
         </div>    
     `;
 
-    expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+      expect(focusSolver(querySelector('#d1'), null)!.node.innerHTML).toBe('2');
+    });
+  });
+
+  describe('jump case restoration', () => {
+    it('handles jump out without tabindex', () => {
+      document.body.innerHTML = `
+        <button>0</button>    
+        <div id="d1">
+          <button id="b0-in">0-in</button>
+          <button id="b1-in">1-in</button>         
+        </div>    
+        <button id="b2">2</button>
+        <button id="b3">3</button>
+    `;
+
+      // circles on "moving forward"
+      querySelector('#b2').focus();
+      expect(focusSolver(querySelector('#d1'), querySelector('#b1-in'))!.node.innerHTML).toBe('0-in');
+      // resets on "jump out"
+      querySelector('#b3').focus();
+      expect(focusSolver(querySelector('#d1'), querySelector('#b1-in'))!.node.innerHTML).toBe('1-in');
+
+      // resets on "jump out"
+      querySelector('#b2').focus();
+      expect(focusSolver(querySelector('#d1'), querySelector('#b0-in'))!.node.innerHTML).toBe('0-in');
+    });
+
+    it('handles jump out with tabindex', () => {
+      // is unaffected by non-tabbable elements
+      document.body.innerHTML = `
+        <button>0</button>    
+        <div id="d1">
+          <button id="b0-in">0-in</button>
+          <button id="b1-in">1-in</button>      
+          <button tabindex="-1" id="b2-in">1-hidden</button>
+        </div>    
+        <button id="b2">2</button>
+        <button id="b3">3</button>
+    `;
+
+      // circles on "moving forward"
+      querySelector('#b2').focus();
+      expect(focusSolver(querySelector('#d1'), querySelector('#b2-in'))!.node.innerHTML).toBe('0-in');
+      // circles on "moving forward"
+      querySelector('#b2').focus();
+      // !!goes via hidden element!!
+      expect(focusSolver(querySelector('#d1'), querySelector('#b1-in'))!.node.innerHTML).toBe('0-in');
+      // resets on "jump out"
+      querySelector('#b2').focus();
+      expect(focusSolver(querySelector('#d1'), querySelector('#b0-in'))!.node.innerHTML).toBe('0-in');
+    });
   });
 
   describe('return behavior', () => {
